@@ -8,21 +8,25 @@ const BonitetnaOcena = () =>{
     
     return(
         <div>
-    <h2>Vpisi:</h2>
+    <h2>Osebni podakti:</h2>
     <p>Ime: {podatkiState.ime}</p>
     <p>Priimek: {podatkiState.priimek}</p>
     <p>Naslov: {podatkiState.naslov}</p>
     <p>Datum rojstva: {podatkiState.datumRojstva}</p>
     <p>Starost: {podatkiState.starost}</p>
+    <h2>Osnovni kriteriji</h2>
     <p>Državljan Republike Slovenije: {podatkiState.drzavljanRS ? "Da" : "Ne"}</p>
     <p>Starejši od 18 let: {podatkiState.starost18 ? "Da" : "Ne"}</p>
     <p>Prosilec NI v stečajnem postopku: {podatkiState.stecajniPostopekNI ? "Da" : "Ne"}</p>
     <p>Zaposlen ali upokojenec: {podatkiState.zaposlenUpokojenec ? "Da" : "Ne"}</p>
+    <h2>Kredit Minilon</h2>
     <p>Zaprošeni znesek kredita v EUR: {podatkiState.zaproseniKredit}</p>
     <p>Rok vračila v mesecih: {podatkiState.rokVracila}</p>
     <p>Mesečna anuiteta: {podatkiState.mesecnaAmuniteta}</p>
+    <h2>Podakti o zaposlitvi</h2>
     <p>Delodajalec: {podatkiState.delodajalec}</p>
     <p>Bonitetna ocena delodajalca: {podatkiState.bonitetnaOcenaDelodajalca}</p>
+    <h2>Finančno poslovanje podakti</h2>
     <table>
         <tr>
             <td><b>PODATKI O FINANČNEM POSLOVANJU V EUR</b></td>
@@ -95,8 +99,29 @@ const BonitetnaOcena = () =>{
             <td>{podatkiState.stIzvrsbNaTrr.povprecje}</td>
         </tr>
     </table>
+    <p>Nerubljiv dohodek v EUR:{podatkiState.nerubljivDohodek}</p>
+<p>Rubljivi dohodek v EUR:{podatkiState.rubljivDohodek}</p>
+<p>Dohodki po plačilu obstoječih finančnih obveznosti (krediti, Leasing,…):{podatkiState.dohodkiPoPlaciluStarga}</p>
+<p>Dohodki po plačilu obstoječih in novih finančnih obveznosti:{podatkiState.dohodkiPoPlaciluVsega}</p>
 
-</div>
+    <h2>Drugi podatki</h2>
+    <p>Izobrazba: {podatkiState.izobrazba}</p>
+    <p>(So)Lastništvo nepremičnin: {podatkiState.lastnistnovNepremicnin ? "Da" : "Ne"}</p>
+    <p>Število vzdrževanih družinskih članov: {podatkiState.stVzdrzevanihDruzinskihClanov}</p>
+    <p>Ali je partner zaposlen?: {podatkiState.partnerZaposlen ? "Da" : "Ne" }</p>
+    <p>Samhranilec: {podatkiState.samohranilec  ? "Da" : "Ne"}</p>
+    <p>Zavezanec za preživnino: {podatkiState.zavezanecNaPrezivnin ? "Da" : "Ne"}</p>
+    <p>Znesek mesečne preživnine: {podatkiState.znesekMesecnePrezivnine}</p>
+    <p>Sum na razne oblike odvisnosti, sumljive prakse pri najemanju kredita: {podatkiState.sumljivost ? "Da" : "Ne"}</p>
+    <h2>PODATKI SISBON (V EUR)</h2>
+        
+            <p>SISBON - NEODPLAČAN DEL OBVEZNOSTI: {podatkiState.sisbonNeodplacanDelObvezost}</p>
+            <p>SISBON - ZAPADLI DOLG: {podatkiState.sisbonZapadliDolg}</p>
+            <p>SISBON - IZTERJAVA: {podatkiState.sisbonIzterjava}</p>
+            <p>SISBON - IZVRŠBA: {podatkiState.sisbonIzvrsba}</p>
+            <p>SISBON - OMEJITEV UPORABE TRR: {podatkiState.sisbonOmejitevTRR ? "Da" : "Ne"}</p>
+
+ </div>
     )
 }
 

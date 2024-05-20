@@ -34,9 +34,26 @@ export interface Podatki{
     stNeizvrsenihTrajnihNalogov:Promet;
     stBancnihPobotov:Promet;
     stIzvrsbNaTrr:Promet;
+    rubljiviDohodek:number;
     nerubljiviDohodek:number;
     dohodkiPoPlaciluStarga:number;
     dohodkiPoPlaciluVsega:number;
+    //-------drugi podatki ------
+    izobrazba:string;
+    lastnistnovNepremicnin: boolean;
+    stVzdrzevanihDruzinskihClanov:number;
+    partnerZaposlen:boolean;
+    samohranilec:boolean;
+    zavezanecNaPrezivnin:boolean;
+    znesekMesecnePrezivnine:number;
+    sumljivost:boolean;
 
+    //-----podatkiSisbon-----
+
+    sisbonNeodplacanDelObvezost:number;
+    sisbonZapadliDolg:number;
+    sisbonIzterjava:number;
+    sisbonIzvrsba:number;
+    sisbonOmejitevTRR:boolean;
 }
 
