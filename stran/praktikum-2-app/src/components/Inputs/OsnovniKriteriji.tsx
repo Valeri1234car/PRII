@@ -4,15 +4,9 @@ import { PodatkiContext } from "../../App";
 const OsnovniKriteriji = () =>{
 
 
-    const {podatkiState, setPodatkiState,setStran,HandleChange} = useContext(PodatkiContext);
+    const {podatkiState, setPodatkiState,setStran,HandleChange,HandleChangeInput} = useContext(PodatkiContext);
 
-    const HandleChangeInput = (e:any) => {
-        const { name, value } = e.target;
-        setPodatkiState((prevState:any) => ({
-            ...prevState,
-            [name]: value === 'true' 
-        }));
-    };
+    
 
     return(
         <div className="vnosItem">

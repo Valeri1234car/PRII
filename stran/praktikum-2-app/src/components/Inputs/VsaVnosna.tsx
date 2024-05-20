@@ -7,6 +7,7 @@ import ZaposlitevPodatki from "./ZaposlitevPodatki"
 import { useContext } from "react"
 import { PodatkiContext } from "../../App"
 import VnosnoPolje from "./VnosnoPolje"
+import SisbonPodatki from "./SisbonPodatki"
 const VsaVnosna = () => {
 
     const {setStran} = useContext(PodatkiContext);
@@ -19,6 +20,7 @@ const VsaVnosna = () => {
         <ZaposlitevPodatki/>
         <FinancnoPoslovanje/>
         <DrugiPodatki/>
+        <SisbonPodatki/>
         <div><button onClick={()=>(setStran("Izpisi"))}>Naprej</button></div>
         </div>
     )

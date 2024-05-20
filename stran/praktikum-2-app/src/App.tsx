@@ -43,9 +43,23 @@ const initialPodatki: Podatki = {
   stNeizvrsenihTrajnihNalogov: { ...initialPromet },
   stBancnihPobotov: { ...initialPromet },
   stIzvrsbNaTrr: { ...initialPromet },
+  rubljiviDohodek:0,
   nerubljiviDohodek: 0,
-    dohodkiPoPlaciluStarga: 0,
-    dohodkiPoPlaciluVsega: 0,
+  dohodkiPoPlaciluStarga: 0,
+  dohodkiPoPlaciluVsega: 0,
+  izobrazba:"",
+  lastnistnovNepremicnin: false,
+  stVzdrzevanihDruzinskihClanov:0,
+  partnerZaposlen:false,
+  samohranilec:false,
+  zavezanecNaPrezivnin:false,
+  znesekMesecnePrezivnine:0,
+  sumljivost:false,
+  sisbonNeodplacanDelObvezost:0,
+  sisbonZapadliDolg:0,
+  sisbonIzterjava:0,
+  sisbonIzvrsba:0,
+  sisbonOmejitevTRR:false,
 };
 
 function App() {
@@ -63,10 +77,17 @@ function App() {
     }))
 }
   
+const HandleChangeInput = (e:any) => {
+  const { name, value } = e.target;
+  setPodatkiState((prevState:any) => ({
+      ...prevState,
+      [name]: value === 'true' 
+  }));
+};
 
   return (
     <>
-    <PodatkiContext.Provider value={{podatkiState,setPodatkiState,setStran,HandleChange}}>
+    <PodatkiContext.Provider value={{podatkiState,setPodatkiState,setStran,HandleChange,HandleChangeInput}}>
       <Menu/>
     <div className='oknoDrag'>
     <VnosnoPolje/>

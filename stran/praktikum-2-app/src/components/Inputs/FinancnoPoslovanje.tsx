@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { PodatkiContext } from "../../App";
 const FinancnoPoslovanje = () =>{
     
-    const {podatkiState, setPodatkiState, setStran} = useContext(PodatkiContext);
+    const {podatkiState, setPodatkiState, setStran, HandleChange} = useContext(PodatkiContext);
 
-    const HandleChange = (e:any) => {
+    const HandleChange2 = (e:any) => {
         const { name, value } = e.target;
         const newValue = parseFloat(value) || 0;  
         
@@ -43,68 +43,72 @@ const FinancnoPoslovanje = () =>{
     </tr>
     <tr>
         <td>Mesečni promet v dobro:</td>
-        <td><input type="number" name="mesecniPrometDobro.t1" value={podatkiState.mesecniPrometDobro.t1} onChange={HandleChange}/></td>
-        <td><input type="number" name="mesecniPrometDobro.t2" value={podatkiState.mesecniPrometDobro.t2} onChange={HandleChange}/></td>
-        <td><input type="number" name="mesecniPrometDobro.t3" value={podatkiState.mesecniPrometDobro.t3} onChange={HandleChange}/></td>
+        <td><input type="number" name="mesecniPrometDobro.t1" value={podatkiState.mesecniPrometDobro.t1} onChange={HandleChange2}/></td>
+        <td><input type="number" name="mesecniPrometDobro.t2" value={podatkiState.mesecniPrometDobro.t2} onChange={HandleChange2}/></td>
+        <td><input type="number" name="mesecniPrometDobro.t3" value={podatkiState.mesecniPrometDobro.t3} onChange={HandleChange2}/></td>
         <td>{podatkiState.mesecniPrometDobro.povprecje}</td>
     </tr>
     <tr>
         <td>Mesečni promet v breme:</td>
-        <td><input type="number" name="mesecniPrometBreme.t1" value={podatkiState.mesecniPrometBreme.t1} onChange={HandleChange}/></td>
-        <td><input type="number" name="mesecniPrometBreme.t2" value={podatkiState.mesecniPrometBreme.t2} onChange={HandleChange}/></td>
-        <td><input type="number" name="mesecniPrometBreme.t3" value={podatkiState.mesecniPrometBreme.t3} onChange={HandleChange}/></td>
+        <td><input type="number" name="mesecniPrometBreme.t1" value={podatkiState.mesecniPrometBreme.t1} onChange={HandleChange2}/></td>
+        <td><input type="number" name="mesecniPrometBreme.t2" value={podatkiState.mesecniPrometBreme.t2} onChange={HandleChange2}/></td>
+        <td><input type="number" name="mesecniPrometBreme.t3" value={podatkiState.mesecniPrometBreme.t3} onChange={HandleChange2}/></td>
         <td>{podatkiState.mesecniPrometBreme.povprecje}</td>
     </tr>
     <tr>
         <td>Stanje na TRR:</td>
-        <td><input type="number" name="stanjeTRR.t1" value={podatkiState.stanjeTRR.t1} onChange={HandleChange}/></td>
-        <td><input type="number" name="stanjeTRR.t2" value={podatkiState.stanjeTRR.t2} onChange={HandleChange}/></td>
-        <td><input type="number" name="stanjeTRR.t3" value={podatkiState.stanjeTRR.t3} onChange={HandleChange}/></td>
+        <td><input type="number" name="stanjeTRR.t1" value={podatkiState.stanjeTRR.t1} onChange={HandleChange2}/></td>
+        <td><input type="number" name="stanjeTRR.t2" value={podatkiState.stanjeTRR.t2} onChange={HandleChange2}/></td>
+        <td><input type="number" name="stanjeTRR.t3" value={podatkiState.stanjeTRR.t3} onChange={HandleChange2}/></td>
         <td>{podatkiState.stanjeTRR.povprecje}</td>
     </tr>
     <tr>
         <td>Znesek prejemkov iz dela oz. pokojnina:</td>
-        <td><input type="number" name="znesekPrejemkovPokojnina.t1" value={podatkiState.znesekPrejemkovPokojnina.t1} onChange={HandleChange}/></td>
-        <td><input type="number" name="znesekPrejemkovPokojnina.t2" value={podatkiState.znesekPrejemkovPokojnina.t2} onChange={HandleChange}/></td>
-        <td><input type="number" name="znesekPrejemkovPokojnina.t3" value={podatkiState.znesekPrejemkovPokojnina.t3} onChange={HandleChange}/></td>
+        <td><input type="number" name="znesekPrejemkovPokojnina.t1" value={podatkiState.znesekPrejemkovPokojnina.t1} onChange={HandleChange2}/></td>
+        <td><input type="number" name="znesekPrejemkovPokojnina.t2" value={podatkiState.znesekPrejemkovPokojnina.t2} onChange={HandleChange2}/></td>
+        <td><input type="number" name="znesekPrejemkovPokojnina.t3" value={podatkiState.znesekPrejemkovPokojnina.t3} onChange={HandleChange2}/></td>
         <td>{podatkiState.znesekPrejemkovPokojnina.povprecje}</td>
     </tr>
     <tr>
         <td>Znesek drugih prejemkov:</td>
-        <td><input type="number" name="znesekDrugihPrejemkov.t1" value={podatkiState.znesekDrugihPrejemkov.t1} onChange={HandleChange}/></td>
-        <td><input type="number" name="znesekDrugihPrejemkov.t2" value={podatkiState.znesekDrugihPrejemkov.t2} onChange={HandleChange}/></td>
-        <td><input type="number" name="znesekDrugihPrejemkov.t3" value={podatkiState.znesekDrugihPrejemkov.t3} onChange={HandleChange}/></td>
+        <td><input type="number" name="znesekDrugihPrejemkov.t1" value={podatkiState.znesekDrugihPrejemkov.t1} onChange={HandleChange2}/></td>
+        <td><input type="number" name="znesekDrugihPrejemkov.t2" value={podatkiState.znesekDrugihPrejemkov.t2} onChange={HandleChange2}/></td>
+        <td><input type="number" name="znesekDrugihPrejemkov.t3" value={podatkiState.znesekDrugihPrejemkov.t3} onChange={HandleChange2}/></td>
         <td>{podatkiState.znesekDrugihPrejemkov.povprecje}</td>
     </tr>
     <tr>
         <td>Mesečni znesek za odplačilo obstoječih kreditov:</td>
-        <td><input type="number" name="mesecniZnesekZaOdplacilodrugihKreditov.t1" value={podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.t1} onChange={HandleChange}/></td>
-        <td><input type="number" name="mesecniZnesekZaOdplacilodrugihKreditov.t2" value={podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.t2} onChange={HandleChange}/></td>
-        <td><input type="number" name="mesecniZnesekZaOdplacilodrugihKreditov.t3" value={podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.t3} onChange={HandleChange}/></td>
+        <td><input type="number" name="mesecniZnesekZaOdplacilodrugihKreditov.t1" value={podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.t1} onChange={HandleChange2}/></td>
+        <td><input type="number" name="mesecniZnesekZaOdplacilodrugihKreditov.t2" value={podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.t2} onChange={HandleChange2}/></td>
+        <td><input type="number" name="mesecniZnesekZaOdplacilodrugihKreditov.t3" value={podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.t3} onChange={HandleChange2}/></td>
         <td>{podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.povprecje}</td>
     </tr>
     <tr>
         <td>Število neizvršenih trajnih nalogov:</td>
-        <td><input type="number" name="stNeizvrsenihTrajnihNalogov.t1" value={podatkiState.stNeizvrsenihTrajnihNalogov.t1} onChange={HandleChange}/></td>
-        <td><input type="number" name="stNeizvrsenihTrajnihNalogov.t2" value={podatkiState.stNeizvrsenihTrajnihNalogov.t2} onChange={HandleChange}/></td>
-        <td><input type="number" name="stNeizvrsenihTrajnihNalogov.t3" value={podatkiState.stNeizvrsenihTrajnihNalogov.t3} onChange={HandleChange}/></td>
+        <td><input type="number" name="stNeizvrsenihTrajnihNalogov.t1" value={podatkiState.stNeizvrsenihTrajnihNalogov.t1} onChange={HandleChange2}/></td>
+        <td><input type="number" name="stNeizvrsenihTrajnihNalogov.t2" value={podatkiState.stNeizvrsenihTrajnihNalogov.t2} onChange={HandleChange2}/></td>
+        <td><input type="number" name="stNeizvrsenihTrajnihNalogov.t3" value={podatkiState.stNeizvrsenihTrajnihNalogov.t3} onChange={HandleChange2}/></td>
         <td>{podatkiState.stNeizvrsenihTrajnihNalogov.povprecje}</td>
     </tr>
     <tr>
         <td>Število bančnih pobotov:</td>
-        <td><input type="number" name="stBancnihPobotov.t1" value={podatkiState.stBancnihPobotov.t1} onChange={HandleChange}/></td>
-        <td><input type="number" name="stBancnihPobotov.t2" value={podatkiState.stBancnihPobotov.t2} onChange={HandleChange}/></td>
-        <td><input type="number" name="stBancnihPobotov.t3" value={podatkiState.stBancnihPobotov.t3} onChange={HandleChange}/></td>
+        <td><input type="number" name="stBancnihPobotov.t1" value={podatkiState.stBancnihPobotov.t1} onChange={HandleChange2}/></td>
+        <td><input type="number" name="stBancnihPobotov.t2" value={podatkiState.stBancnihPobotov.t2} onChange={HandleChange2}/></td>
+        <td><input type="number" name="stBancnihPobotov.t3" value={podatkiState.stBancnihPobotov.t3} onChange={HandleChange2}/></td>
         <td>{podatkiState.stBancnihPobotov.povprecje}</td>
     </tr>
     <tr>
         <td>Število izvršb na TRR:</td>
-        <td><input type="number" name="stIzvrsbNaTrr.t1" value={podatkiState.stIzvrsbNaTrr.t1} onChange={HandleChange}/></td>
-        <td><input type="number" name="stIzvrsbNaTrr.t2" value={podatkiState.stIzvrsbNaTrr.t2} onChange={HandleChange}/></td>
-        <td><input type="number" name="stIzvrsbNaTrr.t3" value={podatkiState.stIzvrsbNaTrr.t3} onChange={HandleChange}/></td>
+        <td><input type="number" name="stIzvrsbNaTrr.t1" value={podatkiState.stIzvrsbNaTrr.t1} onChange={HandleChange2}/></td>
+        <td><input type="number" name="stIzvrsbNaTrr.t2" value={podatkiState.stIzvrsbNaTrr.t2} onChange={HandleChange2}/></td>
+        <td><input type="number" name="stIzvrsbNaTrr.t3" value={podatkiState.stIzvrsbNaTrr.t3} onChange={HandleChange2}/></td>
         <td>{podatkiState.stIzvrsbNaTrr.povprecje}</td>
     </tr>
 </table>
+<div><label htmlFor="nerubljivDohodek">Nerubljiv dohodek v EUR:</label><input type="number"name="nerubljivDohodek" value={podatkiState.nerubljivDohodek} onChange={HandleChange}/></div>
+<div><label htmlFor="rubljivDohodek">Rubljivi dohodek v EUR:</label><input type="number"name="rubljivDohodek" value={podatkiState.rubljivDohodek} onChange={HandleChange}/></div>
+<div><label htmlFor="dohodkiPoPlaciluStarga">Dohodki po plačilu obstoječih finančnih obveznosti (krediti, Leasing,…):</label><input type="number"name="dohodkiPoPlaciluStarga" value={podatkiState.dohodkiPoPlaciluStarga} onChange={HandleChange}/></div>
+<div><label htmlFor="dohodkiPoPlaciluVsega">Dohodki po plačilu obstoječih in novih finančnih obveznosti:</label><input type="number"name="dohodkiPoPlaciluVsega" value={podatkiState.dohodkiPoPlaciluVsega} onChange={HandleChange}/></div>
 
 </div>
 
