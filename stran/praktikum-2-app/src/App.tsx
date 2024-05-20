@@ -8,6 +8,7 @@ import { Podatki } from './interface/Podatki'
 import BonitetnaOcena from './components/BonitetnaOcena'
 import { Promet } from './interface/Podatki'
 import VsaVnosna from './components/Inputs/VsaVnosna'
+import VnosnoPolje from './components/Inputs/VnosnoPolje'
 
 export const PodatkiContext = createContext<any>(null);
 
@@ -67,6 +68,9 @@ function App() {
     <>
     <PodatkiContext.Provider value={{podatkiState,setPodatkiState,setStran,HandleChange}}>
       <Menu/>
+    <div className='oknoDrag'>
+    <VnosnoPolje/>
+    </div>
       <div className="main">
         {stran =="Domov" && <VsaVnosna/>}
         {stran =="Izpisi" && (<><BonitetnaOcena/><button onClick={()=>(setStran("Domov"))}>Nazaj</button></>)}
