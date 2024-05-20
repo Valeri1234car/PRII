@@ -8,7 +8,7 @@ import { Podatki } from './interface/Podatki'
 import BonitetnaOcena from './components/BonitetnaOcena'
 import { Promet } from './interface/Podatki'
 import VsaVnosna from './components/Inputs/VsaVnosna'
-import VnosnoPolje from './components/Inputs/VnosnoPolje'
+import VnosnoPolje from './components/Inputs/PdfReader'
 
 export const PodatkiContext = createContext<any>(null);
 

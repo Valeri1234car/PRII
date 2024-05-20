@@ -123,7 +123,7 @@ header {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border: 4px dashed black;
+  border: 2.5px dashed black;
   padding: 1rem;
 }
 
