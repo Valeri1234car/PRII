@@ -6,6 +6,7 @@ import OsnovniKriteriji from "./OsnovniKriteriji"
 import ZaposlitevPodatki from "./ZaposlitevPodatki"
 import { useContext } from "react"
 import { PodatkiContext } from "../../App"
+import VnosnoPolje from "./VnosnoPolje"
 const VsaVnosna = () => {
 
     const {setStran} = useContext(PodatkiContext);

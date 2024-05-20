@@ -66,13 +66,13 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
-*{
+* {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
-header{
+header {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +82,7 @@ header{
   font-weight: 600;
 }
 
-.main{
+.main {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,8 +92,7 @@ header{
   height: auto;
 }
 
-
-.vnosItem{
+.vnosItem {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -102,20 +101,34 @@ header{
   padding: 2rem;
   gap: 1rem;
 }
-.vnosnaPolja{
+.vnosnaPolja {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-.vnosVrstica{
+.vnosVrstica {
   display: flex;
   gap: 1rem;
 }
-.vsaVnosna{
+.vsaVnosna {
   background-color: white;
   display: flex;
-  justify-content: center;  
+  justify-content: center;
   flex-direction: column;
   align-items: center;
 }
 
+.vnosnoPoljePDF {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 4px dashed black;
+  padding: 1rem;
+}
+
+.oknoDrag {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
