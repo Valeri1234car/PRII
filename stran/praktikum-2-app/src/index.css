@@ -132,3 +132,10 @@ header {
   justify-content: center;
   padding: 1rem;
 }
+
+.pdfBesedilo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
