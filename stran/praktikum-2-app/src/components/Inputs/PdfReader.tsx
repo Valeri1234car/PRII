@@ -1,7 +1,7 @@
 import { useContext, useRef, useState } from "react";
 import { PodatkiContext } from "../../App";
 
-const VnosnoPolje = () => {
+const PdfReader = () => {
 
     const [files, setFiles] = useState(null);
   const inputRef = useRef();
@@ -62,4 +62,4 @@ const VnosnoPolje = () => {
   );
 }
 
-export default VnosnoPolje;
+export default PdfReader;
