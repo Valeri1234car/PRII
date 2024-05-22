@@ -54,7 +54,7 @@ const OsebniPodatki = () =>{
                 <div><label htmlFor="naslov">Naslov:</label>
                 <input type="text" name="naslov" value={podatkiState.naslov} onChange={HandleChange}/>
                 <label htmlFor="datumRojstva">Datum rojstva:</label>
-                <input type="date" name="datumRojstva" value={podatkiState.datumRojstva} onChange={HandleChange}/>
+                <input type="text" name="datumRojstva" value={podatkiState.datumRojstva} onChange={HandleChange}/>
                 {/* <label htmlFor="starost">Starost:</label> */}
                 <span>Starost:{podatkiState.starost}</span></div>
             </div>
