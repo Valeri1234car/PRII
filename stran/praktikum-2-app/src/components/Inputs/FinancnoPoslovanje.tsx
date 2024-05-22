@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { PodatkiContext } from "../../App";
+import { minimalnaPlaca } from "../../interface/ZneskiMesecnihAnuitet";
 const FinancnoPoslovanje = () =>{
     
     const {podatkiState, setPodatkiState, setStran, HandleChange} = useContext(PodatkiContext);
@@ -28,6 +29,51 @@ const FinancnoPoslovanje = () =>{
             };
         });
     };
+
+//-------------nerubljiv dohodek ------------------------------
+    useEffect(()=>{
+        let nerubljivDohodek=0;
+        if(podatkiState.zavezanecNaPrezivnin){
+            nerubljivDohodek = (minimalnaPlaca *0.5) + podatkiState.znesekMesecnePrezivnine;
+        
+        }
+        else{
+            nerubljivDohodek = (minimalnaPlaca * 0.76);
+            if(podatkiState.samohranilec){
+                nerubljivDohodek = nerubljivDohodek + (podatkiState.stVzdrzevanihDruzinskihClanov * 237.29)
+            }
+            else{
+                nerubljivDohodek = nerubljivDohodek + (podatkiState.stVzdrzevanihDruzinskihClanov * (237.29 / 2))
+            }
+        }
+        setPodatkiState({...podatkiState, nerubljivDohodek: nerubljivDohodek})
+        
+    },[podatkiState.znesekMesecnePrezivnine, podatkiState.zavezanecNaPrezivnin, podatkiState.samohranilec,podatkiState.stVzdrzevanihDruzinskihClanov])
+
+
+//------------rubljiv dohodek-----------------------
+    useEffect(()=>{
+        let rubljivDohodek = 0;
+        let izracun = podatkiState.znesekPrejemkovPokojnina.povprecje + podatkiState.znesekDrugihPrejemkov.povprecje - podatkiState.nerubljivDohodek;
+        if(izracun > 0){
+            rubljivDohodek =  izracun;
+        }
+        setPodatkiState({...podatkiState, rubljivDohodek: rubljivDohodek})
+
+
+    },[podatkiState.znesekPrejemkovPokojnina,podatkiState.znesekDrugihPrejemkov, podatkiState.nerubljivDohodek])
+
+//----------------Dohodki po plačilu obstoječih finančnih obveznosti (krediti, Leasing,…) in Dohodki po plačilu obstoječih in novih finančnih obveznosti------------------
+    useEffect(()=>{
+        let dohodkiPoPlacilu= podatkiState.znesekPrejemkovPokojnina.povprecje + podatkiState.znesekDrugihPrejemkov.povprecje - podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.povprecje;
+        if(podatkiState.stanjeTRR.povprecje < 0){
+            dohodkiPoPlacilu += (podatkiState.stanjeTRR.povprecje/12)
+        }
+
+        let ddohodkiPoPlaciluInAmuniteta = dohodkiPoPlacilu - podatkiState.mesecnaAmuniteta;
+        setPodatkiState({...podatkiState, dohodkiPoPlaciluStarga: dohodkiPoPlacilu, dohodkiPoPlaciluVsega:ddohodkiPoPlaciluInAmuniteta})
+
+    },[podatkiState.znesekPrejemkovPokojnina,podatkiState.znesekDrugihPrejemkov, podatkiState.mesecnaAmuniteta,podatkiState.stanjeTRR])
 
     return(
         <div className="vnosItem">

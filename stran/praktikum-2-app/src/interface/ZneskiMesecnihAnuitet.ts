@@ -25,3 +25,5 @@ export const zneskiMesecnihAnuitet: ZneskiMesecnihAnuitet[] = [
     { znesekKredita: 2000, rocnostVMescih: 6, znesekMesecneAnuitete: 351.05 },
     { znesekKredita: 2000, rocnostVMescih: 12, znesekMesecneAnuitete: 183.36 }
 ];
+
+export const minimalnaPlaca = 1074.43;
