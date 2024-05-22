@@ -9,7 +9,7 @@ const PdfReader = () => {
     const [files, setFiles] = useState<FileList | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
-    const { setPdfText } = useContext(PodatkiContext);
+    const { setPdfText, setPodatkiState } = useContext(PodatkiContext);
 
     const handleDragOver = (event: React.DragEvent) => {
         event.preventDefault();
@@ -28,6 +28,54 @@ const PdfReader = () => {
         }
     };
 
+    const extractRelevantInfo = (textContent: string) => {
+        const nameRegex = /Ime:\s*(\w+)\s*Priimek:\s*(\w+)/;
+        const matchName = textContent.match(nameRegex);
+        const name = matchName ? matchName[1] : '';
+        const surname = matchName ? matchName[2] : '';
+
+        const addressRegex = /Ulica in hi\$na \u0160tevilka:\s*(\w+.*?\d+)/;
+        const matchAddress = textContent.match(addressRegex);
+        const address = matchAddress ? matchAddress[1] : '';
+
+        const birthDateRegex = /Datum rojstva:\s*(\d{2}\.\d{1,2}\.\d{4})/;
+        const matchBirthDate = textContent.match(birthDateRegex);
+        const birthDate = matchBirthDate ? matchBirthDate[1] : '';
+        console.log(birthDateRegex)
+        console.log(matchBirthDate)
+        console.log(birthDate)
+
+        const sloveniaCitizenRegex = /Slovensko dr\u017Eavljanstvo:\s*(\w+)/;
+        const matchSloveniaCitizen = textContent.match(sloveniaCitizenRegex);
+        const sloveniaCitizen = matchSloveniaCitizen ? matchSloveniaCitizen[1].toLowerCase() === 'da' : false;
+
+        const ageRegex = /Starost:(\d+)/;
+        const matchAge = textContent.match(ageRegex);
+        const age = matchAge ? parseInt(matchAge[1]) : 0;
+        const isAdult = age >= 18;
+
+        const bankruptcyRegex = /Ste bili ali ste zdaj v postopku osebnega ste\u010Daja\?\s*:\s*(\w+)/;
+        const matchBankruptcy = textContent.match(bankruptcyRegex);
+        const isNotInBankruptcy = matchBankruptcy ? matchBankruptcy[1].toLowerCase() === 'ne' : false;
+
+        const employmentRegex = /Zaposlen ali upokojenec:\s*(\w+)/;
+        const matchEmployment = textContent.match(employmentRegex);
+        const isEmployedOrRetired = matchEmployment ? matchEmployment[1].toLowerCase() === 'da' : false;
+
+        const relevantInfo = {
+            name,
+            surname,
+            address,
+            birthDate,
+            sloveniaCitizen,
+            isAdult,
+            isNotInBankruptcy,
+            isEmployedOrRetired,
+        };
+
+        return relevantInfo;
+    };
+
     const processFiles = async (files: FileList) => {
         setLoading(true);
         let textContent = '';
@@ -35,7 +83,24 @@ const PdfReader = () => {
             const file = files[i];
             textContent += await convertPdfToImagesAndExtractText(file);
         }
-        setPdfText(textContent);
+    
+        setPdfText(`Full Text Content:\n\n${textContent}`);
+    
+        const relevantInfo = extractRelevantInfo(textContent);
+        const [day, month, year] = relevantInfo.birthDate.split('.');
+        const formattedDate = `${year}-${month}-${day}`;
+        setPodatkiState((prevState: any) => ({
+            ...prevState,
+            ime: relevantInfo.name,
+            priimek: relevantInfo.surname,
+            naslov: relevantInfo.address,
+            datumRojstva: formattedDate,
+            drzavljanRS: relevantInfo.sloveniaCitizen,
+            starost18: relevantInfo.isAdult,
+            stecajniPostopekNI: relevantInfo.isNotInBankruptcy,
+            zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
+        }));
+    
         setLoading(false);
     };
 
