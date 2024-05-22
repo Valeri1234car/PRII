@@ -36,7 +36,12 @@ const OsebniPodatki = () =>{
         }
         const age = calculateAge(podatkiState.datumRojstva);
 
-        setPodatkiState({...podatkiState,starost:age})
+        if(age >= 18){
+            setPodatkiState({...podatkiState,starost:age,starost18:true})
+        }
+        else setPodatkiState({...podatkiState,starost:age});
+
+        
     }, [podatkiState.datumRojstva])
 
 
