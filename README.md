@@ -39,4 +39,4 @@ Vložite zahtevo za združitev (pull request)
 Licenca
 Ta projekt je licenciran pod MIT License.
 Kontakt
-Za več informacij ali vprašanj, se obrnite na [your-email@example.com].
+Za več informacij ali vprašanj, se obrnite na [].
