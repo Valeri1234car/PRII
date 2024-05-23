@@ -34,8 +34,7 @@ const FinancnoPoslovanje = () =>{
     useEffect(()=>{
         let nerubljivDohodek=0;
         if(podatkiState.zavezanecNaPrezivnin){
-            nerubljivDohodek = (minimalnaPlaca *0.5) + podatkiState.znesekMesecnePrezivnine;
-        
+            nerubljivDohodek = (minimalnaPlaca *0.5) + parseFloat(podatkiState.znesekMesecnePrezivnine);
         }
         else{
             nerubljivDohodek = (minimalnaPlaca * 0.76);
