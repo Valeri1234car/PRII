@@ -7,15 +7,19 @@ const ZaposlitevPodatki = () => {
 
     return(
         <div className="vnosItem">
-         <h2>Podatki o zaposlitvi</h2>
+            <h2 className="mb-4 text-warning fw-bold">Podaci o zaposlenju</h2>
             <div className="vnosnaPolja">
-            
-                <div><label htmlFor="delodajalec">Delodajalec:</label>
-                <input type="text" name="delodajalec" value={podatkiState.delodajalec} onChange={HandleChange}/></div>
-                <div><label htmlFor="bonitetnaOcenaD">Bonitetna ocena delodajalca:</label>
-                <input type="number" name="bonitetnaOcenaDelodajalca" value={podatkiState.bonitetnaOcenaDelodajalca} onChange={HandleChange}/></div>
+                <div className="mb-3">
+                    <label htmlFor="delodajalec" className="form-label">Delodajalec:</label>
+                    <input type="text" className="form-control" name="delodajalec" value={podatkiState.delodajalec} onChange={HandleChange} style={{ borderColor: 'orange', color: 'orange' }}/>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="bonitetnaOcenaDelodajalca" className="form-label">Bonitetna ocena delodajalca:</label>
+                    <input type="number" className="form-control" name="bonitetnaOcenaDelodajalca" value={podatkiState.bonitetnaOcenaDelodajalca} onChange={HandleChange} style={{ borderColor: 'orange', color: 'orange' }}/>
+                </div>
             </div>
         </div>
+
     )
 }
 
