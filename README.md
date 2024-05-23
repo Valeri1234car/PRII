@@ -1,4 +1,4 @@
-![image](https://github.com/Valeri1234car/PRII/assets/152204015/a5650f51-f8a7-4de8-b4a5-11940cb8bf6c)# PRII
+# PRII
 Avtomatizacija postopka odobravanja potrošniških kreditov
 Ta projekt je spletna aplikacija, zgrajena z uporabo React, TypeScript, HTML, CSS in Bootstrap za avtomatizacijo postopka odobravanja potrošniških kreditov v podjetju x.
 
