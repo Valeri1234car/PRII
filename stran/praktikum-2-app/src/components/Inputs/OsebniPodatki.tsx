@@ -45,21 +45,30 @@ const OsebniPodatki = () =>{
 
     return(
         <div className="vnosItem">
-            <h2>Vnos osebnih podatkov</h2>
-            <div className="vnosnaPolja">
-                <div><label htmlFor="ime">Ime:</label>
-                <input type="text" name="ime" value={podatkiState.ime} onChange={HandleChange}/>
-                <label htmlFor="priimek">Priimek:</label>
-                <input type="text" name="priimek" value={podatkiState.priimek} onChange={HandleChange}/></div>
-                <div><label htmlFor="naslov">Naslov:</label>
-                <input type="text" name="naslov" value={podatkiState.naslov} onChange={HandleChange}/>
-                <label htmlFor="datumRojstva">Datum rojstva:</label>
-                <input type="text" name="datumRojstva" value={podatkiState.datumRojstva} onChange={HandleChange}/>
-                {/* <label htmlFor="starost">Starost:</label> */}
-                <span>Starost:{podatkiState.starost}</span></div>
+            <h2 className="mb-4 text-primary fw-bold">Vnos osebnih podatkov</h2>
+            <div className="row g-3">
+                <div className="col-md-6">
+                    <label htmlFor="ime" className="form-label">Ime:</label>
+                    <input type="text" className="form-control" name="ime" value={podatkiState.ime} onChange={HandleChange} style={{ borderColor: 'blue', color: 'blue' }}/>
+                </div>
+                <div className="col-md-6">
+                    <label htmlFor="priimek" className="form-label">Priimek:</label>
+                    <input type="text" className="form-control" name="priimek" value={podatkiState.priimek} onChange={HandleChange} style={{ borderColor: 'green', color: 'green' }}/>
+                </div>
+                <div className="col-md-6">
+                    <label htmlFor="naslov" className="form-label">Naslov:</label>
+                    <input type="text" className="form-control" name="naslov" value={podatkiState.naslov} onChange={HandleChange} style={{ borderColor: 'purple', color: 'purple' }}/>
+                </div>
+                <div className="col-md-6">
+                    <label htmlFor="datumRojstva" className="form-label">Datum rojstva:</label>
+                    <input type="text" className="form-control" name="datumRojstva" value={podatkiState.datumRojstva} onChange={HandleChange} style={{ borderColor: 'orange', color: 'orange' }}/>
+                </div>
+                <div className="col-md-12">
+                    <span className="d-block">Starost: {podatkiState.starost}</span>
+                </div>
             </div>
-            
         </div>
+
     )
 }
 

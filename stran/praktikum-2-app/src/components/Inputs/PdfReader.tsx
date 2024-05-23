@@ -157,7 +157,7 @@ const PdfReader = () => {
                 {Array.from(files).map((file, idx) => <li key={idx}>{file.name}</li>)}
             </ul>
             <div className="actions">
-                <button onClick={() => setFiles(null)}>Cancel</button>
+                <button className="btn btn-primary" onClick={() => setFiles(null)}>Cancel</button>
             </div>
             {loading && <p>Processing...</p>}
         </div>
@@ -165,22 +165,25 @@ const PdfReader = () => {
 
     return (
         <>
-            <div 
-                className="vnosnoPoljePDF"
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-            >
-                <h1>Drag and drop</h1>
-                <h1>or</h1>
-                <input 
-                    type="file"
-                    multiple
-                    onChange={handleFileChange}
-                    hidden
-                    accept="application/pdf"
-                    ref={inputRef}
-                />
-                <button onClick={() => inputRef.current?.click()}>Select Files</button>
+            <div className="container mt-5">
+                <div
+                    className="border border-primary p-3 text-center border-dashed mx-auto"
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
+                    style={{ maxWidth: '400px' }}
+                >
+                    <h1 className="mb-4 text-white">Drag and drop</h1>
+                    <h1 className="mb-4 text-white">or</h1>
+                    <input
+                        type="file"
+                        multiple
+                        onChange={handleFileChange}
+                        hidden
+                        accept="application/pdf"
+                        ref={inputRef}
+                    />
+                    <button className="btn btn-primary" onClick={() => inputRef.current?.click()}>Select Files</button>
+                </div>
             </div>
         </>
     );

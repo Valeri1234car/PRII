@@ -21,7 +21,7 @@ const VsaVnosna = () => {
         <FinancnoPoslovanje/>
         <DrugiPodatki/>
         <SisbonPodatki/>
-        <div><button onClick={()=>(setStran("Izpisi"))}>Naprej</button></div>
+        <div><button className="btn btn-primary" onClick={()=>(setStran("Izpisi"))}>Naprej</button></div>
         </div>
     )
 }
