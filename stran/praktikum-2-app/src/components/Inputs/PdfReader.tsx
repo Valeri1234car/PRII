@@ -28,6 +28,10 @@ const PdfReader: React.FC = () => {
         }
     };
 
+    const convertToNumber = (euroFormattedNumber: string): number => {
+        return parseFloat(euroFormattedNumber.replace('.', '').replace(',', '.'));
+    };
+
     const extractRelevantInfo = (textContent: string) => {
         const nameRegex = /Ime:\s*(\w+)\s*Priimek:\s*(\w+)/;
         const matchName = textContent.match(nameRegex);
@@ -58,25 +62,63 @@ const PdfReader: React.FC = () => {
         const age = matchAge ? parseInt(matchAge[1]) : 0;
         const isAdult = age >= 18;
 
-        const bankruptcyRegex = /Ste bili ali ste zdaj v postopku osebnega ste\u010Daja\?\s*:\s*(\w+)/;
+        const bankruptcyRegex = /Ste bili ali ste zdaj v postopku osebnega stetaja?\s*:\s*(\w+)/i;
         const matchBankruptcy = textContent.match(bankruptcyRegex);
         const isNotInBankruptcy = matchBankruptcy ? matchBankruptcy[1].toLowerCase() === 'ne' : false;
 
-        const employmentRegex = /Zaposlen ali upokojenec:\s*(\w+)/;
-        const matchEmployment = textContent.match(employmentRegex);
-        const isEmployedOrRetired = matchEmployment ? matchEmployment[1].toLowerCase() === 'da' : false;
+        const employmentRegex = /Status zaposlitve:\s*(\w+)/i;
+    const matchEmployment = textContent.match(employmentRegex);
+    let isEmployedOrRetired = false;
+    let isEmployed = false;
+    let isRetired = false;
 
-        const relevantInfo = {
-            name,
-            surname,
-            address,
-            naslovNaslov,
-            birthDate,
-            sloveniaCitizen,
-            isAdult,
-            isNotInBankruptcy,
-            isEmployedOrRetired,
-        };
+    if (matchEmployment) {
+        const employmentStatus = matchEmployment[1].toLowerCase();
+        console.log('Employment Status:', employmentStatus);
+        if (employmentStatus === 'zaposlen') {
+            isEmployed = true;
+            isEmployedOrRetired = true;
+        } else {
+            isRetired = true;
+            isEmployedOrRetired = true;
+        }
+    }
+    const loanAmountRegex = /Znesek kredita \(v EUR\):\s*([\d.,]+)\s*EUR/;
+    const matchLoanAmount = textContent.match(loanAmountRegex);
+    const loanAmount = matchLoanAmount ? convertToNumber(matchLoanAmount[1]) : 0;
+
+    const repaymentPeriodRegex = /doba odplatevanja \(v mesecih\):\s*(\d+)\s*mesec/i;
+    const matchRepaymentPeriod = textContent.match(repaymentPeriodRegex);
+    const repaymentPeriod = matchRepaymentPeriod ? parseInt(matchRepaymentPeriod[1]) : 0;
+
+    const stopnjaIzobrazbe1 = /Stopnja izobrazbe:\s*(.+)/i;
+    const stopnjaIzobrazbe2 = textContent.match(stopnjaIzobrazbe1);
+    const stopnjaIzobrazbe3 = stopnjaIzobrazbe2 ? stopnjaIzobrazbe2[1] : '';
+    console.log("izobrazba"+ stopnjaIzobrazbe2)
+    
+    const steviloClanov1 = /Stevilo vzdrievanih druzinskih élanov:\s*(.+)/; 
+    const steviloClanov2 = textContent.match(steviloClanov1);
+    const steviloClanov3 = steviloClanov2 ? steviloClanov2[1] : '';
+    console.log("izobrazba"+ steviloClanov2)
+    
+    const relevantInfo = {
+        name,
+        surname,
+        address,
+        naslovNaslov,
+        birthDate,
+        sloveniaCitizen,
+        isAdult,
+        isNotInBankruptcy,
+        isEmployedOrRetired,
+        isEmployed,
+        isRetired,
+        loanAmount,
+        repaymentPeriod,
+        stopnjaIzobrazbe3,
+        steviloClanov3,
+    };
+
 
         return relevantInfo;
     };
@@ -104,7 +146,13 @@ const PdfReader: React.FC = () => {
             drzavljanRS: relevantInfo.sloveniaCitizen,
             starost18: relevantInfo.isAdult,
             stecajniPostopekNI: relevantInfo.isNotInBankruptcy,
-            zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
+        zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
+        zaposlen: relevantInfo.isEmployed,
+        upokojenec: relevantInfo.isRetired,
+        zaproseniKredit: relevantInfo.loanAmount,
+        rokVracila: relevantInfo.repaymentPeriod,
+        izobrazba: relevantInfo.stopnjaIzobrazbe3,
+        stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
         }));
 
         setLoading(false);
