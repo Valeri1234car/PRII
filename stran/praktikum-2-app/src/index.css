@@ -83,7 +83,8 @@ header {
 }
 
 .main {
-  background-image: url('../logo/images.jpg');
+  /*background-image: url("../logo/images.jpg");*/
+  background-color: #41424c;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -91,7 +92,6 @@ header {
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  background-color: #f2f2f2;
   flex-direction: column;
   height: auto;
 }
@@ -120,6 +120,7 @@ header {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  border-radius: 25px;
 }
 
 .vnosnoPoljePDF {
@@ -132,7 +133,8 @@ header {
 }
 
 .oknoDrag {
-  background-image: url('../logo/images.jpg');
+  /*background-image: url("../logo/images.jpg");*/
+  background-color: #41424c;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -150,10 +152,11 @@ header {
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  background-color: #41424c;
 }
 
 .header-title {
-  font-family: 'Pacifico', cursive;
+  font-family: "Pacifico", cursive;
   font-size: 3rem;
   color: #343a40;
 }
