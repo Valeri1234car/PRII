@@ -1,18 +1,6 @@
-# PRII
+![image](https://github.com/Valeri1234car/PRII/assets/152204015/a5650f51-f8a7-4de8-b4a5-11940cb8bf6c)# PRII
 Avtomatizacija postopka odobravanja potrošniških kreditov
 Ta projekt je spletna aplikacija, zgrajena z uporabo React, TypeScript, HTML, CSS in Bootstrap za avtomatizacijo postopka odobravanja potrošniških kreditov v podjetju x.
-
-Opis
-Minilon d.o.o. je majhno podjetje, ki ponuja storitve potrošniškega kreditiranja. Predhodno so za vodenje evidenc in upravljanje kreditov uporabljali Microsoft Excel. Vendar je bil ta postopek zamuden in brez avtomatizacije. Namen tega projekta je razviti celovito programsko rešitev za poenostavitev in avtomatizacijo različnih vidikov postopka odobravanja kreditov, vključno z:
-
-Poenostavljenim vnosom podatkov iz različnih virov v podatkovne baze
-Generiranjem dokumentov (pogodbe, predhodno informiranje itd.)
-Avtomatiziranim pošiljanjem obvestil (SMS, e-pošta) za posodobitve postopkov in opominjanje
-Integracijo z oddaljenim podpisovanjem dokumentov (BetrSign)
-Generiranjem in uvozom plačilnih nalogov v določenih formatih
-Skladnostjo z GDPR
-(V prihodnosti) Omogočanjem dostopa kreditojemalcem do informacij o njihovih kreditih prek spletne platforme
-(V prihodnosti) Integracijo umetne inteligence za ocenjevanje kreditne sposobnosti in oceno tveganja
 
 Uporabljene tehnologije
 
@@ -25,11 +13,11 @@ Bootstrap: Priljubljen CSS okvir za gradnjo odzivnih in mobilno-first spletnih m
 Začetek
 Za lokalni zagon projekta sledite tem korakom:
 
-Klonirajte repozitorij: git clone https://github.com/your-repo/automatic-credit-approval.git
-Premaknite se v mapo projekta: cd automatic-credit-approval
+Klonirajte repozitorij: git clone https://github.com/Valeri1234car/PRII.git
+Premaknite se v mapo projekta: cd .\stran\ -> cd .\praktikum-2-app\
 Namestite odvisnosti: npm install
-Zaženite razvojni strežnik: npm start
-Odprite brskalnik in obiščite http://localhost:3000, da vidite aplikacijo
+Zaženite razvojni strežnik: npm run dev
+Odprite brskalnik in obiščite localhost link, ki se Vam prikaži, da vidite aplikacijo.
 
 Struktura projekta
 
