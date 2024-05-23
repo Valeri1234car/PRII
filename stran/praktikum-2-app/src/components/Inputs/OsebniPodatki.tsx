@@ -3,7 +3,7 @@ import { PodatkiContext } from "../../App";
 import { Podatki } from "../../interface/Podatki";
 import { zneskiMesecnihAnuitet } from "../../interface/ZneskiMesecnihAnuitet";
 
-const OsebniPodatki: React.FC = () => {
+const OsebniPodatki = () => {
     const { podatkiState, setPodatkiState, HandleChange } = useContext(PodatkiContext);
 
     useEffect(() => {
