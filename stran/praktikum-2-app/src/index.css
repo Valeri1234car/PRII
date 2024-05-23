@@ -83,6 +83,10 @@ header {
 }
 
 .main {
+  background-image: url('../logo/images.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,14 +132,37 @@ header {
 }
 
 .oknoDrag {
+  background-image: url('../logo/images.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   justify-content: center;
   padding: 1rem;
 }
 
 .pdfBesedilo {
+  /*background-image: url('../logo/images2.jpg');*/
+  /*background-size: cover;*/
+  /*background-position: center;*/
+  /*background-repeat: no-repeat;*/
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
+}
+
+.header-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 3rem;
+  color: #343a40;
+}
+
+.header-logo {
+  width: 10%;
+  height: auto;
+}
+
+.header-container {
+  background-color: #343a40; /* Tamnija siva boja */
 }
