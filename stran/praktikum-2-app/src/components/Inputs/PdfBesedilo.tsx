@@ -5,8 +5,8 @@ const PdfBesedilo = () => {
     const { pdfText } = useContext(PodatkiContext);
     return (
         <>
-            {/* <h3>Extracted Text:</h3>
-            <pre>{pdfText}</pre> */}
+            <h3>Extracted Text:</h3>
+            <pre>{pdfText}</pre>
         </>
     );
 }
