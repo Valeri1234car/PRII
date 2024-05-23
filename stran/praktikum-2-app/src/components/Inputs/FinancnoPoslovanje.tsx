@@ -72,7 +72,7 @@ const FinancnoPoslovanje = () =>{
         let ddohodkiPoPlaciluInAmuniteta = dohodkiPoPlacilu - podatkiState.mesecnaAmuniteta;
         setPodatkiState({...podatkiState, dohodkiPoPlaciluStarga: dohodkiPoPlacilu, dohodkiPoPlaciluVsega:ddohodkiPoPlaciluInAmuniteta})
 
-    },[podatkiState.znesekPrejemkovPokojnina,podatkiState.znesekDrugihPrejemkov, podatkiState.mesecnaAmuniteta,podatkiState.stanjeTRR])
+    },[podatkiState.znesekPrejemkovPokojnina,podatkiState.znesekDrugihPrejemkov, podatkiState.mesecnaAmuniteta,podatkiState.stanjeTRR, podatkiState.mesecniZnesekZaOdplacilodrugihKreditov])
 
     return(
         <div className="vnosItem">

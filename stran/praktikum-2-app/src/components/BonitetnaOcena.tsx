@@ -1,127 +1,310 @@
-import { PodatkiContext } from "../App"
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { PodatkiContext } from "../App";
+// import { Izobrazba } from "../interface/ModulA";
+import { ModulA, LikvidnostNeizvrseniTrajniNalogi, LikvidnostBancniPoboti,LikvidnostStIzvrsbTRR,BonitetaDelodajalca, Izobrazba } from '../interface/ModulA';
+import { ModulB, SisbonNeoplacanDelObveznosti,SisbonZapadliDolg,SisbonIzterjava,SisbonIzvrsba } from '../interface/ModulB';
+import { ModulC } from '../interface/ModulC';
 
 
 const BonitetnaOcena = () =>{
 
-    const {podatkiState, setPodatkiState, setStran} = useContext(PodatkiContext);
+    const {podatkiState, setPodatkiState, setStran, modulA, setModula, modulB, setModulB, modulC,setModulC} = useContext(PodatkiContext);
+
     
-    return(
-        <div>
-    <h2>Osebni podakti:</h2>
-    <p>Ime: {podatkiState.ime}</p>
-    <p>Priimek: {podatkiState.priimek}</p>
-    <p>Naslov: {podatkiState.naslov}</p>
-    <p>Datum rojstva: {podatkiState.datumRojstva}</p>
-    <p>Starost: {podatkiState.starost}</p>
-    <h2>Osnovni kriteriji</h2>
-    <p>Državljan Republike Slovenije: {podatkiState.drzavljanRS ? "Da" : "Ne"}</p>
-    <p>Starejši od 18 let: {podatkiState.starost18 ? "Da" : "Ne"}</p>
-    <p>Prosilec NI v stečajnem postopku: {podatkiState.stecajniPostopekNI ? "Da" : "Ne"}</p>
-    <p>Zaposlen ali upokojenec: {podatkiState.zaposlenUpokojenec ? "Da" : "Ne"}</p>
-    <h2>Kredit Minilon</h2>
-    <p>Zaprošeni znesek kredita v EUR: {podatkiState.zaproseniKredit}</p>
-    <p>Rok vračila v mesecih: {podatkiState.rokVracila}</p>
-    <p>Mesečna anuiteta: {podatkiState.mesecnaAmuniteta}</p>
-    <h2>Podakti o zaposlitvi</h2>
-    <p>Delodajalec: {podatkiState.delodajalec}</p>
-    <p>Bonitetna ocena delodajalca: {podatkiState.bonitetnaOcenaDelodajalca}</p>
-    <h2>Finančno poslovanje podakti</h2>
-    <table>
-        <tr>
-            <td><b>PODATKI O FINANČNEM POSLOVANJU V EUR</b></td>
-            <th>T-3</th>
-            <th>T-2</th>
-            <th>T-1</th>
-            <th>Povprečje</th>
-        </tr>
-        <tr>
-            <td>Mesečni promet v dobro:</td>
-            <td>{podatkiState.mesecniPrometDobro.t1}</td>
-            <td>{podatkiState.mesecniPrometDobro.t2}</td>
-            <td>{podatkiState.mesecniPrometDobro.t3}</td>
-            <td>{podatkiState.mesecniPrometDobro.povprecje}</td>
-        </tr>
-        <tr>
-            <td>Mesečni promet v breme:</td>
-            <td>{podatkiState.mesecniPrometBreme.t1}</td>
-            <td>{podatkiState.mesecniPrometBreme.t2}</td>
-            <td>{podatkiState.mesecniPrometBreme.t3}</td>
-            <td>{podatkiState.mesecniPrometBreme.povprecje}</td>
-        </tr>
-        <tr>
-            <td>Stanje na TRR:</td>
-            <td>{podatkiState.stanjeTRR.t1}</td>
-            <td>{podatkiState.stanjeTRR.t2}</td>
-            <td>{podatkiState.stanjeTRR.t3}</td>
-            <td>{podatkiState.stanjeTRR.povprecje}</td>
-        </tr>
-        <tr>
-            <td>Znesek prejemkov iz dela oz. pokojnina:</td>
-            <td>{podatkiState.znesekPrejemkovPokojnina.t1}</td>
-            <td>{podatkiState.znesekPrejemkovPokojnina.t2}</td>
-            <td>{podatkiState.znesekPrejemkovPokojnina.t3}</td>
-            <td>{podatkiState.znesekPrejemkovPokojnina.povprecje}</td>
-        </tr>
-        <tr>
-            <td>Znesek drugih prejemkov:</td>
-            <td>{podatkiState.znesekDrugihPrejemkov.t1}</td>
-            <td>{podatkiState.znesekDrugihPrejemkov.t2}</td>
-            <td>{podatkiState.znesekDrugihPrejemkov.t3}</td>
-            <td>{podatkiState.znesekDrugihPrejemkov.povprecje}</td>
-        </tr>
-        <tr>
-            <td>Mesečni znesek za odplačilo obstoječih kreditov:</td>
-            <td>{podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.t1}</td>
-            <td>{podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.t2}</td>
-            <td>{podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.t3}</td>
-            <td>{podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.povprecje}</td>
-        </tr>
-        <tr>
-            <td>Število neizvršenih trajnih nalogov:</td>
-            <td>{podatkiState.stNeizvrsenihTrajnihNalogov.t1}</td>
-            <td>{podatkiState.stNeizvrsenihTrajnihNalogov.t2}</td>
-            <td>{podatkiState.stNeizvrsenihTrajnihNalogov.t3}</td>
-            <td>{podatkiState.stNeizvrsenihTrajnihNalogov.povprecje}</td>
-        </tr>
-        <tr>
-            <td>Število bančnih pobotov:</td>
-            <td>{podatkiState.stBancnihPobotov.t1}</td>
-            <td>{podatkiState.stBancnihPobotov.t2}</td>
-            <td>{podatkiState.stBancnihPobotov.t3}</td>
-            <td>{podatkiState.stBancnihPobotov.povprecje}</td>
-        </tr>
-        <tr>
-            <td>Število izvršb na TRR:</td>
-            <td>{podatkiState.stIzvrsbNaTrr.t1}</td>
-            <td>{podatkiState.stIzvrsbNaTrr.t2}</td>
-            <td>{podatkiState.stIzvrsbNaTrr.t3}</td>
-            <td>{podatkiState.stIzvrsbNaTrr.povprecje}</td>
-        </tr>
-    </table>
-    <p>Nerubljiv dohodek v EUR:{podatkiState.nerubljivDohodek}</p>
-<p>Rubljivi dohodek v EUR:{podatkiState.rubljivDohodek}</p>
-<p>Dohodki po plačilu obstoječih finančnih obveznosti (krediti, Leasing,…):{podatkiState.dohodkiPoPlaciluStarga}</p>
-<p>Dohodki po plačilu obstoječih in novih finančnih obveznosti:{podatkiState.dohodkiPoPlaciluVsega}</p>
+    //----------------------------------bonitetna ocena------
 
-    <h2>Drugi podatki</h2>
-    <p>Izobrazba: {podatkiState.izobrazba}</p>
-    <p>(So)Lastništvo nepremičnin: {podatkiState.lastnistnovNepremicnin ? "Da" : "Ne"}</p>
-    <p>Število vzdrževanih družinskih članov: {podatkiState.stVzdrzevanihDruzinskihClanov}</p>
-    <p>Ali je partner zaposlen?: {podatkiState.partnerZaposlen ? "Da" : "Ne" }</p>
-    <p>Samhranilec: {podatkiState.samohranilec  ? "Da" : "Ne"}</p>
-    <p>Zavezanec za preživnino: {podatkiState.zavezanecNaPrezivnin ? "Da" : "Ne"}</p>
-    <p>Znesek mesečne preživnine: {podatkiState.znesekMesecnePrezivnine}</p>
-    <p>Sum na razne oblike odvisnosti, sumljive prakse pri najemanju kredita: {podatkiState.sumljivost ? "Da" : "Ne"}</p>
-    <h2>PODATKI SISBON (V EUR)</h2>
+    useEffect(()=>{
+
+        let likvidnostNeizvrseniTrajniNalogiRez=0
+        let likvidnostBancniPobotiRez=0
+        let likvidnostStIzvrsbTRRRez=0
+        let razmerjeObveznostiKreditiDohodkiRez=0
+        let presezekDohodkovNerubljivRez=0
+        let lastnistvoNepremicnineRez= podatkiState.lastnistnovNepremicnin ? 6 : 0;
+        let bonitetaDelodajalcaRez=0
+        let zaposlitevPartnerjaRez=podatkiState.partnerZaposlen ? 3 : 0;
+        let izobrazbaRez=0
+        let razmerjeObveznostiKreditiDohodki=0
+        let presezekDohodkovNerubljiv= podatkiState.znesekPrejemkovPokojnina.povprecje +podatkiState.znesekDrugihPrejemkov.povprecje - podatkiState.nerubljiviDohodek
         
-            <p>SISBON - NEODPLAČAN DEL OBVEZNOSTI: {podatkiState.sisbonNeodplacanDelObvezost}</p>
-            <p>SISBON - ZAPADLI DOLG: {podatkiState.sisbonZapadliDolg}</p>
-            <p>SISBON - IZTERJAVA: {podatkiState.sisbonIzterjava}</p>
-            <p>SISBON - IZVRŠBA: {podatkiState.sisbonIzvrsba}</p>
-            <p>SISBON - OMEJITEV UPORABE TRR: {podatkiState.sisbonOmejitevTRR ? "Da" : "Ne"}</p>
 
- </div>
+        LikvidnostNeizvrseniTrajniNalogi.forEach(element => {
+            if(element.stevilo == podatkiState.stNeizvrsenihTrajnihNalogov.povprecje){
+                likvidnostNeizvrseniTrajniNalogiRez = element.tocke;
+            }
+        });
+        LikvidnostBancniPoboti.forEach(element => {
+            if(element.stevilo == podatkiState.stBancnihPobotov.povprecje){
+                likvidnostBancniPobotiRez = element.tocke;
+            }
+        });
+        LikvidnostStIzvrsbTRR.forEach(element => {
+            if(element.stevilo == podatkiState.stIzvrsbNaTrr.povprecje){
+                likvidnostStIzvrsbTRRRez = element.tocke;
+            }
+        });
+
+        BonitetaDelodajalca.forEach(element => {
+            if(element.stevilo == podatkiState.bonitetnaOcenaDelodajalca){
+                bonitetaDelodajalcaRez = element.tocke;
+            }
+        });
+
+        Izobrazba.forEach(element => {
+            if(element.izobrazba == podatkiState.izobrazba){
+                izobrazbaRez = element.tocke;
+            }
+        });
+
+        
+        const skupajTock = (likvidnostNeizvrseniTrajniNalogiRez + likvidnostBancniPobotiRez + likvidnostStIzvrsbTRRRez +razmerjeObveznostiKreditiDohodkiRez
+             + presezekDohodkovNerubljivRez + lastnistvoNepremicnineRez + bonitetaDelodajalcaRez + zaposlitevPartnerjaRez + izobrazbaRez)
+        
+
+
+        setModula(
+            {
+                ...modulA,
+                likvidnostNeizvrseniTrajniNalogiRez:likvidnostNeizvrseniTrajniNalogiRez,
+                likvidnostBancniPobotiRez:likvidnostBancniPobotiRez,
+                likvidnostStIzvrsbTRRRez:likvidnostStIzvrsbTRRRez,
+                razmerjeObveznostiKreditiDohodkiRez:razmerjeObveznostiKreditiDohodkiRez,
+                presezekDohodkovNerubljivRez: presezekDohodkovNerubljivRez,
+                lastnistvoNepremicnineRez:lastnistvoNepremicnineRez,
+                bonitetaDelodajalcaRez:bonitetaDelodajalcaRez,
+                zaposlitevPartnerjaRez:zaposlitevPartnerjaRez,
+                izobrazbaRez:izobrazbaRez,
+                razmerjeObveznostiKreditiDohodki:0,  // -----to dvoje se rabim
+                presezekDohodkovNerubljiv: 0,     //--------
+                skupnoTock:skupajTock,
+
+
+            }
+        )
+
+    },[podatkiState.stNeizvrsenihTrajnihNalogov,podatkiState.stBancnihPobotov, podatkiState.stIzvrsbNaTrr, podatkiState.lastnistnovNepremicnin,podatkiState.bonitetnaOcenaDelodajalca, podatkiState.partnerZaposlen,podatkiState.izobrazba,podatkiState.nerubljiviDohodek, podatkiState.znesekDrugihPrejemkov.povprecje, podatkiState.znesekPrejemkovPokojnina.povprecje])
+
+    useEffect(()=>{
+        let neodplacanDel = 0;
+        let zapadliDolg = 0;
+        let izterjava = 0;
+        let izvrsba = 0;
+
+        
+
+
+    if(podatkiState.rubljiviDohodek != 0){
+        if(podatkiState.sisbonNeodplacanDelObvezost != 0){
+            neodplacanDel = (podatkiState.sisbonNeodplacanDelObvezost / podatkiState.rubljiviDohodek); //----tole ga neki biksa
+        }
+        if(podatkiState.sisbonZapadliDolg != 0){
+            zapadliDolg = podatkiState.sisbonZapadliDolg / podatkiState.rubljiviDohodek;
+        }
+        if(podatkiState.sisbonIzterjava != 0){
+            izterjava = podatkiState.sisbonIzterjava / podatkiState.rubljiviDohodek;
+        }
+        if(podatkiState.sisbonIzvrsba != 0){
+            izvrsba = podatkiState.sisbonIzvrsba / podatkiState.rubljiviDohodek;
+        }
+        
+    }
+
+
+    let neodplacanDelRez = 0;
+    let zapadliDolgRez = 0;
+    let izterjavaRez = 0;
+    let izvrsbaRez = 0;
+
+    const omejitevTRRrez = podatkiState.sisbonOmejitevTRR ? 0 : 30; 
+
+    SisbonNeoplacanDelObveznosti.forEach(element => {
+        if(element.stevilo <= neodplacanDel){
+            neodplacanDelRez = element.tocke;
+            
+        }
+    });
+
+    SisbonZapadliDolg.forEach(element => {
+        if(element.stevilo <= zapadliDolg){
+            zapadliDolgRez = element.tocke;
+        }
+    });
+
+    SisbonIzterjava.forEach(element => {
+        if(element.stevilo <= izterjava){
+            izterjavaRez = element.tocke;
+        }
+    });
+
+    SisbonIzvrsba.forEach(element => {
+        if(element.stevilo <= izvrsba){
+            izvrsbaRez = element.tocke;
+        }
+    });
+
+    const skupaj = ( neodplacanDelRez + zapadliDolgRez + izterjavaRez + izvrsbaRez + omejitevTRRrez)
+
+    setModulB({
+        ...modulB,
+        SISBONneodplacanDelObveznostiRez:neodplacanDelRez,
+        SISBONzapadliDolgRez:zapadliDolgRez,
+        SISBONizterjavaRez:izterjavaRez,
+        SISBONizvrsbaRez:izvrsbaRez,
+        SISBONomejitevUporabeTrrRez:omejitevTRRrez,
+        SISBONneodplacanDelObveznosti:neodplacanDel,
+        SISBONzapadliDolg:zapadliDolg,
+        SISBONizterjava:izterjava,
+        SISBONizvrsba:izvrsba,
+        skupneTocke:skupaj,
+    })
+
+
+    },[podatkiState.rubljiviDohodek, podatkiState.sisbonIzterjava,podatkiState.sisbonIzvrsba,podatkiState.sisbonNeodplacanDelObvezost, podatkiState.sisbonOmejitevTRR, podatkiState.sisbonZapadliDolg])
+
+
+    useEffect(()=>{
+       setModulC({
+        ...modulC,
+        skupnoTockovanje: (modulA.skupnoTock * modulC.ponder) + (modulB.skupneTocke * (1 - modulC.ponder))
+       }) 
+    },[modulA.skupnoTock,modulB.skupneTocke,modulC.ponder])
+
+
+    return(
+        <div className="bonitetnaOcena">
+            <h1>Bonitetna ocena Tockovanje</h1>
+                <div className="moduli">
+                    <div className="modulA">
+                        <table>
+                            <tr>
+                                <th>MODUL A</th>
+                                <th>Vrednost</th>
+                                <th>Max</th>
+                                <th>Rezultati</th>
+                            </tr>
+                            <tr>
+                                <td>Likvidnost: prihaja do neizvršenih trajnih nalogov</td>
+                                <td>{podatkiState.stNeizvrsenihTrajnihNalogov.povprecje}</td>
+                                <td>10</td>
+                                <td>{modulA.likvidnostNeizvrseniTrajniNalogiRez}</td>
+                            </tr>
+                            <tr>
+                                <td>Likvidnost: prihaja do bančnih pobotov</td>
+                                <td>{podatkiState.stBancnihPobotov.povprecje}</td>
+                                <td>10</td>
+                                <td>{modulA.likvidnostBancniPobotiRez}</td>
+                            </tr>
+                            <tr>
+                                <td>Likvidnost: prihaja do izvršb na TRR</td>
+                                <td>{podatkiState.stIzvrsbNaTrr.povprecje}</td>
+                                <td>10</td>
+                                <td>{modulA.likvidnostStIzvrsbTRRRez}</td>
+                            </tr>
+                            <tr>
+                                <td>Razmerje med mesečnimi obveznostmi za kredite in mesečnimi dohodki</td>
+                                <td>{modulA.razmerjeObveznostiKreditiDohodki}</td>
+                                <td>30</td>
+                                <td>{modulA.razmerjeObveznostiKreditiDohodkiRez}</td>
+                            </tr>
+                            <tr>
+                                <td>Presežek (primanjkljaj) dohodkov nad nerubljivim zneskom</td>
+                                <td>{modulA.presezekDohodkovNerubljiv}</td>
+                                <td>10</td>
+                                <td>{modulA.presezekDohodkovNerubljivRez}</td>
+                            </tr>
+                            <tr>
+                                <td>Lastništvo / solastništvo nepremičnine</td>
+                                <td>{podatkiState.lastnistnovNepremicnin ? "DA":"NE"}</td>
+                                <td>6</td>
+                                <td>{modulA.lastnistvoNepremicnineRez}</td>
+                            </tr>
+                            <tr>
+                                <td>Boniteta delodajalca</td>
+                                <td>{podatkiState.bonitetnaOcenaDelodajalca}</td>
+                                <td>4</td>
+                                <td>{modulA.bonitetaDelodajalcaRez}</td>
+                            </tr>
+                            <tr>
+                                <td>Zaposlitev partnerja</td>
+                                <td>{podatkiState.partnerZaposlen ? "DA":"NE"}</td>
+                                <td>3</td>
+                                <td>{modulA.zaposlitevPartnerjaRez}</td>
+                            </tr>
+                            <tr>
+                                <td>Izobrazba</td>
+                                <td>{podatkiState.izobrazba}</td>
+                                <td>2</td>
+                                <td>{modulA.izobrazbaRez}</td>
+                            </tr>
+                            <tr>
+                                <th>SKUPAJ MODUL A</th>
+                                <td></td>
+                                <th>85</th>
+                                <td>{modulA.skupnoTock}</td>
+                            </tr>
+                            
+                        </table>
+                    </div>
+                    <div className="modulB">
+                    <table>
+                            <tr>
+                                <th>MODUL B</th>
+                                <th>Vrednost</th>
+                                <th>Max</th>
+                                <th>Rezultati</th>
+                            </tr>
+                            <tr>
+                                <td>SISBON - NEODPLAČAN DEL OBVEZNOSTI / Rubljivi dohodki</td>
+                                <td>{modulB.SISBONneodplacanDelObveznosti}</td>
+                                <td>10</td>
+                                <td>{modulB.SISBONneodplacanDelObveznostiRez}</td>
+                            </tr>
+                            <tr>
+                                <td>SISBON - ZAPADLI DOLG / Rubljivi dohodki</td>
+                                <td>{modulB.SISBONzapadliDolg}</td>
+                                <td>15</td>
+                                <td>{modulB.SISBONzapadliDolgRez}</td>
+                            </tr>
+                            <tr>
+                                <td>SISBON - IZTERJAVA / Rubljivi dohodki</td>
+                                <td>{modulB.SISBONizterjava}</td>
+                                <td>15</td>
+                                <td>{modulB.SISBONizterjavaRez}</td>
+                            </tr>
+                            <tr>
+                                <td>SISBON - IZVRŠBA / Rubljivi dohodki</td>
+                                <td>{modulB.SISBONizvrsba}</td>
+                                <td>15</td>
+                                <td>{modulB.SISBONizvrsbaRez}</td>
+                            </tr>
+                            <tr>
+                                <td>SISBON - OMEJITEV UPORABE TRR</td>
+                                <td>{podatkiState.sisbonOmejitevTRR ? "DA":"NE"}</td>
+                                <td>30</td>
+                                <td>{modulB.SISBONomejitevUporabeTrrRez}</td>
+                            </tr>
+                            <tr>
+                                <th>SKUPAJ MODUL B</th>
+                                <td></td>
+                                <th>85</th>
+                                <td>{modulB.skupneTocke}</td>
+                            </tr>
+                            
+                        </table>
+                    </div>
+                     <div className="modulA+B">
+                        <table>
+                            <tr>
+                                <th>MODUL A IN MODUL B (PONDERIRANO)</th>
+                                <td>{modulC.ponder}</td>
+                                <td></td>
+                                <th>{modulC.skupnoTockovanje}</th>
+                            </tr>
+                        </table>
+                    </div>
+            </div>
+            
+        </div>
     )
 }
 
