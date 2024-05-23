@@ -23,20 +23,23 @@ const KreditMinilon = () =>{
 
     return(
         <div className="vnosItem">
-        <h2>Kredit Minilon</h2>
+            <h2 className="mb-4 text-success fw-bold">Kredit Minilon</h2>
             <div className="vnosnaPolja">
-            
-                <div><label htmlFor="zaproseniKredit">Zaprošeni znesek kredita v EUR:</label>
-                <input type="number" name="zaproseniKredit" value={podatkiState.zaproseniKredit} onChange={HandleChange}/></div>
-                <div><label htmlFor="rokVracila">Rok vračila kredita v mesecih:</label>
-                <input type="number" name="rokVracila" value={podatkiState.rokVracila} onChange={HandleChange}/></div>
-                <div>
-                    {/* <label htmlFor="mesecnaAmuniteta">Mesecna amuniteta:</label>
-                <input type="number" name="mesecnaAmuniteta" value={podatkiState.mesecnaAmuniteta} onChange={HandleChange}/> */}
-                <p>Mesecna anuiteta: {podatkiState.mesecnaAmuniteta}</p>
+                <div className="mb-3">
+                    <label htmlFor="zaproseniKredit" className="form-label">Zaproseni znesek kredita u EUR:</label>
+                    <input type="number" className="form-control" name="zaproseniKredit" value={podatkiState.zaproseniKredit} onChange={HandleChange} style={{ borderColor: 'green', color: 'green' }}/>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="rokVracila" className="form-label">Rok vraćanja kredita u mesecima:</label>
+                    <input type="number" className="form-control" name="rokVracila" value={podatkiState.rokVracila} onChange={HandleChange} style={{ borderColor: 'green', color: 'green' }}/>
+                </div>
+                <div className="mb-3">
+                    <p>Mesečna anuiteta: {podatkiState.mesecnaAmuniteta}</p>
                 </div>
             </div>
         </div>
+
+
     )
 }
 
