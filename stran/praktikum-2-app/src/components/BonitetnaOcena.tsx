@@ -171,18 +171,18 @@ const BonitetnaOcena = () =>{
 
 
     return(
-        <>
         
-        <div className="bonitetnaOcena">
+        
+        <div className="container">
             <h1>Bonitetna ocena Tockovanje</h1>
                 <div className="moduli">
                     <div className="modulA">
-                        <table>
+                        <table className="table table-striped table-dark">
                             <tr>
-                                <th>MODUL A</th>
-                                <th>Vrednost</th>
-                                <th>Max</th>
-                                <th>Rezultati</th>
+                                <th className="col">MODUL A</th>
+                                <th className="col">Vrednost</th>
+                                <th className="col">Max</th>
+                                <th className="col">Rezultati</th>
                             </tr>
                             <tr>
                                 <td>Likvidnost: prihaja do neizvršenih trajnih nalogov</td>
@@ -248,7 +248,7 @@ const BonitetnaOcena = () =>{
                         </table>
                     </div>
                     <div className="modulB">
-                    <table>
+                    <table className="table table-striped table-dark">
                             <tr>
                                 <th>MODUL B</th>
                                 <th>Vrednost</th>
@@ -307,7 +307,7 @@ const BonitetnaOcena = () =>{
             </div>
             
         </div>
-        </>
+        
     )
 }
 
