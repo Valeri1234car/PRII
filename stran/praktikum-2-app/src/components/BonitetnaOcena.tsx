@@ -173,17 +173,21 @@ const BonitetnaOcena = () =>{
     return(
         
         
-        <div className="container bonitetnaOcena">
+        <div className="container" style={{ borderColor: 'black', color: 'black', background: "white" }}>
             <h1>Bonitetna ocena Tockovanje</h1>
-                <div className="moduli">
+                <div className="moduli" style={{ borderColor: 'black', color: 'black'}}>
                     <div className="modulA">
-                        <table className="table table-striped table-dark">
+                        <table className="table table-striped table-dark" style={{ borderColor: 'black'}}>
+                        <thead>
+                        
                             <tr>
                                 <th className="col">MODUL A</th>
                                 <th className="col">Vrednost</th>
                                 <th className="col">Max</th>
                                 <th className="col">Rezultati</th>
                             </tr>
+                            </thead>
+                            <tbody>
                             <tr>
                                 <td>Likvidnost: prihaja do neizvršenih trajnih nalogov</td>
                                 <td>{podatkiState.stNeizvrsenihTrajnihNalogov.povprecje}</td>
@@ -244,17 +248,20 @@ const BonitetnaOcena = () =>{
                                 <th>85</th>
                                 <td>{modulA.skupnoTock}</td>
                             </tr>
-                            
+                            </tbody>
                         </table>
                     </div>
                     <div className="modulB">
-                    <table className="table table-striped table-dark">
+                    <table className="table table-striped table-dark" style={{ borderColor: 'black', color: 'black'}}>
+                    <thead>
                             <tr>
                                 <th className="col">MODUL B</th>
                                 <th className="col">Vrednost</th>
                                 <th className="col">Max</th>
                                 <th className="col">Rezultati</th>
                             </tr>
+                            </thead>
+                            <tbody>
                             <tr>
                                 <td>SISBON - NEODPLAČAN DEL OBVEZNOSTI / Rubljivi dohodki</td>
                                 <td>{modulB.SISBONneodplacanDelObveznosti}</td>
@@ -291,17 +298,20 @@ const BonitetnaOcena = () =>{
                                 <th>85</th>
                                 <td>{modulB.skupneTocke}</td>
                             </tr>
+                            </tbody>
                             
                         </table>
                     </div>
                      <div className="modulA+B">
-                        <table>
+                        <table className="table table-striped table-dark">
+                            <thead>
                             <tr>
                                 <th className="col">MODUL A IN MODUL B (PONDERIRANO)</th>
                                 <td className="col">{modulC.ponder}</td>
                                 <td className="col"></td>
                                 <th className="col">{modulC.skupnoTockovanje}</th>
                             </tr>
+                            </thead>
                         </table>
                     </div>
             </div>

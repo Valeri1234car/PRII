@@ -9,7 +9,7 @@ const IzpisVnesenihPodatkov = () =>{
     
     return(
         <>
-        <div className="container">
+        <div className="container" style={{ borderColor: 'black', color: 'black', background: "white" }}>
             <h2>Osebni podakti:</h2>
             <p className="mb-3">Ime: {podatkiState.ime}</p>
             <p className="mb-3">Priimek: {podatkiState.priimek}</p>
