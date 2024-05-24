@@ -76,7 +76,7 @@ const FinancnoPoslovanje = () =>{
 
     return(
         <div className="vnosItem">
-            <h2 className="mb-4 text-info fw-bold">Podaci o finansijskom poslovanju u EUR</h2>
+            <h2 className="mb-4 text-info text-dark">Podaci o finansijskom poslovanju u EUR</h2>
             <div className="vnosnaPolja">
                 <table className="table table-bordered">
                     <thead>
@@ -163,19 +163,19 @@ const FinancnoPoslovanje = () =>{
 </table>
             <div className="mb-3">
                 <label htmlFor="nerubljivDohodek" className="form-label">Nerubljiv dohodek u EUR:</label>
-                <input type="number" className="form-control" name="nerubljivDohodek" value={podatkiState.nerubljivDohodek} onChange={HandleChange} style={{ borderColor: 'blue', color: 'blue' }}/>
+                <input type="number" className="form-control" name="nerubljivDohodek" value={podatkiState.nerubljivDohodek} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }}/>
             </div>
             <div className="mb-3">
                 <label htmlFor="rubljivDohodek" className="form-label">Rubljiv dohodek u EUR:</label>
-                <input type="number" className="form-control" name="rubljivDohodek" value={podatkiState.rubljivDohodek} onChange={HandleChange} style={{ borderColor: 'blue', color: 'blue' }}/>
+                <input type="number" className="form-control" name="rubljivDohodek" value={podatkiState.rubljivDohodek} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }}/>
             </div>
             <div className="mb-3">
                 <label htmlFor="dohodkiPoPlaciluStarga" className="form-label">Dohodci po plaćanju postojećih finansijskih obaveza (krediti, Leasing,…):</label>
-                <input type="number" className="form-control" name="dohodkiPoPlaciluStarga" value={podatkiState.dohodkiPoPlaciluStarga} onChange={HandleChange} style={{ borderColor: 'blue', color: 'blue' }}/>
+                <input type="number" className="form-control" name="dohodkiPoPlaciluStarga" value={podatkiState.dohodkiPoPlaciluStarga} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }}/>
             </div>
             <div className="mb-3">
                 <label htmlFor="dohodkiPoPlaciluVsega" className="form-label">Dohodci po plaćanju postojećih i novih finansijskih obaveza:</label>
-                <input type="number" className="form-control" name="dohodkiPoPlaciluVsega" value={podatkiState.dohodkiPoPlaciluVsega} onChange={HandleChange} style={{ borderColor: 'blue', color: 'blue' }}/>
+                <input type="number" className="form-control" name="dohodkiPoPlaciluVsega" value={podatkiState.dohodkiPoPlaciluVsega} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }}/>
             </div>
         </div>
         </div>

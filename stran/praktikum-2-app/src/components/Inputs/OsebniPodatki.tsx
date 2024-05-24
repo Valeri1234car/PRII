@@ -29,7 +29,7 @@ const OsebniPodatki = () => {
 
     return (
         <div className="vnosItem">
-            <h2 className="mb-4 text-primary fw-bold">Vnos osebnih podatkov</h2>
+            <h2 className="mb-4 text-primary text-dark">Vnos osebnih podatkov</h2>
             <div className="row g-3">
                 <div className="col-md-6">
                     <label htmlFor="ime" className="form-label">Ime:</label>
