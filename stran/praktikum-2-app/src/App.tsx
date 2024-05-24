@@ -144,7 +144,7 @@ function App() {
                 <div className='oknoDrag'>
                     <VnosnoPolje />
                 </div>
-                <div className='pdfBesedilo'><PdfBesedilo /></div>
+                {/* <div className='pdfBesedilo'><PdfBesedilo /></div> */}
                 <div className="main">
                     {stran === "Domov" && <VsaVnosna />}
                     {stran === "Izpisi" && (<><IzpisVnesenihPodatkov /><button className="btn btn-primary" onClick={() => setStran("Domov")}>Nazaj</button>
