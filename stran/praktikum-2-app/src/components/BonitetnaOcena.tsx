@@ -307,8 +307,8 @@ const BonitetnaOcena = () =>{
                             <thead>
                             <tr>
                                 <th className="col">MODUL A IN MODUL B (PONDERIRANO)</th>
+                                <td className="col">Ponder A:</td>
                                 <td className="col">{modulC.ponder}</td>
-                                <td className="col"></td>
                                 <th className="col">{modulC.skupnoTockovanje}</th>
                             </tr>
                             </thead>
