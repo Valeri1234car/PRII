@@ -29,7 +29,7 @@ const IzpisVnesenihPodatkov = () =>{
             <p className="mb-3">Delodajalec: {podatkiState.delodajalec}</p>
             <p className="mb-3">Bonitetna ocena delodajalca: {podatkiState.bonitetnaOcenaDelodajalca}</p>
             <h2>Finančno poslovanje podakti</h2>
-             <table className="table table-striped table-dark">
+             <table className="table table-striped table-secondary" style={{ borderColor: 'secondary'}}>
                 <thead>
                 <tr>
                     <th scope="col"><b>PODATKI O FINANČNEM POSLOVANJU V EUR</b></th>
