@@ -141,9 +141,8 @@ function App() {
         <>
             <PodatkiContext.Provider value={{ podatkiState, setPodatkiState, setStran, HandleChange, HandleChangeInput, pdfText, setPdfText, modulA, setModula,modulB, setModulB, modulC, setModulC }}>
                 <Menu />
-                <div className='oknoDrag'>
-                    <VnosnoPolje />
-                </div>
+                {stran =="Domov" && <div className='oknoDrag'><VnosnoPolje /></div>}
+                
                 {/* <div className='pdfBesedilo'><PdfBesedilo /></div> */}
                 <div className="main">
                     {stran === "Domov" && <VsaVnosna />}

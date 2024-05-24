@@ -136,15 +136,15 @@ const PdfReader: React.FC = () => {
         const relevantInfo = extractRelevantInfo(textContent);
         const [day, month, year] = relevantInfo.birthDate.split('.');
         const formattedDate = `${year}-${month}-${day}`;
-        setPodatkiState((prevState: any) => ({
-            ...prevState,
+        setPodatkiState({
+            ...podatkiState,
             ime: relevantInfo.name,
             priimek: relevantInfo.surname,
             naslov: relevantInfo.address + ", " +relevantInfo.naslovNaslov,
             naslovNaslov: relevantInfo.naslovNaslov,
             datumRojstva: formattedDate,
             drzavljanRS: relevantInfo.sloveniaCitizen,
-            starost18: relevantInfo.isAdult,
+            // starost18: relevantInfo.isAdult,
             stecajniPostopekNI: relevantInfo.isNotInBankruptcy,
         zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
         zaposlen: relevantInfo.isEmployed,
@@ -153,7 +153,7 @@ const PdfReader: React.FC = () => {
         rokVracila: relevantInfo.repaymentPeriod,
         izobrazba: relevantInfo.stopnjaIzobrazbe3,
         stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
-        }));
+    });
 
         setLoading(false);
     };
