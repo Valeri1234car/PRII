@@ -19,29 +19,29 @@ const OsnovniKriteriji = () => {
             <div className="vnosnaPolja">
     <div className="vnosVrstica">
         <label htmlFor="drzavljanRS">Državljan Republike Slovenije:</label>
-        <input type="radio" name="drzavljanRS" value="true" checked={podatkiState.drzavljanRS === true} onChange={HandleChangeInput}/>DA
-        <input type="radio" name="drzavljanRS" value="false" checked={podatkiState.drzavljanRS === false} onChange={HandleChangeInput}/>NE
+        <input type="radio" className="form-check-input" name="drzavljanRS" value="true" checked={podatkiState.drzavljanRS === true} onChange={HandleChangeInput}/>DA
+        <input type="radio" className="form-check-input" name="drzavljanRS" value="false" checked={podatkiState.drzavljanRS === false} onChange={HandleChangeInput}/>NE
     </div>
     <div className="vnosVrstica">
         <label htmlFor="starost18">Starejši od 18 let:</label>
-        <input type="radio" name="starost18" value="true" checked={podatkiState.starost18 === true} onChange={HandleChangeInput}/>DA
-        <input type="radio" name="starost18" value="false" checked={podatkiState.starost18 === false} onChange={HandleChangeInput}/>NE
+        <input type="radio" className="form-check-input" name="starost18" value="true" checked={podatkiState.starost18 === true} onChange={HandleChangeInput}/>DA
+        <input type="radio" className="form-check-input" name="starost18" value="false" checked={podatkiState.starost18 === false} onChange={HandleChangeInput}/>NE
     </div>
     <div className="vnosVrstica">
         <label htmlFor="stecajniPostopekNI">Prosilec NI v stečajnem postopku:</label>
-        <input type="radio" name="stecajniPostopekNI" value="true" checked={podatkiState.stecajniPostopekNI === true} onChange={HandleChangeInput}/>DA
-        <input type="radio" name="stecajniPostopekNI" value="false" checked={podatkiState.stecajniPostopekNI === false} onChange={HandleChangeInput}/>NE
+        <input type="radio" className="form-check-input" name="stecajniPostopekNI" value="true" checked={podatkiState.stecajniPostopekNI === true} onChange={HandleChangeInput}/>DA
+        <input type="radio" className="form-check-input" name="stecajniPostopekNI" value="false" checked={podatkiState.stecajniPostopekNI === false} onChange={HandleChangeInput}/>NE
     </div>
     <div className="vnosVrstica">
                     <label htmlFor="zaposlen">Zaposlen:</label>
-                    <input
+                    <input className="form-check-input"
                         type="radio"
                         name="zaposlen"
                         value="true"
                         checked={podatkiState.zaposlen === true}
                         onChange={handleChangeInput}
                     />DA
-                    <input
+                    <input className="form-check-input"
                         type="radio"
                         name="zaposlen"
                         value="false"
@@ -51,14 +51,14 @@ const OsnovniKriteriji = () => {
                 </div>
                 <div className="vnosVrstica">
                     <label htmlFor="upokojenec">Upokojenec:</label>
-                    <input
+                    <input className="form-check-input"
                         type="radio"
                         name="upokojenec"
                         value="true"
                         checked={podatkiState.upokojenec === true}
                         onChange={handleChangeInput}
                     />DA
-                    <input
+                    <input className="form-check-input"
                         type="radio"
                         name="upokojenec"
                         value="false"
