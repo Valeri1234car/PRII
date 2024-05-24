@@ -21,8 +21,10 @@ const VsaVnosna = () => {
         <ZaposlitevPodatki/>
         </div>
         <FinancnoPoslovanje/>
+        <div className="skupiKreZap1">
         <DrugiPodatki/>
         <SisbonPodatki/>
+        </div>
         <div><button className="btn btn-primary" onClick={()=>(setStran("Izpisi"))}>Naprej</button></div>
         </div>
     )

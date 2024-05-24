@@ -175,3 +175,11 @@ header {
   flex-direction: row;
   align-items: start;
 }
+
+.skupiKreZap1 {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  width: 70vw;
+  gap: 5rem;
+}
