@@ -147,7 +147,7 @@ function App() {
                 <div className='pdfBesedilo'><PdfBesedilo /></div>
                 <div className="main">
                     {stran === "Domov" && <VsaVnosna />}
-                    {stran === "Izpisi" && (<><BonitetnaOcena /><button className="btn btn-primary" onClick={() => setStran("Domov")}>Nazaj</button>
+                    {stran === "Izpisi" && (<><IzpisVnesenihPodatkov /><button className="btn btn-primary" onClick={() => setStran("Domov")}>Nazaj</button>
                     </>)}
                 </div>
             </PodatkiContext.Provider>
