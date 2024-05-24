@@ -173,7 +173,7 @@ const BonitetnaOcena = () =>{
     return(
         
         
-        <div className="container">
+        <div className="container bonitetnaOcena">
             <h1>Bonitetna ocena Tockovanje</h1>
                 <div className="moduli">
                     <div className="modulA">
@@ -250,10 +250,10 @@ const BonitetnaOcena = () =>{
                     <div className="modulB">
                     <table className="table table-striped table-dark">
                             <tr>
-                                <th>MODUL B</th>
-                                <th>Vrednost</th>
-                                <th>Max</th>
-                                <th>Rezultati</th>
+                                <th className="col">MODUL B</th>
+                                <th className="col">Vrednost</th>
+                                <th className="col">Max</th>
+                                <th className="col">Rezultati</th>
                             </tr>
                             <tr>
                                 <td>SISBON - NEODPLAČAN DEL OBVEZNOSTI / Rubljivi dohodki</td>
@@ -297,10 +297,10 @@ const BonitetnaOcena = () =>{
                      <div className="modulA+B">
                         <table>
                             <tr>
-                                <th>MODUL A IN MODUL B (PONDERIRANO)</th>
-                                <td>{modulC.ponder}</td>
-                                <td></td>
-                                <th>{modulC.skupnoTockovanje}</th>
+                                <th className="col">MODUL A IN MODUL B (PONDERIRANO)</th>
+                                <td className="col">{modulC.ponder}</td>
+                                <td className="col"></td>
+                                <th className="col">{modulC.skupnoTockovanje}</th>
                             </tr>
                         </table>
                     </div>
