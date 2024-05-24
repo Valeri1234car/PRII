@@ -170,7 +170,8 @@ header {
   background-color: #343a40; /* Tamnija siva boja */
 }
 
-/* .bonitetnaOcena{
-  background-color: white;
-  color: black;
-} */
+.skupiKreZap {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+}

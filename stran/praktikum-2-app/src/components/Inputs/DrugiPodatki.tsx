@@ -15,11 +15,11 @@ const DrugiPodatki = () => {
 
     return(
         <div className="vnosItem">
-            <h2 className="mb-4 text-success fw-bold">Drugi podatki</h2>
+            <h2 className="mb-4 text-success text-black">Drugi podatki</h2>
             <div className="vnosnaPolja">
                 <div className="mb-3">
                     <label htmlFor="izobrazba" className="form-label">Izobrazba:</label>
-                    <input type="text" className="form-control" name="izobrazba" value={podatkiState.izobrazba} onChange={HandleChange} style={{ borderColor: 'navy', color: 'navy' }} />
+                    <input type="text" className="form-control" name="izobrazba" value={podatkiState.izobrazba} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }} />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">(So)Lastništvo nepremičnin:</label>
@@ -34,7 +34,7 @@ const DrugiPodatki = () => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="stVzdrzevanihDruzinskihClanov" className="form-label">Število vzdrževanih družinskih članov:</label>
-                    <input type="number" className="form-control" name="stVzdrzevanihDruzinskihClanov" value={podatkiState.stVzdrzevanihDruzinskihClanov} onChange={HandleChange} style={{ borderColor: 'navy', color: 'navy' }} />
+                    <input type="number" className="form-control" name="stVzdrzevanihDruzinskihClanov" value={podatkiState.stVzdrzevanihDruzinskihClanov} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }} />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Ali je partner zaposlen?:</label>
@@ -71,7 +71,7 @@ const DrugiPodatki = () => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="znesekMesecnePrezivnine" className="form-label">Znesek mesečne preživnine:</label>
-                    <input type="number" className="form-control" name="znesekMesecnePrezivnine" value={podatkiState.znesekMesecnePrezivnine} onChange={HandleChange} style={{ borderColor: 'navy', color: 'navy' }} />
+                    <input type="number" className="form-control" name="znesekMesecnePrezivnine" value={podatkiState.znesekMesecnePrezivnine} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }} />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Sum na razne oblike odvisnosti, sumljive prakse pri najemanju kredita:</label>
