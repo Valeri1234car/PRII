@@ -11,7 +11,7 @@ const PdfBesedilo = () => {
                     <div className="card">
                         <div className="card-body">
                             <pre className="card-text text-center" style={{ fontSize: '1.2rem', fontFamily: 'Arial' }}>
-                                {/* {pdfText} */}
+                                {pdfText}
                             </pre>
                         </div>
                     </div>
