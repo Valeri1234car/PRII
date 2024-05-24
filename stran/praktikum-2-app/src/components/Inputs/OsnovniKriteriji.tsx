@@ -15,7 +15,7 @@ const OsnovniKriteriji = () => {
 
     return (
         <div className="vnosItem">
-            <h2 className="mb-4 text-danger fw-bold">Izpolnjevanje osnovnih kriterijev</h2>
+            <h2 className="mb-4 text-primary text-dark">Izpolnjevanje osnovnih kriterijev</h2>
             <div className="vnosnaPolja">
     <div className="vnosVrstica">
         <label htmlFor="drzavljanRS">Državljan Republike Slovenije:</label>

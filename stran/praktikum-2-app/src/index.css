@@ -169,3 +169,9 @@ header {
 .header-container {
   background-color: #343a40; /* Tamnija siva boja */
 }
+
+.skupiKreZap {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+}

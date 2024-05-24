@@ -15,9 +15,11 @@ const VsaVnosna = () => {
     return(
         <div className="vsaVnosna">
         <OsebniPodatki/>
+        <div className="skupiKreZap">
         <OsnovniKriteriji/>
         <KreditMinilon/>
         <ZaposlitevPodatki/>
+        </div>
         <FinancnoPoslovanje/>
         <DrugiPodatki/>
         <SisbonPodatki/>

@@ -23,7 +23,7 @@ const KreditMinilon = () =>{
 
     return(
         <div className="vnosItem">
-            <h2 className="mb-4 text-success fw-bold">Kredit Minilon</h2>
+            <h2 className="mb-4 text-primary text-dark">Kredit Minilon</h2>
             <div className="vnosnaPolja">
                 <div className="mb-3">
                     <label htmlFor="zaproseniKredit" className="form-label">Zaproseni znesek kredita u EUR:</label>
