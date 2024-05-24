@@ -1,17 +1,22 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
 import Menu from './components/Menu/Menu';
 import OsebniPodatki from './components/Inputs/OsebniPodatki';
 import { Podatki } from './interface/Podatki';
-import BonitetnaOcena from './components/BonitetnaOcena';
+import BonitetnaOcena from './components/IzpisVnesenihPodatkov';
 import { Promet } from './interface/Podatki';
 import VsaVnosna from './components/Inputs/VsaVnosna';
 import VnosnoPolje from './components/Inputs/PdfReader';
 import PdfBesedilo from './components/Inputs/PdfBesedilo';
+import IzpisVnesenihPodatkov from './components/IzpisVnesenihPodatkov';
+import { ModulA, LikvidnostNeizvrseniTrajniNalogi, LikvidnostBancniPoboti,LikvidnostStIzvrsbTRR,BonitetaDelodajalca, Izobrazba } from './interface/ModulA';
+import { ModulB, SisbonNeoplacanDelObveznosti,SisbonZapadliDolg,SisbonIzterjava,SisbonIzvrsba } from './interface/ModulB';
+import { ModulC } from './interface/ModulC';
 
 export const PodatkiContext = createContext<any>(null);
+
 
 const initialPromet: Promet = {
     t1: 0,
@@ -63,10 +68,55 @@ const initialPodatki: Podatki = {
     sisbonOmejitevTRR: false,
 };
 
+const initialModulA:ModulA={
+    likvidnostNeizvrseniTrajniNalogiRez:0,
+    likvidnostBancniPobotiRez:0,
+    likvidnostStIzvrsbTRRRez:0,
+    razmerjeObveznostiKreditiDohodkiRez:0,
+    presezekDohodkovNerubljivRez: 0,
+    lastnistvoNepremicnineRez:0,
+    bonitetaDelodajalcaRez:0,
+    zaposlitevPartnerjaRez:0,
+    izobrazbaRez:0,
+    // likvidnostNeizvrseniTrajniNalogiRez:0,
+    // likvidnostBancniPobotiRez:0,
+    // likvidnostStIzvrsbTRRRez:0,
+    razmerjeObveznostiKreditiDohodki:0,
+    presezekDohodkovNerubljiv: 0,
+    // lastnistvoNepremicnineRez:0,
+    // bonitetaDelodajalcaRez:0,
+    // zaposlitevPartnerjaRez:0,
+    // izobrazbaRez:0,
+    skupnoTock:0,
+
+}
+const initialModulB:ModulB={
+    
+        SISBONneodplacanDelObveznostiRez:0,
+        SISBONzapadliDolgRez:0,
+        SISBONizterjavaRez:0,
+        SISBONizvrsbaRez:0,
+        SISBONomejitevUporabeTrrRez:0,
+        SISBONneodplacanDelObveznosti:0,
+        SISBONzapadliDolg:0,
+        SISBONizterjava:0,
+        SISBONizvrsba:0,
+        skupneTocke:0,
+    
+}
+
+const initialModulC:ModulC = {
+    ponder:0.5,
+    skupnoTockovanje:0
+}
+
 function App() {
     const [stran, setStran] = useState("Domov");
     const [podatkiState, setPodatkiState] = useState(initialPodatki);
     const [pdfText, setPdfText] = useState("");
+    const [modulA, setModula] = useState(initialModulA);
+    const[modulB, setModulB] = useState(initialModulB);
+    const[modulC, setModulC] = useState(initialModulC);
 
     const HandleChange = (e: any) => {
         const { name, value } = e.target;
@@ -84,9 +134,12 @@ function App() {
         }));
     };
 
+
+    
+
     return (
         <>
-            <PodatkiContext.Provider value={{ podatkiState, setPodatkiState, setStran, HandleChange, HandleChangeInput, pdfText, setPdfText }}>
+            <PodatkiContext.Provider value={{ podatkiState, setPodatkiState, setStran, HandleChange, HandleChangeInput, pdfText, setPdfText, modulA, setModula,modulB, setModulB, modulC, setModulC }}>
                 <Menu />
                 <div className='oknoDrag'>
                     <VnosnoPolje />
@@ -94,7 +147,7 @@ function App() {
                 <div className='pdfBesedilo'><PdfBesedilo /></div>
                 <div className="main">
                     {stran === "Domov" && <VsaVnosna />}
-                    {stran === "Izpisi" && (<><BonitetnaOcena /><button className="btn btn-primary" onClick={() => setStran("Domov")}>Nazaj</button>
+                    {stran === "Izpisi" && (<><IzpisVnesenihPodatkov /><button className="btn btn-primary" onClick={() => setStran("Domov")}>Nazaj</button>
                     </>)}
                 </div>
             </PodatkiContext.Provider>
