@@ -177,7 +177,7 @@ const BonitetnaOcena = () =>{
             <h1>Bonitetna ocena Tockovanje</h1>
                 <div className="moduli" style={{ borderColor: 'black', color: 'black'}}>
                     <div className="modulA">
-                        <table className="table table-striped table-dark" style={{ borderColor: 'black'}}>
+                        <table className="table table-striped table-secondary" style={{ borderColor: 'secondary'}}>
                         <thead>
                         
                             <tr>
@@ -252,7 +252,7 @@ const BonitetnaOcena = () =>{
                         </table>
                     </div>
                     <div className="modulB">
-                    <table className="table table-striped table-dark" style={{ borderColor: 'black', color: 'black'}}>
+                    <table className="table table-striped table-secondary" style={{ borderColor: 'secondary', color: 'black'}}>
                     <thead>
                             <tr>
                                 <th className="col">MODUL B</th>
@@ -303,7 +303,7 @@ const BonitetnaOcena = () =>{
                         </table>
                     </div>
                      <div className="modulA+B">
-                        <table className="table table-striped table-dark">
+                        <table className="table table-striped table-secondary" style={{ borderColor: 'secondary'}}>
                             <thead>
                             <tr>
                                 <th className="col">MODUL A IN MODUL B (PONDERIRANO)</th>
