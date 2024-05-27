@@ -123,6 +123,8 @@ const PdfReader: React.FC = () => {
         return relevantInfo;
     };
 
+   
+
     const processFiles = async (files: FileList) => {
         setLoading(true);
         let textContent = '';
@@ -136,6 +138,23 @@ const PdfReader: React.FC = () => {
         const relevantInfo = extractRelevantInfo(textContent);
         const [day, month, year] = relevantInfo.birthDate.split('.');
         const formattedDate = `${year}-${month}-${day}`;
+
+        const birthDate = new Date(year, month - 1, day);
+        const today = new Date();
+        const dob = new Date(birthDate);
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+            age--;
+        }
+
+        // if (age >= 18) {
+        //     setPodatkiState({ ...podatkiState, starost18: true });
+        // } else {
+        //     setPodatkiState({ ...podatkiState,starost18: false });
+        // }
+       
         setPodatkiState({
             ...podatkiState,
             ime: relevantInfo.name,
@@ -143,8 +162,9 @@ const PdfReader: React.FC = () => {
             naslov: relevantInfo.address + ", " +relevantInfo.naslovNaslov,
             naslovNaslov: relevantInfo.naslovNaslov,
             datumRojstva: formattedDate,
+            starost:age,
             drzavljanRS: relevantInfo.sloveniaCitizen,
-            // starost18: relevantInfo.isAdult,
+            starost18: age>=18 ? true : false,
             stecajniPostopekNI: relevantInfo.isNotInBankruptcy,
         zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
         zaposlen: relevantInfo.isEmployed,
