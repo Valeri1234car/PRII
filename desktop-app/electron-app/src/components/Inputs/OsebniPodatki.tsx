@@ -23,9 +23,9 @@ const OsebniPodatki = () => {
         if (age >= 18) {
             setPodatkiState({ ...podatkiState, starost: age, starost18: true });
         } else {
-            setPodatkiState({ ...podatkiState, starost: age,starost18: false });
+            setPodatkiState({ ...podatkiState, starost: age });
         }
-    }, [podatkiState.datumRojstva,]);
+    }, [podatkiState.datumRojstva]);
 
     return (
         <div className="vnosItem">
