@@ -8,6 +8,7 @@ import { useContext } from "react"
 import { PodatkiContext } from "../../App"
 import VnosnoPolje from "./PdfReader"
 import SisbonPodatki from "./SisbonPodatki"
+import ExcelDownload from "../ExcelDownload"
 const VsaVnosna = () => {
 
     const {setStran} = useContext(PodatkiContext);
@@ -26,6 +27,7 @@ const VsaVnosna = () => {
         <SisbonPodatki/>
         </div>
         <div><button className="btn btn-primary" onClick={()=>(setStran("Izpisi"))}>Naprej</button></div>
+        <ExcelDownload/>
         </div>
     )
 }
