@@ -124,14 +124,33 @@ const PdfReader: React.FC = () => {
         return relevantInfo;
     };
 
-    const extractAdditionalInfo = (textContent: string, month: string) => {
-        const prometeVBreme = textContent.match(/Promet v breme: ([\d.,]+)/)?.[1] || '0';
-        const prometeVDobro = textContent.match(/Promet v dobro: ([\d.,]+)/)?.[1] || '0';
-        const stanje = textContent.match(/Novo stanje na računu \(v EUR\): (-?\d+(?:[.,]\d+)?)/)?.[1] || '0';
-
-        console.log("to je stanje:" + stanje);
-        const placa = textContent.match(/PLACA REDNO DNALOG\d+ ([\d.,]+)/)?.[1] || '0';
-
+    const extractAdditionalInfo = (textContent, month) => {
+        console.log("Extracted text content for month ", month, ":\n", textContent);
+    
+        const prometeVBreme = textContent.match(/Promet v breme:\s*([\d.,]+)/)?.[1] || '0';
+        const prometeVDobro = textContent.match(/Promet v dobro:\s*([\d.,]+)/)?.[1] || '0';
+    
+        const stanjeRegex = /Novo stanje na racunu \(v EUR\):\s*(-?\d{1,3}(?:\.\d{3})*(?:,\d+)?)/;
+        const matchStanje = textContent.match(stanjeRegex);
+        let stanje = '0';
+        if (matchStanje) {
+            stanje = matchStanje[1];
+            stanje = formatNumber(parseRawNumber(stanje));
+        }
+        console.log(stanjeRegex);
+        console.log(matchStanje);
+        console.log("to je stanje: " + stanje);
+    
+        const placaRegex = /PLACA\s+REDNO\s+DNALOG\d+\s+(\d+\.\d+)/;
+        const matchPlaca = textContent.match(placaRegex);
+        let placa = '0';
+        if (matchPlaca) {
+            placa = matchPlaca[1];
+            placa = insertCommaBeforeLastTwoDigits(placa);
+        }
+        console.log(matchPlaca);
+        console.log("to je placa: " + placa);
+    
         setPdfData((prevData) => ({
             ...prevData,
             [month]: {
@@ -142,18 +161,43 @@ const PdfReader: React.FC = () => {
             },
         }));
     };
+    
+    const parseRawNumber = (raw) => {
+        if (raw.includes(',')) {
+            if (raw.lastIndexOf(',') > raw.lastIndexOf('.')) {
+                raw = raw.replace(/\./g, '').replace(',', '.');
+            } else {
+                raw = raw.replace(/,/g, '');
+            }
+        }
+        return parseFloat(raw);
+    };
+    
+    const formatNumber = (number) => {
+        return number.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
+    
+    const insertCommaBeforeLastTwoDigits = (raw) => {
+        const len = raw.length;
+        const integerPart = raw.substring(0, len - 2);
+        const decimalPart = raw.substring(len - 2);
+        return integerPart + ',' + decimalPart;
+    };
+    
 
     const processFiles = async (files: FileList) => {
-        setLoading(true);
         let textContent = '';
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const month = file.name.split('-')[1].split('.')[0];
-            textContent += await convertPdfToImagesAndExtractText(file);
-            extractAdditionalInfo(textContent, month);
-        }
+        setLoading(true);
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const month = file.name.split('-')[1].split('.')[0];
+        const fileTextContent = await convertPdfToImagesAndExtractText(file);
+        console.log("Text content for file", file.name, ":\n", fileTextContent);
 
-        setPdfText(`Full Text Content:\n\n${textContent}`);
+        extractAdditionalInfo(fileTextContent, month);
+    }
+
+    setPdfText(`Full Text Content:\n\n${textContent}`);
 
         const relevantInfo = extractRelevantInfo(textContent);
         const [day, month, year] = relevantInfo.birthDate.split('.');
