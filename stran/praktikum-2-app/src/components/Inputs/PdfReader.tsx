@@ -10,6 +10,7 @@ const PdfReader: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
     const { setPdfText, setPodatkiState, podatkiState } = useContext(PodatkiContext);
+    const [pdfData, setPdfData] = useState<{ [key: string]: any }>({});
 
     const handleDragOver = (event: React.DragEvent) => {
         event.preventDefault();
@@ -39,15 +40,15 @@ const PdfReader: React.FC = () => {
         const surname = matchName ? matchName[2] : '';
 
         const naslovRegex = /Kraj:\s*(.+)/i;
-        const naslovIme = textContent.match(naslovRegex)
+        const naslovIme = textContent.match(naslovRegex);
         const naslovNaslov = naslovIme ? naslovIme[1] : '';
-        console.log(naslovNaslov)
+        console.log(naslovNaslov);
 
         const addressRegex = /Ulica in hina 3tevilka:\s*(.+)/i;
         const matchAddress = textContent.match(addressRegex);
         const address = matchAddress ? matchAddress[1] : '';
-        console.log(addressRegex)
-        console.log("adress" +matchAddress)
+        console.log(addressRegex);
+        console.log("address" + matchAddress);
 
         const birthDateRegex = /Datum rojstva:\s*(\d{2}\.\d{1,2}\.\d{4})/;
         const matchBirthDate = textContent.match(birthDateRegex);
@@ -67,60 +68,79 @@ const PdfReader: React.FC = () => {
         const isNotInBankruptcy = matchBankruptcy ? matchBankruptcy[1].toLowerCase() === 'ne' : false;
 
         const employmentRegex = /Status zaposlitve:\s*(\w+)/i;
-    const matchEmployment = textContent.match(employmentRegex);
-    let isEmployedOrRetired = false;
-    let isEmployed = false;
-    let isRetired = false;
+        const matchEmployment = textContent.match(employmentRegex);
+        let isEmployedOrRetired = false;
+        let isEmployed = false;
+        let isRetired = false;
 
-    if (matchEmployment) {
-        const employmentStatus = matchEmployment[1].toLowerCase();
-        console.log('Employment Status:', employmentStatus);
-        if (employmentStatus === 'zaposlen') {
-            isEmployed = true;
-            isEmployedOrRetired = true;
-        } else {
-            isRetired = true;
-            isEmployedOrRetired = true;
+        if (matchEmployment) {
+            const employmentStatus = matchEmployment[1].toLowerCase();
+            console.log('Employment Status:', employmentStatus);
+            if (employmentStatus === 'zaposlen') {
+                isEmployed = true;
+                isEmployedOrRetired = true;
+            } else {
+                isRetired = true;
+                isEmployedOrRetired = true;
+            }
         }
-    }
-    const loanAmountRegex = /Znesek kredita \(v EUR\):\s*([\d.,]+)\s*EUR/;
-    const matchLoanAmount = textContent.match(loanAmountRegex);
-    const loanAmount = matchLoanAmount ? convertToNumber(matchLoanAmount[1]) : 0;
 
-    const repaymentPeriodRegex = /doba odplatevanja \(v mesecih\):\s*(\d+)\s*mesec/i;
-    const matchRepaymentPeriod = textContent.match(repaymentPeriodRegex);
-    const repaymentPeriod = matchRepaymentPeriod ? parseInt(matchRepaymentPeriod[1]) : 0;
+        const loanAmountRegex = /Znesek kredita \(v EUR\):\s*([\d.,]+)\s*EUR/;
+        const matchLoanAmount = textContent.match(loanAmountRegex);
+        const loanAmount = matchLoanAmount ? convertToNumber(matchLoanAmount[1]) : 0;
 
-    const stopnjaIzobrazbe1 = /Stopnja izobrazbe:\s*(.+)/i;
-    const stopnjaIzobrazbe2 = textContent.match(stopnjaIzobrazbe1);
-    const stopnjaIzobrazbe3 = stopnjaIzobrazbe2 ? stopnjaIzobrazbe2[1] : '';
-    console.log("izobrazba"+ stopnjaIzobrazbe2)
-    
-    const steviloClanov1 = /Stevilo vzdrievanih druzinskih élanov:\s*(.+)/; 
-    const steviloClanov2 = textContent.match(steviloClanov1);
-    const steviloClanov3 = steviloClanov2 ? steviloClanov2[1] : '';
-    console.log("izobrazba"+ steviloClanov2)
-    
-    const relevantInfo = {
-        name,
-        surname,
-        address,
-        naslovNaslov,
-        birthDate,
-        sloveniaCitizen,
-        isAdult,
-        isNotInBankruptcy,
-        isEmployedOrRetired,
-        isEmployed,
-        isRetired,
-        loanAmount,
-        repaymentPeriod,
-        stopnjaIzobrazbe3,
-        steviloClanov3,
-    };
+        const repaymentPeriodRegex = /doba odplatevanja \(v mesecih\):\s*(\d+)\s*mesec/i;
+        const matchRepaymentPeriod = textContent.match(repaymentPeriodRegex);
+        const repaymentPeriod = matchRepaymentPeriod ? parseInt(matchRepaymentPeriod[1]) : 0;
 
+        const stopnjaIzobrazbe1 = /Stopnja izobrazbe:\s*(.+)/i;
+        const stopnjaIzobrazbe2 = textContent.match(stopnjaIzobrazbe1);
+        const stopnjaIzobrazbe3 = stopnjaIzobrazbe2 ? stopnjaIzobrazbe2[1] : '';
+        console.log("izobrazba" + stopnjaIzobrazbe2);
+
+        const steviloClanov1 = /Stevilo vzdrievanih druzinskih élanov:\s*(.+)/;
+        const steviloClanov2 = textContent.match(steviloClanov1);
+        const steviloClanov3 = steviloClanov2 ? steviloClanov2[1] : '';
+        console.log("izobrazba" + steviloClanov2);
+
+        const relevantInfo = {
+            name,
+            surname,
+            address,
+            naslovNaslov,
+            birthDate,
+            sloveniaCitizen,
+            isAdult,
+            isNotInBankruptcy,
+            isEmployedOrRetired,
+            isEmployed,
+            isRetired,
+            loanAmount,
+            repaymentPeriod,
+            stopnjaIzobrazbe3,
+            steviloClanov3,
+        };
 
         return relevantInfo;
+    };
+
+    const extractAdditionalInfo = (textContent: string, month: string) => {
+        const prometeVBreme = textContent.match(/Promet v breme: ([\d.,]+)/)?.[1] || '0';
+        const prometeVDobro = textContent.match(/Promet v dobro: ([\d.,]+)/)?.[1] || '0';
+        const stanje = textContent.match(/Novo stanje na računu \(v EUR\): (-?\d+(?:[.,]\d+)?)/)?.[1] || '0';
+
+        console.log("to je stanje:" + stanje);
+        const placa = textContent.match(/PLACA REDNO DNALOG\d+ ([\d.,]+)/)?.[1] || '0';
+
+        setPdfData((prevData) => ({
+            ...prevData,
+            [month]: {
+                prometeVBreme,
+                prometeVDobro,
+                stanje,
+                placa,
+            },
+        }));
     };
 
     const processFiles = async (files: FileList) => {
@@ -128,7 +148,9 @@ const PdfReader: React.FC = () => {
         let textContent = '';
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
+            const month = file.name.split('-')[1].split('.')[0];
             textContent += await convertPdfToImagesAndExtractText(file);
+            extractAdditionalInfo(textContent, month);
         }
 
         setPdfText(`Full Text Content:\n\n${textContent}`);
@@ -140,20 +162,20 @@ const PdfReader: React.FC = () => {
             ...podatkiState,
             ime: relevantInfo.name,
             priimek: relevantInfo.surname,
-            naslov: relevantInfo.address + ", " +relevantInfo.naslovNaslov,
+            naslov: relevantInfo.address + ", " + relevantInfo.naslovNaslov,
             naslovNaslov: relevantInfo.naslovNaslov,
             datumRojstva: formattedDate,
             drzavljanRS: relevantInfo.sloveniaCitizen,
             // starost18: relevantInfo.isAdult,
             stecajniPostopekNI: relevantInfo.isNotInBankruptcy,
-        zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
-        zaposlen: relevantInfo.isEmployed,
-        upokojenec: relevantInfo.isRetired,
-        zaproseniKredit: relevantInfo.loanAmount,
-        rokVracila: relevantInfo.repaymentPeriod,
-        izobrazba: relevantInfo.stopnjaIzobrazbe3,
-        stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
-    });
+            zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
+            zaposlen: relevantInfo.isEmployed,
+            upokojenec: relevantInfo.isRetired,
+            zaproseniKredit: relevantInfo.loanAmount,
+            rokVracila: relevantInfo.repaymentPeriod,
+            izobrazba: relevantInfo.stopnjaIzobrazbe3,
+            stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
+        });
 
         setLoading(false);
     };
@@ -185,6 +207,8 @@ const PdfReader: React.FC = () => {
                         textContent += text + '\n';
                     }
                     resolve(textContent);
+                } else {
+                    reject('Failed to read the file');
                 }
             };
             reader.readAsArrayBuffer(file);
@@ -205,7 +229,6 @@ const PdfReader: React.FC = () => {
         });
     };
 
-
     if (files) return (
         <div className="uploads">
             <ul>
@@ -215,6 +238,18 @@ const PdfReader: React.FC = () => {
                 <button className="btn btn-primary" onClick={() => setFiles(null)}>Cancel</button>
             </div>
             {loading && <p>Processing...</p>}
+            <div>
+                <h2>PDF Data:</h2>
+                {Object.entries(pdfData).map(([month, data]) => (
+                    <div key={month}>
+                        <h3>{month}</h3>
+                        <p>Mesecni promet v breme: {data.prometeVBreme}</p>
+                        <p>Mesecni promet v dobro: {data.prometeVDobro}</p>
+                        <p>Stanje na TRR: {data.stanje}</p>
+                        <p>Znesek prejemkov: {data.placa}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 
