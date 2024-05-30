@@ -8,6 +8,7 @@ import { useContext } from "react"
 import { PodatkiContext } from "../../App"
 import VnosnoPolje from "./PdfReader"
 import SisbonPodatki from "./SisbonPodatki"
+import FinancniIzpiski from "./FinancniIzpiski.tsx";
 const VsaVnosna = () => {
 
     const {setStran} = useContext(PodatkiContext);
@@ -24,7 +25,9 @@ const VsaVnosna = () => {
         <div className="skupiKreZap1">
         <DrugiPodatki/>
         <SisbonPodatki/>
+
         </div>
+            <FinancniIzpiski />
         <div><button className="btn btn-primary" onClick={()=>(setStran("Izpisi"))}>Naprej</button></div>
         </div>
     )
