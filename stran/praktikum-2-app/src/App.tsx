@@ -18,6 +18,8 @@ import { ModulC } from './interface/ModulC';
 export const PodatkiContext = createContext<any>(null);
 
 
+
+
 const initialPromet: Promet = {
     t1: 0,
     t2: 0,
@@ -135,11 +137,19 @@ function App() {
     };
 
 
-    
+    const [data, setData] = useState({
+        mesecniPrometDobro: { t1: 0, t2: 0, t3: 0 },
+        mesecniPrometBreme: { t1: 0, t2: 0, t3: 0 },
+        stanjeTRR: { t1: 0, t2: 0, t3: 0 },
+        znesekPrejemkovPokojnina: { t1: 0, t2: 0, t3: 0 },
+    });
+
+
+
 
     return (
         <>
-            <PodatkiContext.Provider value={{ podatkiState, setPodatkiState, setStran, HandleChange, HandleChangeInput, pdfText, setPdfText, modulA, setModula,modulB, setModulB, modulC, setModulC }}>
+            <PodatkiContext.Provider value={{ podatkiState, setPodatkiState, setStran, HandleChange, HandleChangeInput, pdfText, setPdfText, modulA, setModula,modulB, setModulB, modulC, setModulC,data, setData }}>
                 <Menu />
                 {stran =="Domov" && <div className='oknoDrag'><VnosnoPolje /></div>}
                 

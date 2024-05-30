@@ -11,6 +11,7 @@ const PdfReader: React.FC = () => {
     const inputRef = useRef<HTMLInputElement>(null);
     const { setPdfText, setPodatkiState, podatkiState } = useContext(PodatkiContext);
     const [pdfData, setPdfData] = useState<{ [key: string]: any }>({});
+    const { setData } = useContext(PodatkiContext);
 
     const handleDragOver = (event: React.DragEvent) => {
         event.preventDefault();
@@ -126,10 +127,10 @@ const PdfReader: React.FC = () => {
 
     const extractAdditionalInfo = (textContent, month) => {
         console.log("Extracted text content for month ", month, ":\n", textContent);
-    
+
         const prometeVBreme = textContent.match(/Promet v breme:\s*([\d.,]+)/)?.[1] || '0';
         const prometeVDobro = textContent.match(/Promet v dobro:\s*([\d.,]+)/)?.[1] || '0';
-    
+
         const stanjeRegex = /Novo stanje na racunu \(v EUR\):\s*(-?\d{1,3}(?:\.\d{3})*(?:,\d+)?)/;
         const matchStanje = textContent.match(stanjeRegex);
         let stanje = '0';
@@ -140,26 +141,53 @@ const PdfReader: React.FC = () => {
         console.log(stanjeRegex);
         console.log(matchStanje);
         console.log("to je stanje: " + stanje);
-    
-        const placaRegex = /PLACA\s+REDNO\s+DNALOG\d+\s+(\d+\.\d+)/;
-        const matchPlaca = textContent.match(placaRegex);
+
+
+        const placaRegexes = [
+            'PLACA\\s+REDNO\\s+DNALOGO\\d+\\s+(-?\\d+\\.\\d+)',
+            /PLACA\s+REDNO\s+DNALOG\d+\s+([\d.,]+)/,
+            /PLACA\s+REDNO\s+DNALOGO\d+\s+([\d.,]+)/,
+            /Placa\s+\d+\s+([\d.,]+)/,
+            /Placa\s+([\d.,]+)/,
+            /PLACA\s+\d+\s+REDNO\s+DNALOG\d+\s+([\d.,]+)/,
+
+        ];
+
         let placa = '0';
-        if (matchPlaca) {
-            placa = matchPlaca[1];
+        let allMatches = [];
+
+        for (const regex of placaRegexes) {
+            const matchPlaca = textContent.match(regex);
+            if (matchPlaca) {
+                allMatches.push(matchPlaca[1]);
+            }
+        }
+
+        if (allMatches.length > 0) {
+            // Ako pronađemo bilo koju podudarnost, uzimamo prvu i formatiramo je
+            placa = allMatches[0];
             placa = insertCommaBeforeLastTwoDigits(placa);
         }
-        console.log(matchPlaca);
+
+        // Ispišite sve podudarnosti za dijagnostiku
+        console.log("Sve podudarnosti za placa: ", allMatches);
         console.log("to je placa: " + placa);
-    
-        setPdfData((prevData) => ({
-            ...prevData,
-            [month]: {
-                prometeVBreme,
-                prometeVDobro,
-                stanje,
-                placa,
-            },
-        }));
+
+        setPdfData((prevData) => {
+            const newData = {
+                ...prevData,
+                [month]: {
+                    prometeVBreme,
+                    prometeVDobro,
+                    stanje,
+                    placa,
+                },
+            };
+
+            setData(newData); // Ovde ažurirate podatke u kontekstu
+
+            return newData;
+        });
     };
     
     const parseRawNumber = (raw) => {
