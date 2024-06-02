@@ -329,9 +329,7 @@ const PdfReader: React.FC = () => {
         <>
             <div className="container mt-5">
                 <div
-                    className="border border-primary p-3 text-center border-dashed mx-auto"
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
+                    className="border border-secondary p-3 text-center border-dashed mx-auto rounded"onDrop={handleDrop}
                     style={{ maxWidth: '400px' }}
                 >
                     <h1 className="mb-4 text-white">Drag and drop</h1>
