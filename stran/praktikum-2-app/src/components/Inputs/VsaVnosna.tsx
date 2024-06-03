@@ -18,14 +18,14 @@ const VsaVnosna: React.FC = () => {
             <div className="pravougaonik">
                 <OsebniPodatki />
             </div>
-            <div className="container">
-                <div className="pravougaonik">
+            <div className="container123">
+                <div className="pravougaonik1">
                     <OsnovniKriteriji />
                 </div>
-                <div className="pravougaonik">
+                <div className="pravougaonik2">
                     <KreditMinilon />
                 </div>
-                <div className="pravougaonik">
+                <div className="pravougaonik1">
                     <ZaposlitevPodatki />
                 </div>
             </div>

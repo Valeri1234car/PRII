@@ -185,17 +185,10 @@ const PdfReader: React.FC = () => {
             };
 
             setData(newData); // Ovde ažurirate podatke u kontekstu
-
-            
-        
+            console.log(newData)
             return newData;
         });
     };
-
-    console.log(pdfData);
-
-    var arrayMesecev = Object.entries(pdfData)
-
     
     const parseRawNumber = (raw) => {
         if (raw.includes(',')) {
@@ -223,20 +216,39 @@ const PdfReader: React.FC = () => {
     const processFiles = async (files: FileList) => {
         let textContent = '';
         setLoading(true);
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const month = file.name.split('-')[1].split('.')[0];
-        const fileTextContent = await convertPdfToImagesAndExtractText(file);
-        console.log("Text content for file", file.name, ":\n", fileTextContent);
-
-        extractAdditionalInfo(fileTextContent, month);
-    }
-
-    setPdfText(`Full Text Content:\n\n${textContent}`);
-
+        const monthNames = [
+            'januar', 'februar', 'marec', 'april', 'maj', 'junij',
+            'julij', 'avgust', 'september', 'oktober', 'november', 'december'
+        ];
+    
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileName = file.name.toLowerCase();
+            let month = '';
+    
+            for (const monthName of monthNames) {
+                if (fileName.includes(monthName)) {
+                    month = monthName;
+                    break;
+                }
+            }
+    
+            if (!month) {
+                console.warn(`Could not determine month from file name "${file.name}"`);
+                continue;
+            }
+    
+            const fileTextContent = await convertPdfToImagesAndExtractText(file);
+            console.log(`Text content for file ${file.name}:\n${fileTextContent}`);
+    
+            extractAdditionalInfo(fileTextContent, month);
+        }
+    
+        setPdfText(`Full Text Content:\n\n${textContent}`);
+    
         const relevantInfo = extractRelevantInfo(textContent);
-        const [day, month, year] = relevantInfo.birthDate.split('.');
-        const formattedDate = `${year}-${month}-${day}`;
+        const [day, monthNumber, year] = relevantInfo.birthDate.split('.');
+        const formattedDate = `${year}-${monthNumber}-${day}`;
         setPodatkiState({
             ...podatkiState,
             ime: relevantInfo.name,
@@ -245,7 +257,6 @@ const PdfReader: React.FC = () => {
             naslovNaslov: relevantInfo.naslovNaslov,
             datumRojstva: formattedDate,
             drzavljanRS: relevantInfo.sloveniaCitizen,
-            // starost18: relevantInfo.isAdult,
             stecajniPostopekNI: relevantInfo.isNotInBankruptcy,
             zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
             zaposlen: relevantInfo.isEmployed,
@@ -255,10 +266,9 @@ const PdfReader: React.FC = () => {
             izobrazba: relevantInfo.stopnjaIzobrazbe3,
             stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
         });
-
+    
         setLoading(false);
     };
-
     const convertPdfToImagesAndExtractText = async (file: File) => {
         const reader = new FileReader();
         return new Promise<string>((resolve, reject) => {
@@ -326,7 +336,7 @@ const PdfReader: React.FC = () => {
                         <p>Mesecni promet v dobro: {data.prometeVDobro}</p>
                         <p>Stanje na TRR: {data.stanje}</p>
                         <p>Znesek prejemkov: {data.placa}</p>
-                    </div>
+                  </div>
                 ))}
             </div>
         </div>
@@ -334,7 +344,7 @@ const PdfReader: React.FC = () => {
 
     return (
         <>
-            <div className="container mt-5">
+            <div className="containerOknoDrag">
                 <div
                     className="border border-secondary p-3 text-center border-dashed mx-auto rounded"onDrop={handleDrop}
                     style={{ maxWidth: '400px' }}
