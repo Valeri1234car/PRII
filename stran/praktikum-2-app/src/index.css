@@ -72,6 +72,14 @@ button:focus-visible {
   margin: 0;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-basis: 0;
+  background-color: #28282b;
+}
+
 header {
   display: flex;
   align-items: center;
@@ -84,7 +92,7 @@ header {
 
 .main {
   /*background-image: url("../logo/images.jpg");*/
-  background: linear-gradient(to top, #D3D3D3 40%, #28282B 60%);
+  background: linear-gradient(to top, #d3d3d3 40%, #28282b 60%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -128,9 +136,8 @@ vsaVnosna {
   display: flex;
   flex-direction: column;
   gap: 50rem;
-  background: #D3D3D3;
+  background: #d3d3d3;
 }
-
 
 .vnosnoPoljePDF {
   display: flex;
@@ -142,8 +149,7 @@ vsaVnosna {
 }
 
 .oknoDrag {
-  /*background-image: url("../logo/images.jpg");*/
-  background-color: #28282B;
+  background-color: #28282b;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -176,7 +182,7 @@ vsaVnosna {
 }
 
 .header-container {
-  background-color: #28282B;
+  background-color: #28282b;
 }
 
 .skupiKreZap {
@@ -205,13 +211,84 @@ vsaVnosna {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Svetlo siva senka ispod */
 }
 
-.container {
+.pravougaonik1 {
   display: flex;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+  flex-basis: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-  }
+.pravougaonik2 {
+  display: flex;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+  flex-basis: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-inline: 1rem;
+}
+
+.containerOknoDrag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container123 {
+  display: flex;
+  flex-direction: row;
+  margin-right: 1rem;
+}
 
 .buttonContainer {
   margin-top: 1rem;
   text-align: center;
 }
 
+.border-dashed {
+  border: 2px dashed #d3d3d3;
+  background-color: #28282b;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.border-dashed:hover {
+  background-color: #41424c;
+  transform: scale(1.05);
+}
+
+.border-dashed h1 {
+  color: #d3d3d3;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary {
+  background-color: #d3d3d3 !important;
+  color: #28282b !important;
+  border-color: #d3d3d3 !important;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #c2c2c2 !important;
+  border-color: #c2c2c2 !important;
+  transform: scale(1.05);
+}
+
+.uploads {
+  color: white;
+}
