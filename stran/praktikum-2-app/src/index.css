@@ -84,7 +84,7 @@ header {
 
 .main {
   /*background-image: url("../logo/images.jpg");*/
-  background-color: #41424c;
+  background: linear-gradient(to top, #D3D3D3 40%, #28282B 60%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -112,16 +112,25 @@ header {
 }
 .vnosVrstica {
   display: flex;
-  gap: 1rem;
-}
-.vsaVnosna {
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  border-radius: 25px;
+  margin-bottom: 10px; /* Dodajte razmak između redova ako je potrebno */
 }
+.vnosVrstica label {
+  flex: 1;
+}
+
+.vnosVrstica .radio-group {
+  display: flex;
+  gap: 5%; /* Razmak između radio dugmića */
+}
+vsaVnosna {
+  display: flex;
+  flex-direction: column;
+  gap: 50rem;
+  background: #D3D3D3;
+}
+
 
 .vnosnoPoljePDF {
   display: flex;
@@ -134,7 +143,7 @@ header {
 
 .oknoDrag {
   /*background-image: url("../logo/images.jpg");*/
-  background-color: #41424c;
+  background-color: #28282B;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -158,16 +167,16 @@ header {
 .header-title {
   font-family: "Pacifico", cursive;
   font-size: 3rem;
-  color: #343a40;
+  color: white;
 }
 
 .header-logo {
-  width: 10%;
+  width: 20%;
   height: auto;
 }
 
 .header-container {
-  background-color: #343a40; /* Tamnija siva boja */
+  background-color: #28282B;
 }
 
 .skupiKreZap {
@@ -183,3 +192,26 @@ header {
   width: 70vw;
   gap: 5rem;
 }
+
+.pravougaonik {
+  background-color: #f8f9fa; /* Svetlo siva boja */
+  border: 1px solid #dee2e6; /* Blago siva ivica */
+  border-radius: 8px; /* Zaobljene ivice */
+  padding: 1rem; /* Unutrašnja margina */
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  flex-grow: 1;
+  flex-basis: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Svetlo siva senka ispod */
+}
+
+.container {
+  display: flex;
+
+  }
+
+.buttonContainer {
+  margin-top: 1rem;
+  text-align: center;
+}
+

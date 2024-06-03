@@ -1,36 +1,53 @@
-import DrugiPodatki from "./DrugiPodatki"
-import FinancnoPoslovanje from "./FinancnoPoslovanje"
-import KreditMinilon from "./KreditMinilon"
-import OsebniPodatki from "./OsebniPodatki"
-import OsnovniKriteriji from "./OsnovniKriteriji"
-import ZaposlitevPodatki from "./ZaposlitevPodatki"
-import { useContext } from "react"
-import { PodatkiContext } from "../../App"
-import VnosnoPolje from "./PdfReader"
-import SisbonPodatki from "./SisbonPodatki"
-import FinancniIzpiski from "./FinancniIzpiski.tsx";
-const VsaVnosna = () => {
+import React, { useContext } from "react";
+import DrugiPodatki from "./DrugiPodatki";
+import FinancnoPoslovanje from "./FinancnoPoslovanje";
+import KreditMinilon from "./KreditMinilon";
+import OsebniPodatki from "./OsebniPodatki";
+import OsnovniKriteriji from "./OsnovniKriteriji";
+import ZaposlitevPodatki from "./ZaposlitevPodatki";
+import { PodatkiContext } from "../../App";
+import VnosnoPolje from "./PdfReader";
+import SisbonPodatki from "./SisbonPodatki";
+import FinancniIzpiski from "./FinancniIzpiski";
 
-    const {setStran} = useContext(PodatkiContext);
+const VsaVnosna: React.FC = () => {
+    const { setStran } = useContext(PodatkiContext);
 
-    return(
+    return (
         <div className="vsaVnosna">
-        <OsebniPodatki/>
-        <div className="skupiKreZap">
-        <OsnovniKriteriji/>
-        <KreditMinilon/>
-        <ZaposlitevPodatki/>
+            <div className="pravougaonik">
+                <OsebniPodatki />
+            </div>
+            <div className="container">
+                <div className="pravougaonik">
+                    <OsnovniKriteriji />
+                </div>
+                <div className="pravougaonik">
+                    <KreditMinilon />
+                </div>
+                <div className="pravougaonik">
+                    <ZaposlitevPodatki />
+                </div>
+            </div>
+            <div className="pravougaonik">
+                <FinancnoPoslovanje />
+            </div>
+            <div className="pravougaonik">
+                <DrugiPodatki />
+            </div>
+            <div className="pravougaonik">
+            <SisbonPodatki />
+            </div>
+            <div className="pravougaonik">
+                <FinancniIzpiski />
+            </div>
+            <div className="buttonContainer">
+                <button className="btn btn-primary" onClick={() => setStran("Izpisi")}>
+                    Naprej
+                </button>
+            </div>
         </div>
-        <FinancnoPoslovanje/>
-        <div className="skupiKreZap1">
-        <DrugiPodatki/>
-        <SisbonPodatki/>
+    );
+};
 
-        </div>
-            <FinancniIzpiski />
-        <div><button className="btn btn-primary" onClick={()=>(setStran("Izpisi"))}>Naprej</button></div>
-        </div>
-    )
-}
-
-export default VsaVnosna
+export default VsaVnosna;
