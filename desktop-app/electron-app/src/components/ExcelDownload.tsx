@@ -86,25 +86,14 @@ const ExcelDownload = () => {
         // const workbook = XLSX.utils.book_new()
             const response = await fetch('/bonitetna-ocena-template.xlsx');
             const arrayBuffer = await response.arrayBuffer();
-            const workbook = XLSX.read(arrayBuffer, { type: 'buffer', cellStyles: true });
+            const workbook = XLSX.read(arrayBuffer, { type: 'buffer', cellStyles: false });
 
             const sheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[sheetName];
 
             
 
-            // excelPolja.forEach(item => {
-            //     const cell = item.cell;
-            //     if (!worksheet[cell]) worksheet[cell] = {};
-            //     worksheet[cell].v = item.value;
-            //     worksheet[cell].t = typeof item.value === 'string' ? 's' : 'n';
-                
-                
-            //     if (worksheet[cell].s) {
-            //         worksheet[cell].s = {...worksheet[cell].s};
-            //     }
-            // });
-
+           
             excelPolja.forEach(item => {
                 const cell = item.cell;
                 if (!worksheet[cell]) worksheet[cell] = {};
@@ -112,6 +101,8 @@ const ExcelDownload = () => {
                 worksheet[cell].t = typeof item.value === 'string' ? 's' : 'n';
                 worksheet[cell].s = item.style;
             });
+
+
 
             
             XLSX.writeFile(workbook,  podatkiState.priimek +'_'+ podatkiState.ime + '_bonitetnaOcena.xlsx', { bookType: 'xlsx', type: 'buffer', cellStyles: true });

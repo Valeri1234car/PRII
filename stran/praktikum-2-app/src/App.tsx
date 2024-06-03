@@ -27,6 +27,10 @@ const initialPromet: Promet = {
     povprecje: 0
 };
 
+
+
+
+
 const initialPodatki: Podatki = {
     ime: "",
     priimek: "",
