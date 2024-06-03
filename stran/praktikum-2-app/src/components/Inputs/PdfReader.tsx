@@ -185,7 +185,7 @@ const PdfReader: React.FC = () => {
             };
 
             setData(newData); // Ovde ažurirate podatke u kontekstu
-
+            console.log(newData)
             return newData;
         });
     };
