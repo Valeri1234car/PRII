@@ -13,10 +13,24 @@ const PdfReader: React.FC = () => {
     const { setPdfText, setPodatkiState, podatkiState } = useContext(PodatkiContext);
     const [pdfData, setPdfData] = useState<{ [key: string]: any }>({});
     const { data,setData } = useContext(PodatkiContext);
+    const [personalInfoFile, setPersonalInfoFile] = useState(null);
 
     const handleDragOver = (event: React.DragEvent) => {
         console.log('Drag over');
         event.preventDefault();
+    };
+
+    const handleProcessFiles = () => {
+        if (files && personalInfoFile) {
+            processFiles(files);
+            processFiles(personalInfoFile);
+        } else {
+            alert('TVOJA');
+        }
+    };
+
+    const fileOnChange = () =>{
+        
     };
 
     const handleDrop = (event: React.DragEvent) => {
@@ -30,7 +44,7 @@ const PdfReader: React.FC = () => {
         const files = event.target.files;
         if (files) {
             setFiles(files);
-            processFiles(files);
+            //processFiles(files);
         }
     };
 
@@ -198,23 +212,6 @@ const PdfReader: React.FC = () => {
 
         
     };
-
-    
-
-
-   
-        
-
-      
-    // console.log(prometeVBremeValues);
-    // function convertToNumberr(formattedNumber){
-    //     if (!formattedNumber) return 0; // handle undefined or null values gracefully
-    //     return parseFloat(formattedNumber.replace('.', '').replace(',', '.'));
-    // };
-
-
-    
-    
     const parseRawNumber = (raw) => {
         if (raw.includes(',')) {
             if (raw.lastIndexOf(',') > raw.lastIndexOf('.')) {
@@ -246,10 +243,43 @@ const PdfReader: React.FC = () => {
             'julij', 'avgust', 'september', 'oktober', 'november', 'december'
         ];
     
+        // Check if the personal information PDF is provided
+        const personalInfoFile = Array.from(files).find(file => file.name.toLowerCase().includes('vloga'));
+        if (personalInfoFile) {
+            const fileTextContent = await convertPdfToImagesAndExtractText(personalInfoFile);
+            console.log(`Text content for personal information PDF:\n${fileTextContent}`);
+    
+            const relevantInfo = extractRelevantInfo(fileTextContent);
+            const [day, monthNumber, year] = relevantInfo.birthDate.split('.');
+            const formattedDate = `${year}-${monthNumber}-${day}`;
+            setPodatkiState({
+                ...podatkiState,
+                ime: relevantInfo.name,
+                priimek: relevantInfo.surname,
+                naslov: relevantInfo.address + ", " + relevantInfo.naslovNaslov,
+                naslovNaslov: relevantInfo.naslovNaslov,
+                datumRojstva: formattedDate,
+                drzavljanRS: relevantInfo.sloveniaCitizen,
+                stecajniPostopekNI: relevantInfo.isNotInBankruptcy,
+                zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
+                zaposlen: relevantInfo.isEmployed,
+                upokojenec: relevantInfo.isRetired,
+                zaproseniKredit: relevantInfo.loanAmount,
+                rokVracila: relevantInfo.repaymentPeriod,
+                izobrazba: relevantInfo.stopnjaIzobrazbe3,
+                stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
+            });
+        }
+    
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             const fileName = file.name.toLowerCase();
             let month = '';
+    
+            // Skip the personal information PDF
+            if (fileName.includes('vloga')) {
+                continue;
+            }
     
             for (const monthName of monthNames) {
                 if (fileName.includes(monthName)) {
@@ -270,50 +300,8 @@ const PdfReader: React.FC = () => {
         }
     
         setPdfText(`Full Text Content:\n\n${textContent}`);
-    
-        const relevantInfo = extractRelevantInfo(textContent);
-        const [day, monthNumber, year] = relevantInfo.birthDate.split('.');
-        const formattedDate = `${year}-${monthNumber}-${day}`;
-        setPodatkiState({
-            ...podatkiState,
-            ime: relevantInfo.name,
-            priimek: relevantInfo.surname,
-            naslov: relevantInfo.address + ", " + relevantInfo.naslovNaslov,
-            naslovNaslov: relevantInfo.naslovNaslov,
-            datumRojstva: formattedDate,
-            drzavljanRS: relevantInfo.sloveniaCitizen,
-            stecajniPostopekNI: relevantInfo.isNotInBankruptcy,
-            zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
-            zaposlen: relevantInfo.isEmployed,
-            upokojenec: relevantInfo.isRetired,
-            zaproseniKredit: relevantInfo.loanAmount,
-            rokVracila: relevantInfo.repaymentPeriod,
-            izobrazba: relevantInfo.stopnjaIzobrazbe3,
-            stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
-        });
-        
-
-//         const prometeVBremeValues = Object.values(pdfData).map(data => convertToNumber(data.prometeVBreme));
-//     const prometeVDobroValues = Object.values(pdfData).map(data => convertToNumber(data.prometeVDobro));
-//     const stanjeTRRValues = Object.values(pdfData).map(data => convertToNumber(data.stanje));
-//     const placaa = Object.values(pdfData).map(data => convertToNumber(data.placa));
-//     console.log(prometeVBremeValues)
-//     console.log(prometeVDobroValues)
-//     console.log(stanjeTRRValues)
-//     console.log(placaa)
-
-
-//     setPodatkiState({
-//         ...podatkiState,
-//         mesecniPrometDobro:{t1:prometeVDobroValues[0],t2:prometeVDobroValues[1],t3:prometeVDobroValues[2]},
-//         mesecniPrometBreme:{t1:prometeVBremeValues[0],t2:prometeVBremeValues[1],t3:prometeVBremeValues[2]},
-//         stanjeTRR:{t1:stanjeTRRValues[0],t2:stanjeTRRValues[1],t3:stanjeTRRValues[2]},
-//         znesekPrejemkovPokojnina:{t1:placaa[0],t2:placaa[1],t3:placaa[2]}
-// })
-    
         setLoading(false);
     };
-
 
 
     const updatePodatkiState = () => {
@@ -439,7 +427,7 @@ const PdfReader: React.FC = () => {
                     <input
                         type="file"
                         multiple
-                        onChange={handleFileChange}
+                        //onChange={handleFileChange}
                         hidden
                         accept="application/pdf"
                         ref={inputRef}
@@ -447,6 +435,32 @@ const PdfReader: React.FC = () => {
                     <button className="btn btn-primary" onClick={() => inputRef.current?.click()}>Select Files</button>
                 </div>
             </div>
+            <div className="containerOknoDrag">
+                <div
+                    className="border border-secondary p-3 text-center border-dashed mx-auto rounded"
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                    e.preventDefault();
+                    const file = e.dataTransfer.files[0];
+                    setPersonalInfoFile(file);
+                    }}
+                    style={{ maxWidth: '400px' }}
+                >
+                    <h1 className="mb-4 text-white">Drag and drop "osebni podatki" PDF</h1>
+                    <input
+                        type="file"
+                        accept="application/pdf"
+                        onChange={(e) => setPersonalInfoFile(e.target.files[0])}
+                        hidden
+                    />
+                    <button className="btn btn-primary" onClick={() => inputRef.current?.click()}>
+                        Select File
+                    </button>
+                </div>
+            </div>
+            <button className="btn btn-success" onClick={handleProcessFiles} disabled={loading}>
+                {loading ? 'Processing...' : 'Start Processing'}
+            </button>
         </>
     );
 };
