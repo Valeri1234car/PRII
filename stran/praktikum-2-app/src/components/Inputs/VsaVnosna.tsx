@@ -38,9 +38,9 @@ const VsaVnosna: React.FC = () => {
             <div className="pravougaonik">
             <SisbonPodatki />
             </div>
-            <div className="pravougaonik">
+            {/* <div className="pravougaonik">
                 <FinancniIzpiski />
-            </div>
+            </div> */}
             <div className="buttonContainer">
                 <button className="btn btn-primary" onClick={() => setStran("Izpisi")}>
                     Naprej
