@@ -1,7 +1,8 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
 import Tesseract from 'tesseract.js';
 import { PodatkiContext } from '../../App';
+import { Promet } from '../../interface/Podatki';
 
 GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.0.279/pdf.worker.min.js`;
 
@@ -11,18 +12,21 @@ const PdfReader: React.FC = () => {
     const inputRef = useRef<HTMLInputElement>(null);
     const { setPdfText, setPodatkiState, podatkiState } = useContext(PodatkiContext);
     const [pdfData, setPdfData] = useState<{ [key: string]: any }>({});
-    const { setData } = useContext(PodatkiContext);
+    const { data,setData } = useContext(PodatkiContext);
 
     const handleDragOver = (event: React.DragEvent) => {
+        console.log('Drag over');
         event.preventDefault();
     };
 
     const handleDrop = (event: React.DragEvent) => {
+        console.log('File dropped');
         event.preventDefault();
         setFiles(event.dataTransfer.files);
     };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('File selected');
         const files = event.target.files;
         if (files) {
             setFiles(files);
@@ -186,9 +190,30 @@ const PdfReader: React.FC = () => {
 
             setData(newData); // Ovde ažurirate podatke u kontekstu
             console.log(newData)
+            
+            // console.log(newData.avgust.prometeVBreme)
+            
             return newData;
         });
+
+        
     };
+
+    
+
+
+   
+        
+
+      
+    // console.log(prometeVBremeValues);
+    // function convertToNumberr(formattedNumber){
+    //     if (!formattedNumber) return 0; // handle undefined or null values gracefully
+    //     return parseFloat(formattedNumber.replace('.', '').replace(',', '.'));
+    // };
+
+
+    
     
     const parseRawNumber = (raw) => {
         if (raw.includes(',')) {
@@ -266,9 +291,69 @@ const PdfReader: React.FC = () => {
             izobrazba: relevantInfo.stopnjaIzobrazbe3,
             stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
         });
+        
+
+//         const prometeVBremeValues = Object.values(pdfData).map(data => convertToNumber(data.prometeVBreme));
+//     const prometeVDobroValues = Object.values(pdfData).map(data => convertToNumber(data.prometeVDobro));
+//     const stanjeTRRValues = Object.values(pdfData).map(data => convertToNumber(data.stanje));
+//     const placaa = Object.values(pdfData).map(data => convertToNumber(data.placa));
+//     console.log(prometeVBremeValues)
+//     console.log(prometeVDobroValues)
+//     console.log(stanjeTRRValues)
+//     console.log(placaa)
+
+
+//     setPodatkiState({
+//         ...podatkiState,
+//         mesecniPrometDobro:{t1:prometeVDobroValues[0],t2:prometeVDobroValues[1],t3:prometeVDobroValues[2]},
+//         mesecniPrometBreme:{t1:prometeVBremeValues[0],t2:prometeVBremeValues[1],t3:prometeVBremeValues[2]},
+//         stanjeTRR:{t1:stanjeTRRValues[0],t2:stanjeTRRValues[1],t3:stanjeTRRValues[2]},
+//         znesekPrejemkovPokojnina:{t1:placaa[0],t2:placaa[1],t3:placaa[2]}
+// })
     
         setLoading(false);
     };
+
+
+
+    const updatePodatkiState = () => {
+        const prometeVBremeValues = Object.values(pdfData).map(data => convertToNumber(data.prometeVBreme));
+        const prometeVDobroValues = Object.values(pdfData).map(data => convertToNumber(data.prometeVDobro));
+        const stanjeTRRValues = Object.values(pdfData).map(data => convertToNumber(data.stanje));
+        const placaValues = Object.values(pdfData).map(data => convertToNumber(data.placa));
+
+        console.log(prometeVBremeValues);
+        console.log(prometeVDobroValues);
+        console.log(stanjeTRRValues);
+        console.log(placaValues);
+        console.log(placaValues);
+        console.log(placaValues);
+
+        console.log(typeof prometeVDobroValues[0])
+
+        const prometDobro:Promet = { t1: prometeVDobroValues[0], t2: prometeVDobroValues[1], t3: prometeVDobroValues[2],povprecje:0 }
+        const prometSlabo:Promet = { t1: prometeVBremeValues[0], t2: prometeVBremeValues[1], t3: prometeVBremeValues[2],povprecje:0 }
+        const trr:Promet = { t1: stanjeTRRValues[0], t2: stanjeTRRValues[1], t3: stanjeTRRValues[2],povprecje:0 }
+        const placa:Promet = { t1: placaValues[0], t2: placaValues[1], t3: placaValues[2],povprecje:0 }
+        console.log(prometDobro);
+
+        setPodatkiState({
+            ...podatkiState,
+            mesecniPrometDobro: prometDobro,
+            mesecniPrometBreme: prometSlabo,
+            stanjeTRR: trr,
+            znesekPrejemkovPokojnina: placa
+        });
+    };
+
+    useEffect(() => {
+        // This effect runs only once when pdfData changes and is not empty.
+        if (Object.keys(pdfData).length > 0) {
+            updatePodatkiState();
+        }
+    }, [pdfData]);
+
+
     const convertPdfToImagesAndExtractText = async (file: File) => {
         const reader = new FileReader();
         return new Promise<string>((resolve, reject) => {

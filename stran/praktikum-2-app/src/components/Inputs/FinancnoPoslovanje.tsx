@@ -31,48 +31,48 @@ const FinancnoPoslovanje = () =>{
     };
 
 //-------------nerubljiv dohodek ------------------------------
-    useEffect(()=>{
-        let nerubljivDohodek=0;
-        if(podatkiState.zavezanecNaPrezivnin){
-            nerubljivDohodek = (minimalnaPlaca *0.5) + parseFloat(podatkiState.znesekMesecnePrezivnine);
-        }
-        else{
-            nerubljivDohodek = (minimalnaPlaca * 0.76);
-            if(podatkiState.samohranilec){
-                nerubljivDohodek = nerubljivDohodek + (podatkiState.stVzdrzevanihDruzinskihClanov * 237.29)
-            }
-            else{
-                nerubljivDohodek = nerubljivDohodek + (podatkiState.stVzdrzevanihDruzinskihClanov * (237.29 / 2))
-            }
-        }
-        setPodatkiState({...podatkiState, nerubljivDohodek: nerubljivDohodek})
+    // useEffect(()=>{
+    //     let nerubljivDohodek=0;
+    //     if(podatkiState.zavezanecNaPrezivnin){
+    //         nerubljivDohodek = (minimalnaPlaca *0.5) + parseFloat(podatkiState.znesekMesecnePrezivnine);
+    //     }
+    //     else{
+    //         nerubljivDohodek = (minimalnaPlaca * 0.76);
+    //         if(podatkiState.samohranilec){
+    //             nerubljivDohodek = nerubljivDohodek + (podatkiState.stVzdrzevanihDruzinskihClanov * 237.29)
+    //         }
+    //         else{
+    //             nerubljivDohodek = nerubljivDohodek + (podatkiState.stVzdrzevanihDruzinskihClanov * (237.29 / 2))
+    //         }
+    //     }
+    //     setPodatkiState({...podatkiState, nerubljivDohodek: nerubljivDohodek})
         
-    },[podatkiState.znesekMesecnePrezivnine, podatkiState.zavezanecNaPrezivnin, podatkiState.samohranilec,podatkiState.stVzdrzevanihDruzinskihClanov])
+    // },[podatkiState.znesekMesecnePrezivnine, podatkiState.zavezanecNaPrezivnin, podatkiState.samohranilec,podatkiState.stVzdrzevanihDruzinskihClanov])
 
 
 //------------rubljiv dohodek-----------------------
-    useEffect(()=>{
-        let rubljivDohodek = 0;
-        let izracun = podatkiState.znesekPrejemkovPokojnina.povprecje + podatkiState.znesekDrugihPrejemkov.povprecje - podatkiState.nerubljivDohodek;
-        if(izracun > 0){
-            rubljivDohodek =  izracun;
-        }
-        setPodatkiState({...podatkiState, rubljivDohodek: rubljivDohodek})
+    // useEffect(()=>{
+    //     let rubljivDohodek = 0;
+    //     let izracun = podatkiState.znesekPrejemkovPokojnina.povprecje + podatkiState.znesekDrugihPrejemkov.povprecje - podatkiState.nerubljivDohodek;
+    //     if(izracun > 0){
+    //         rubljivDohodek =  izracun;
+    //     }
+    //     setPodatkiState({...podatkiState, rubljivDohodek: rubljivDohodek})
 
 
-    },[podatkiState.znesekPrejemkovPokojnina,podatkiState.znesekDrugihPrejemkov, podatkiState.nerubljivDohodek])
+    // },[podatkiState.znesekPrejemkovPokojnina,podatkiState.znesekDrugihPrejemkov, podatkiState.nerubljivDohodek])
 
 //----------------Dohodki po plačilu obstoječih finančnih obveznosti (krediti, Leasing,…) in Dohodki po plačilu obstoječih in novih finančnih obveznosti------------------
-    useEffect(()=>{
-        let dohodkiPoPlacilu= podatkiState.znesekPrejemkovPokojnina.povprecje + podatkiState.znesekDrugihPrejemkov.povprecje - podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.povprecje;
-        if(podatkiState.stanjeTRR.povprecje < 0){
-            dohodkiPoPlacilu += (podatkiState.stanjeTRR.povprecje/12)
-        }
+    // useEffect(()=>{
+    //     let dohodkiPoPlacilu= podatkiState.znesekPrejemkovPokojnina.povprecje + podatkiState.znesekDrugihPrejemkov.povprecje - podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.povprecje;
+    //     if(podatkiState.stanjeTRR.povprecje < 0){
+    //         dohodkiPoPlacilu += (podatkiState.stanjeTRR.povprecje/12)
+    //     }
 
-        let ddohodkiPoPlaciluInAmuniteta = dohodkiPoPlacilu - podatkiState.mesecnaAmuniteta;
-        setPodatkiState({...podatkiState, dohodkiPoPlaciluStarga: dohodkiPoPlacilu, dohodkiPoPlaciluVsega:ddohodkiPoPlaciluInAmuniteta})
+    //     let ddohodkiPoPlaciluInAmuniteta = dohodkiPoPlacilu - podatkiState.mesecnaAmuniteta;
+    //     setPodatkiState({...podatkiState, dohodkiPoPlaciluStarga: dohodkiPoPlacilu, dohodkiPoPlaciluVsega:ddohodkiPoPlaciluInAmuniteta})
 
-    },[podatkiState.znesekPrejemkovPokojnina,podatkiState.znesekDrugihPrejemkov, podatkiState.mesecnaAmuniteta,podatkiState.stanjeTRR, podatkiState.mesecniZnesekZaOdplacilodrugihKreditov])
+    // },[podatkiState.znesekPrejemkovPokojnina,podatkiState.znesekDrugihPrejemkov, podatkiState.mesecnaAmuniteta,podatkiState.stanjeTRR, podatkiState.mesecniZnesekZaOdplacilodrugihKreditov])
 
     return(
         <div className="vnosItem">
@@ -89,13 +89,6 @@ const FinancnoPoslovanje = () =>{
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Mesečni promet v dobroo:</td>
-                        <td><input type="number" className="form-control" name="mesecniPrometDobro.t1" value={podatkiState.mesecniPrometDobro.t1} onChange={HandleChange2}/></td>
-                        <td><input type="number" className="form-control" name="mesecniPrometDobro.t2" value={podatkiState.mesecniPrometDobro.t2} onChange={HandleChange2}/></td>
-                        <td><input type="number" className="form-control" name="mesecniPrometDobro.t3" value={podatkiState.mesecniPrometDobro.t3} onChange={HandleChange2}/></td>
-                        <td>{podatkiState.mesecniPrometDobro.povprecje}</td>
-                    </tr>
                     <tr>
                         <td>Mesečni promet v dobro:</td>
                         <td><input type="number" className="form-control" name="mesecniPrometDobro.t1" value={podatkiState.mesecniPrometDobro.t1} onChange={HandleChange2}/></td>
