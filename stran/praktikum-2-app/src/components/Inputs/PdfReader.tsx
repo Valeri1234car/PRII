@@ -20,31 +20,26 @@ const PdfReader: React.FC = () => {
         event.preventDefault();
     };
 
-    const handleProcessFiles = () => {
-        if (files && personalInfoFile) {
-            processFiles(files);
-            processFiles(personalInfoFile);
-        } else {
-            alert('TVOJA');
-        }
-    };
-
-    const fileOnChange = () =>{
-        
-    };
-
-    const handleDrop = (event: React.DragEvent) => {
+    const handleDrop = (event: React.DragEvent, setFileFunction: (files: FileList | null) => void) => {
         console.log('File dropped');
         event.preventDefault();
-        setFiles(event.dataTransfer.files);
+        setFileFunction(event.dataTransfer.files);
     };
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFileFunction: (files: FileList | null) => void) => {
         console.log('File selected');
         const files = event.target.files;
-        if (files) {
-            setFiles(files);
-            //processFiles(files);
+        setFileFunction(files);
+    };
+
+    const handleProcessFiles = () => {
+        if (files && personalInfoFile) {
+            setLoading(true);
+            processFiles(files);
+            processFiles(personalInfoFile);
+            setLoading(false);
+        } else {
+            alert('Please provide both sets of files');
         }
     };
 
@@ -391,74 +386,65 @@ const PdfReader: React.FC = () => {
         });
     };
 
-    if (files) return (
-        <div className="uploads">
-            <ul>
-                {Array.from(files).map((file, idx) => <li key={idx}>{file.name}</li>)}
-            </ul>
-            <div className="actions">
-                <button className="btn btn-primary" onClick={() => setFiles(null)}>Cancel</button>
-            </div>
-            {loading && <p>Processing...</p>}
-            <div>
-                <h2>PDF Data:</h2>
-                {Object.entries(pdfData).map(([month, data]) => (
-                    <div key={month}>
-                        <h3>{month}</h3>
-                        <p>Mesecni promet v breme: {data.prometeVBreme}</p>
-                        <p>Mesecni promet v dobro: {data.prometeVDobro}</p>
-                        <p>Stanje na TRR: {data.stanje}</p>
-                        <p>Znesek prejemkov: {data.placa}</p>
-                  </div>
-                ))}
-            </div>
-        </div>
-    );
-
     return (
         <>
             <div className="containerOknoDrag">
                 <div
-                    className="border border-secondary p-3 text-center border-dashed mx-auto rounded"onDrop={handleDrop}
+                    className="border border-secondary p-3 text-center border-dashed mx-auto rounded"
+                    onDrop={(event) => handleDrop(event, setFiles)}
+                    onDragOver={handleDragOver}
                     style={{ maxWidth: '400px' }}
                 >
-                    <h1 className="mb-4 text-white">Drag and drop</h1>
-                    <h1 className="mb-4 text-white">or</h1>
-                    <input
-                        type="file"
-                        multiple
-                        //onChange={handleFileChange}
-                        hidden
-                        accept="application/pdf"
-                        ref={inputRef}
-                    />
-                    <button className="btn btn-primary" onClick={() => inputRef.current?.click()}>Select Files</button>
+                    {files ? (
+                        Array.from(files).map((file, index) => (
+                            <p key={index} className="text-white">{file.name}</p>
+                        ))
+                    ) : (
+                        <>
+                            <h1 className="mb-4 text-white">Drag and drop</h1>
+                            <h1 className="mb-4 text-white">or</h1>
+                            <input
+                                type="file"
+                                multiple
+                                onChange={(event) => handleFileChange(event, setFiles)}
+                                hidden
+                                accept="application/pdf"
+                                ref={inputRef}
+                            />
+                            <button className="btn btn-primary" onClick={() => inputRef.current?.click()}>Select Files</button>
+                        </>
+                    )}
                 </div>
             </div>
+
             <div className="containerOknoDrag">
                 <div
                     className="border border-secondary p-3 text-center border-dashed mx-auto rounded"
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={(e) => {
-                    e.preventDefault();
-                    const file = e.dataTransfer.files[0];
-                    setPersonalInfoFile(file);
-                    }}
+                    onDrop={(event) => handleDrop(event, (files) => setPersonalInfoFile(files?.[0] ?? null))}
+                    onDragOver={handleDragOver}
                     style={{ maxWidth: '400px' }}
                 >
-                    <h1 className="mb-4 text-white">Drag and drop "osebni podatki" PDF</h1>
-                    <input
-                        type="file"
-                        accept="application/pdf"
-                        onChange={(e) => setPersonalInfoFile(e.target.files[0])}
-                        hidden
-                    />
-                    <button className="btn btn-primary" onClick={() => inputRef.current?.click()}>
-                        Select File
-                    </button>
+                    {personalInfoFile ? (
+                        <p className="text-white">{personalInfoFile}</p>
+                    ) : (
+                        <>
+                            <h1 className="mb-4 text-white">Drag and drop "osebni podatki" PDF</h1>
+                            <input
+                                type="file"
+                                accept="application/pdf"
+                                onChange={(event) => handleFileChange(event, (files) => setPersonalInfoFile(files?.[0] ?? null))}
+                                hidden
+                                ref={personalInfoFile}
+                            />
+                            <button className="btn btn-primary" onClick={() => personalInfoFile.current?.click()}>
+                                Select File
+                            </button>
+                        </>
+                    )}
                 </div>
             </div>
-            <button className="btn btn-success" onClick={handleProcessFiles} disabled={loading}>
+
+            <button className="btn btn-success" onClick={handleProcessFiles} disabled={!files || !personalInfoFile || loading}>
                 {loading ? 'Processing...' : 'Start Processing'}
             </button>
         </>
