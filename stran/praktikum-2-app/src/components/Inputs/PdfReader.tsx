@@ -51,13 +51,10 @@ const PdfReader: React.FC = () => {
     };
 
     const handleProcessFiles = async () => {
-        if (files && personalInfoFile) {
-            setLoading(true);
-            await processFiles(files);
-            await processFiles(new DataTransfer().items.add(personalInfoFile).files);
-            setLoading(false);
+        if (files) {
+            processFiles(files);
         } else {
-            alert('Please provide both sets of files');
+            alert('Napaka pri branju');
         }
     };
 
@@ -443,38 +440,10 @@ const PdfReader: React.FC = () => {
                     )}
                 </div>
             </div>
-
-            <div className="containerOknoDrag">
-                <div
-                    className="border border-secondary p-3 text-center border-dashed mx-auto rounded"
-                    onDrop={handlePersonalInfoDrop}
-                    onDragOver={handleDragOver}
-                    style={{ maxWidth: '400px' }}
-                >
-                    {personalInfoFile ? (
-                        <p className="text-white">{personalInfoFile.name}</p>
-                    ) : (
-                        <>
-                            <h1 className="mb-4 text-white">Drag and drop "osebni podatki" PDF</h1>
-                            <input
-                                type="file"
-                                accept="application/pdf"
-                                onChange={handlePersonalInfoFileChange}
-                                hidden
-                                ref={personalInfoInputRef}
-                            />
-                            <button className="btn btn-primary" onClick={() => personalInfoInputRef.current?.click()}>
-                                Select File
-                            </button>
-                        </>
-                    )}
-                </div>
-            </div>
-
-            <button className="btn btn-success" onClick={handleProcessFiles} disabled={!files || !personalInfoFile || loading}>
-                {loading ? 'Processing...' : 'Start Processing'}
+            <button className="btn btn-success" onClick={handleProcessFiles} disabled={!files || loading}>
+            {loading ? 'Processing...' : 'Start Processing'}
             </button>
-        </>
+</>
     );
 };
 
