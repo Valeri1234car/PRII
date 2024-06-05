@@ -7,7 +7,7 @@ import { Promet } from '../../interface/Podatki';
 GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.0.279/pdf.worker.min.js`;
 
 const PdfReader: React.FC = () => {
-    const [files, setFiles] = useState<FileList | null>(null);
+    const [files, setFiles] = useState<File[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
     const personalInfoInputRef = useRef<HTMLInputElement>(null);
@@ -21,10 +21,11 @@ const PdfReader: React.FC = () => {
         event.preventDefault();
     };
 
-    const handleDrop = (event: React.DragEvent, setFileFunction: (files: FileList | null) => void) => {
+    const handleDrop = (event: React.DragEvent, setFileFunction: (files: File[]) => void) => {
         console.log('File dropped');
         event.preventDefault();
-        setFileFunction(event.dataTransfer.files);
+        const newFiles = Array.from(event.dataTransfer.files);
+        setFileFunction((prevFiles) => [...prevFiles, ...newFiles]);
     };
 
     const handlePersonalInfoDrop = (event: React.DragEvent) => {
@@ -36,10 +37,12 @@ const PdfReader: React.FC = () => {
         }
     };
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFileFunction: (files: FileList | null) => void) => {
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFileFunction: (files: File[]) => void) => {
         console.log('File selected');
-        const files = event.target.files;
-        setFileFunction(files);
+        const newFiles = event.target.files;
+        if (newFiles) {
+            setFileFunction((prevFiles) => [...prevFiles, ...Array.from(newFiles)]);
+        }
     };
 
     const handlePersonalInfoFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,8 +53,12 @@ const PdfReader: React.FC = () => {
         }
     };
 
+    const handleRemoveFile = (index: number) => {
+        setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    };
+
     const handleProcessFiles = async () => {
-        if (files) {
+        if (files.length > 0) {
             processFiles(files);
         } else {
             alert('Napaka pri branju');
@@ -254,7 +261,7 @@ const PdfReader: React.FC = () => {
     };
 
 
-    const processFiles = async (files: FileList) => {
+    const processFiles = async (files: File[]) => {
         let textContent = '';
         setLoading(true);
         const monthNames = [
@@ -263,7 +270,7 @@ const PdfReader: React.FC = () => {
         ];
 
         // Check if the personal information PDF is provided
-        const personalInfoFile = Array.from(files).find(file => file.name.toLowerCase().includes('vloga'));
+        const personalInfoFile = files.find(file => file.name.toLowerCase().includes('vloga'));
         if (personalInfoFile) {
             const fileTextContent = await convertPdfToImagesAndExtractText(personalInfoFile);
             console.log(`Text content for personal information PDF:\n${fileTextContent}`);
@@ -419,31 +426,34 @@ const PdfReader: React.FC = () => {
                     onDragOver={handleDragOver}
                     style={{ maxWidth: '400px' }}
                 >
-                    {files ? (
-                        Array.from(files).map((file, index) => (
-                            <p key={index} className="text-white">{file.name}</p>
+                    {files.length > 0 ? (
+                        files.map((file, index) => (
+                            <div key={index} className="text-white d-flex justify-content-between align-items-center">
+                                <p>{file.name}</p>
+                                <button className="btn btn-danger btn-sm" onClick={() => handleRemoveFile(index)}>Remove</button>
+                            </div>
                         ))
                     ) : (
                         <>
                             <h1 className="mb-4 text-white">Drag and drop</h1>
                             <h1 className="mb-4 text-white">or</h1>
-                            <input
-                                type="file"
-                                multiple
-                                onChange={(event) => handleFileChange(event, setFiles)}
-                                hidden
-                                accept="application/pdf"
-                                ref={inputRef}
-                            />
-                            <button className="btn btn-primary" onClick={() => inputRef.current?.click()}>Select Files</button>
                         </>
                     )}
+                    <input
+                        type="file"
+                        multiple
+                        onChange={(event) => handleFileChange(event, setFiles)}
+                        hidden
+                        accept="application/pdf"
+                        ref={inputRef}
+                    />
+                    <button className="btn btn-primary mt-2" onClick={() => inputRef.current?.click()}>Select Files</button>
                 </div>
             </div>
-            <button className="btn btn-success" onClick={handleProcessFiles} disabled={!files || loading}>
-            {loading ? 'Processing...' : 'Start Processing'}
+            <button className="btn btn-success mt-3" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
+                {loading ? 'Processing...' : 'Start Processing'}
             </button>
-</>
+        </>
     );
 };
 
