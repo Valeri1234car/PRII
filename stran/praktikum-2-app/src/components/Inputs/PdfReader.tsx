@@ -10,10 +10,11 @@ const PdfReader: React.FC = () => {
     const [files, setFiles] = useState<FileList | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
+    const personalInfoInputRef = useRef<HTMLInputElement>(null);
     const { setPdfText, setPodatkiState, podatkiState } = useContext(PodatkiContext);
     const [pdfData, setPdfData] = useState<{ [key: string]: any }>({});
-    const { data,setData } = useContext(PodatkiContext);
-    const [personalInfoFile, setPersonalInfoFile] = useState(null);
+    const { data, setData } = useContext(PodatkiContext);
+    const [personalInfoFile, setPersonalInfoFile] = useState<File | null>(null);
 
     const handleDragOver = (event: React.DragEvent) => {
         console.log('Drag over');
@@ -26,17 +27,34 @@ const PdfReader: React.FC = () => {
         setFileFunction(event.dataTransfer.files);
     };
 
+    const handlePersonalInfoDrop = (event: React.DragEvent) => {
+        console.log('File dropped');
+        event.preventDefault();
+        const files = event.dataTransfer.files;
+        if (files.length > 0) {
+            setPersonalInfoFile(files[0]);
+        }
+    };
+
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFileFunction: (files: FileList | null) => void) => {
         console.log('File selected');
         const files = event.target.files;
         setFileFunction(files);
     };
 
-    const handleProcessFiles = () => {
+    const handlePersonalInfoFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('Personal Info File selected');
+        const files = event.target.files;
+        if (files && files.length > 0) {
+            setPersonalInfoFile(files[0]);
+        }
+    };
+
+    const handleProcessFiles = async () => {
         if (files && personalInfoFile) {
             setLoading(true);
-            processFiles(files);
-            processFiles(personalInfoFile);
+            await processFiles(files);
+            await processFiles(new DataTransfer().items.add(personalInfoFile).files);
             setLoading(false);
         } else {
             alert('Please provide both sets of files');
@@ -48,38 +66,44 @@ const PdfReader: React.FC = () => {
     };
 
     const extractRelevantInfo = (textContent: string) => {
+        console.log("Extracting relevant info from text content");
+
         const nameRegex = /Ime:\s*(\w+)\s*Priimek:\s*(\w+)/;
         const matchName = textContent.match(nameRegex);
         const name = matchName ? matchName[1] : '';
         const surname = matchName ? matchName[2] : '';
+        console.log("Name:", name, "Surname:", surname);
 
         const naslovRegex = /Kraj:\s*(.+)/i;
         const naslovIme = textContent.match(naslovRegex);
         const naslovNaslov = naslovIme ? naslovIme[1] : '';
-        console.log(naslovNaslov);
+        console.log("Naslov:", naslovNaslov);
 
         const addressRegex = /Ulica in hina 3tevilka:\s*(.+)/i;
         const matchAddress = textContent.match(addressRegex);
         const address = matchAddress ? matchAddress[1] : '';
-        console.log(addressRegex);
-        console.log("address" + matchAddress);
+        console.log("Address:", address);
 
         const birthDateRegex = /Datum rojstva:\s*(\d{2}\.\d{1,2}\.\d{4})/;
         const matchBirthDate = textContent.match(birthDateRegex);
         const birthDate = matchBirthDate ? matchBirthDate[1] : '';
+        console.log("Birth Date:", birthDate);
 
         const sloveniaCitizenRegex = /Slovensko drzavljanstvo:\s*(\w+)/;
         const matchSloveniaCitizen = textContent.match(sloveniaCitizenRegex);
         const sloveniaCitizen = matchSloveniaCitizen ? matchSloveniaCitizen[1].toLowerCase() === 'da' : false;
+        console.log("Slovenia Citizen:", sloveniaCitizen);
 
         const ageRegex = /Starost:(\d+)/;
         const matchAge = textContent.match(ageRegex);
         const age = matchAge ? parseInt(matchAge[1]) : 0;
         const isAdult = age >= 18;
+        console.log("Age:", age, "Is Adult:", isAdult);
 
         const bankruptcyRegex = /Ste bili ali ste zdaj v postopku osebnega stetaja?\s*:\s*(\w+)/i;
         const matchBankruptcy = textContent.match(bankruptcyRegex);
         const isNotInBankruptcy = matchBankruptcy ? matchBankruptcy[1].toLowerCase() === 'ne' : false;
+        console.log("Is Not In Bankruptcy:", isNotInBankruptcy);
 
         const employmentRegex = /Status zaposlitve:\s*(\w+)/i;
         const matchEmployment = textContent.match(employmentRegex);
@@ -102,20 +126,22 @@ const PdfReader: React.FC = () => {
         const loanAmountRegex = /Znesek kredita \(v EUR\):\s*([\d.,]+)\s*EUR/;
         const matchLoanAmount = textContent.match(loanAmountRegex);
         const loanAmount = matchLoanAmount ? convertToNumber(matchLoanAmount[1]) : 0;
+        console.log("Loan Amount:", loanAmount);
 
         const repaymentPeriodRegex = /doba odplatevanja \(v mesecih\):\s*(\d+)\s*mesec/i;
         const matchRepaymentPeriod = textContent.match(repaymentPeriodRegex);
         const repaymentPeriod = matchRepaymentPeriod ? parseInt(matchRepaymentPeriod[1]) : 0;
+        console.log("Repayment Period:", repaymentPeriod);
 
         const stopnjaIzobrazbe1 = /Stopnja izobrazbe:\s*(.+)/i;
         const stopnjaIzobrazbe2 = textContent.match(stopnjaIzobrazbe1);
         const stopnjaIzobrazbe3 = stopnjaIzobrazbe2 ? stopnjaIzobrazbe2[1] : '';
-        console.log("izobrazba" + stopnjaIzobrazbe2);
+        console.log("Stopnja izobrazbe:", stopnjaIzobrazbe3);
 
         const steviloClanov1 = /Stevilo vzdrievanih druzinskih élanov:\s*(.+)/;
         const steviloClanov2 = textContent.match(steviloClanov1);
         const steviloClanov3 = steviloClanov2 ? steviloClanov2[1] : '';
-        console.log("izobrazba" + steviloClanov2);
+        console.log("Stevilo Clanov:", steviloClanov3);
 
         const relevantInfo = {
             name,
@@ -135,6 +161,7 @@ const PdfReader: React.FC = () => {
             steviloClanov3,
         };
 
+        console.log("Relevant Info:", relevantInfo);
         return relevantInfo;
     };
 
@@ -199,13 +226,13 @@ const PdfReader: React.FC = () => {
 
             setData(newData); // Ovde ažurirate podatke u kontekstu
             console.log(newData)
-            
+
             // console.log(newData.avgust.prometeVBreme)
-            
+
             return newData;
         });
 
-        
+
     };
     const parseRawNumber = (raw) => {
         if (raw.includes(',')) {
@@ -217,18 +244,18 @@ const PdfReader: React.FC = () => {
         }
         return parseFloat(raw);
     };
-    
+
     const formatNumber = (number) => {
         return number.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     };
-    
+
     const insertCommaBeforeLastTwoDigits = (raw) => {
         const len = raw.length;
         const integerPart = raw.substring(0, len - 2);
         const decimalPart = raw.substring(len - 2);
         return integerPart + ',' + decimalPart;
     };
-    
+
 
     const processFiles = async (files: FileList) => {
         let textContent = '';
@@ -237,13 +264,13 @@ const PdfReader: React.FC = () => {
             'januar', 'februar', 'marec', 'april', 'maj', 'junij',
             'julij', 'avgust', 'september', 'oktober', 'november', 'december'
         ];
-    
+
         // Check if the personal information PDF is provided
         const personalInfoFile = Array.from(files).find(file => file.name.toLowerCase().includes('vloga'));
         if (personalInfoFile) {
             const fileTextContent = await convertPdfToImagesAndExtractText(personalInfoFile);
             console.log(`Text content for personal information PDF:\n${fileTextContent}`);
-    
+
             const relevantInfo = extractRelevantInfo(fileTextContent);
             const [day, monthNumber, year] = relevantInfo.birthDate.split('.');
             const formattedDate = `${year}-${monthNumber}-${day}`;
@@ -265,35 +292,35 @@ const PdfReader: React.FC = () => {
                 stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
             });
         }
-    
+
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             const fileName = file.name.toLowerCase();
             let month = '';
-    
+
             // Skip the personal information PDF
             if (fileName.includes('vloga')) {
                 continue;
             }
-    
+
             for (const monthName of monthNames) {
                 if (fileName.includes(monthName)) {
                     month = monthName;
                     break;
                 }
             }
-    
+
             if (!month) {
                 console.warn(`Could not determine month from file name "${file.name}"`);
                 continue;
             }
-    
+
             const fileTextContent = await convertPdfToImagesAndExtractText(file);
             console.log(`Text content for file ${file.name}:\n${fileTextContent}`);
-    
+
             extractAdditionalInfo(fileTextContent, month);
         }
-    
+
         setPdfText(`Full Text Content:\n\n${textContent}`);
         setLoading(false);
     };
@@ -420,23 +447,23 @@ const PdfReader: React.FC = () => {
             <div className="containerOknoDrag">
                 <div
                     className="border border-secondary p-3 text-center border-dashed mx-auto rounded"
-                    onDrop={(event) => handleDrop(event, (files) => setPersonalInfoFile(files?.[0] ?? null))}
+                    onDrop={handlePersonalInfoDrop}
                     onDragOver={handleDragOver}
                     style={{ maxWidth: '400px' }}
                 >
                     {personalInfoFile ? (
-                        <p className="text-white">{personalInfoFile}</p>
+                        <p className="text-white">{personalInfoFile.name}</p>
                     ) : (
                         <>
                             <h1 className="mb-4 text-white">Drag and drop "osebni podatki" PDF</h1>
                             <input
                                 type="file"
                                 accept="application/pdf"
-                                onChange={(event) => handleFileChange(event, (files) => setPersonalInfoFile(files?.[0] ?? null))}
+                                onChange={handlePersonalInfoFileChange}
                                 hidden
-                                ref={personalInfoFile}
+                                ref={personalInfoInputRef}
                             />
-                            <button className="btn btn-primary" onClick={() => personalInfoFile.current?.click()}>
+                            <button className="btn btn-primary" onClick={() => personalInfoInputRef.current?.click()}>
                                 Select File
                             </button>
                         </>
