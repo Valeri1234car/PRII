@@ -68,6 +68,9 @@ const PdfReader: React.FC = () => {
     const convertToNumber = (euroFormattedNumber: string): number => {
         return parseFloat(euroFormattedNumber.replace('.', '').replace(',', '.'));
     };
+    const convertToNumberr = (euroFormattedNumber: string): number => {
+        return parseFloat(euroFormattedNumber);
+    };
 
     const extractRelevantInfo = (textContent: string) => {
         console.log("Extracting relevant info from text content");
@@ -235,6 +238,12 @@ const PdfReader: React.FC = () => {
 
             return newData;
         });
+
+        const neki = convertToNumber(prometeVDobro)-convertToNumber(placa);
+        console.log(placa)
+        console.log(prometeVDobro)
+        console.log(neki)
+
 
 
     };
