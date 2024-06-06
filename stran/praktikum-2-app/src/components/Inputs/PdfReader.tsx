@@ -438,46 +438,60 @@ const PdfReader: React.FC = () => {
 
     return (
         <>
-            <div className="containerOknoDrag">
-                <div
-                    className="border border-secondary p-3 text-center border-dashed mx-auto rounded"
-                    onDrop={(event) => handleDrop(event, setFiles)}
-                    onDragOver={handleDragOver}
-                    style={{ maxWidth: '400px' }}
-                >
-                    {files.length > 0 ? (
-                        files.map((file, index) => (
-                            <div key={index} className="text-white d-flex justify-content-between align-items-center">
-                                <p>{file.name}</p>
-                                <button className="btn btn-danger btn-sm" onClick={() => handleRemoveFile(index)}>Remove</button>
-                            </div>
-                        ))
-                    ) : (
-                        <>
-                            <h1 className="mb-4 text-white">Drag and drop</h1>
-                            <h1 className="mb-4 text-white">or</h1>
-                        </>
-                    )}
-                    <input
-                        type="file"
-                        multiple
-                        onChange={(event) => handleFileChange(event, setFiles)}
-                        hidden
-                        accept="application/pdf"
-                        ref={inputRef}
-                    />
-                    <button className="btn btn-primary mt-2" onClick={() => inputRef.current?.click()}>Select Files</button>
+            <div className="container">
+                <div className="containerOknoDrag">
+                    <div
+                        className="border border-secondary p-3 border-dashed mx-auto rounded"
+                        onDrop={(event) => handleDrop(event, setFiles)}
+                        onDragOver={handleDragOver}
+                        style={{ maxWidth: '400px' }}
+                    >
+                        {files.length > 0 ? (
+                            files.map((file, index) => (
+                                <div key={index} className="text-white d-flex justify-content-between align-items-center">
+                                    <p>{file.name}</p>
+                                    <button
+                                        className="btn btn-sm"
+                                        style={{
+                                            backgroundColor: '#41424c',
+                                            color: '#fff',
+                                            border: '1px solid #fff'
+                                        }}
+                                        onClick={() => handleRemoveFile(index)}
+                                    >Remove</button>
+                                </div>
+                            ))
+                        ) : (
+                            <>
+                                <h1 className="mb-4 text-white text-center">Drag and drop</h1>
+                                <h1 className="mb-4 text-white text-center">or</h1>
+                            </>
+                        )}
+                        <input
+                            type="file"
+                            multiple
+                            onChange={(event) => handleFileChange(event, setFiles)}
+                            hidden
+                            accept="application/pdf"
+                            ref={inputRef}
+                        />
+                        <button className="btn btn-primary w-100 mt-2" onClick={() => inputRef.current?.click()}>Select Files</button>
+                        <button className="btn btn-success w-100 mt-2" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
+                            {loading ? 'Processing...' : 'Start Processing'}
+                        </button>
+                    </div>
                 </div>
+                {loading && (
+                    <div className="w-100 d-flex justify-content-center mt-3">
+                        <div className="progress-bar-wrapper" style={{ width: '90%', maxWidth: '600px', padding: '10px', borderRadius: '5px' }}>
+                            <ProgressBar now={progress} label={`${progress}%`} />
+                        </div>
+                    </div>
+                )}
             </div>
-            <button className="btn btn-success mt-3" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
-                {loading ? 'Processing...' : 'Start Processing'}
-            </button>
-            {loading && (
-                <div className="mt-3">
-                    <ProgressBar now={progress} label={`${progress}%`} />
-                </div>
-            )}
         </>
+
+
     );
 };
 
