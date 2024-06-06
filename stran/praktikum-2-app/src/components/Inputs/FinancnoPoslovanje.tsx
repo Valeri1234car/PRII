@@ -85,7 +85,6 @@ const FinancnoPoslovanje = () =>{
                         <th>T-3</th>
                         <th>T-2</th>
                         <th>T-1</th>
-                        <th>Prosjek</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -94,67 +93,58 @@ const FinancnoPoslovanje = () =>{
                         <td><input type="number" className="form-control" name="mesecniPrometDobro.t1" value={podatkiState.mesecniPrometDobro.t1} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="mesecniPrometDobro.t2" value={podatkiState.mesecniPrometDobro.t2} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="mesecniPrometDobro.t3" value={podatkiState.mesecniPrometDobro.t3} onChange={HandleChange2}/></td>
-                        <td>{podatkiState.mesecniPrometDobro.povprecje}</td>
                     </tr>
                     <tr>
                         <td>Mesečni promet v breme:</td>
                         <td><input type="number" className="form-control" name="mesecniPrometBreme.t1" value={podatkiState.mesecniPrometBreme.t1} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="mesecniPrometBreme.t2" value={podatkiState.mesecniPrometBreme.t2} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="mesecniPrometBreme.t3" value={podatkiState.mesecniPrometBreme.t3} onChange={HandleChange2}/></td>
-                        <td>{podatkiState.mesecniPrometBreme.povprecje}</td>
                     </tr>
                     <tr>
                         <td>Stanje na TRR:</td>
                         <td><input type="number" className="form-control" name="stanjeTRR.t1" value={podatkiState.stanjeTRR.t1} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="stanjeTRR.t2" value={podatkiState.stanjeTRR.t2} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="stanjeTRR.t3" value={podatkiState.stanjeTRR.t3} onChange={HandleChange2}/></td>
-                        <td>{podatkiState.stanjeTRR.povprecje}</td>
                     </tr>
                     <tr>
                         <td>Znesek prejemkov iz dela oz. pokojnina:</td>
                         <td><input type="number" className="form-control" name="znesekPrejemkovPokojnina.t1" value={podatkiState.znesekPrejemkovPokojnina.t1} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="znesekPrejemkovPokojnina.t2" value={podatkiState.znesekPrejemkovPokojnina.t2} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="znesekPrejemkovPokojnina.t3" value={podatkiState.znesekPrejemkovPokojnina.t3} onChange={HandleChange2}/></td>
-                        <td>{podatkiState.znesekPrejemkovPokojnina.povprecje}</td>
                     </tr>
                     <tr>
                         <td>Znesek drugih prejemkov:</td>
                         <td><input type="number" className="form-control" name="znesekDrugihPrejemkov.t1" value={podatkiState.znesekDrugihPrejemkov.t1} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="znesekDrugihPrejemkov.t2" value={podatkiState.znesekDrugihPrejemkov.t2} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="znesekDrugihPrejemkov.t3" value={podatkiState.znesekDrugihPrejemkov.t3} onChange={HandleChange2}/></td>
-                        <td>{podatkiState.znesekDrugihPrejemkov.povprecje}</td>
                     </tr>
                     <tr>
                         <td>Mesečni znesek za odplačilo obstoječih kreditov:</td>
                         <td><input type="number" className="form-control" name="mesecniZnesekZaOdplacilodrugihKreditov.t1" value={podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.t1} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="mesecniZnesekZaOdplacilodrugihKreditov.t2" value={podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.t2} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="mesecniZnesekZaOdplacilodrugihKreditov.t3" value={podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.t3} onChange={HandleChange2}/></td>
-                        <td>{podatkiState.mesecniZnesekZaOdplacilodrugihKreditov.povprecje}</td>
                     </tr>
                     <tr>
                         <td>Število neizvršenih trajnih nalogov:</td>
                         <td><input type="number" className="form-control" name="stNeizvrsenihTrajnihNalogov.t1" value={podatkiState.stNeizvrsenihTrajnihNalogov.t1} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="stNeizvrsenihTrajnihNalogov.t2" value={podatkiState.stNeizvrsenihTrajnihNalogov.t2} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="stNeizvrsenihTrajnihNalogov.t3" value={podatkiState.stNeizvrsenihTrajnihNalogov.t3} onChange={HandleChange2}/></td>
-                        <td>{podatkiState.stNeizvrsenihTrajnihNalogov.povprecje}</td>
                     </tr>
                     <tr>
                         <td>Število bančnih pobotov:</td>
                         <td><input type="number" className="form-control" name="stBancnihPobotov.t1" value={podatkiState.stBancnihPobotov.t1} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="stBancnihPobotov.t2" value={podatkiState.stBancnihPobotov.t2} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="stBancnihPobotov.t3" value={podatkiState.stBancnihPobotov.t3} onChange={HandleChange2}/></td>
-                        <td>{podatkiState.stBancnihPobotov.povprecje}</td>
                     </tr>
                     <tr>
                         <td>Število izvršb na TRR:</td>
                         <td><input type="number" className="form-control" name="stIzvrsbNaTrr.t1" value={podatkiState.stIzvrsbNaTrr.t1} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="stIzvrsbNaTrr.t2" value={podatkiState.stIzvrsbNaTrr.t2} onChange={HandleChange2}/></td>
                         <td><input type="number" className="form-control" name="stIzvrsbNaTrr.t3" value={podatkiState.stIzvrsbNaTrr.t3} onChange={HandleChange2}/></td>
-                        <td>{podatkiState.stIzvrsbNaTrr.povprecje}</td>
                     </tr>
                     </tbody>
 </table>
-            <div className="mb-3">
+            {/* <div className="mb-3">
                 <label htmlFor="nerubljivDohodek" className="form-label">Nerubljiv dohodek u EUR:</label>
                 <input type="number" className="form-control" name="nerubljivDohodek" value={podatkiState.nerubljivDohodek} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }}/>
             </div>
@@ -169,7 +159,7 @@ const FinancnoPoslovanje = () =>{
             <div className="mb-3">
                 <label htmlFor="dohodkiPoPlaciluVsega" className="form-label">Dohodci po plaćanju postojećih i novih finansijskih obaveza:</label>
                 <input type="number" className="form-control" name="dohodkiPoPlaciluVsega" value={podatkiState.dohodkiPoPlaciluVsega} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }}/>
-            </div>
+            </div> */}
         </div>
         </div>
     )
