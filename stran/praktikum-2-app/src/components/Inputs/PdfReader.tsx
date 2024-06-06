@@ -3,6 +3,9 @@ import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
 import Tesseract from 'tesseract.js';
 import { PodatkiContext } from '../../App';
 import { Promet } from '../../interface/Podatki';
+import { ProgressBar } from 'react-bootstrap';
+
+
 
 GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.0.279/pdf.worker.min.js`;
 
@@ -15,6 +18,9 @@ const PdfReader: React.FC = () => {
     const [pdfData, setPdfData] = useState<{ [key: string]: any }>({});
     const { data, setData } = useContext(PodatkiContext);
     const [personalInfoFile, setPersonalInfoFile] = useState<File | null>(null);
+    const [progress, setProgress] = useState(0);
+
+
 
     const handleDragOver = (event: React.DragEvent) => {
         console.log('Drag over');
@@ -273,6 +279,7 @@ const PdfReader: React.FC = () => {
     const processFiles = async (files: File[]) => {
         let textContent = '';
         setLoading(true);
+        setProgress(0);
         const monthNames = [
             'januar', 'februar', 'marec', 'april', 'maj', 'junij',
             'julij', 'avgust', 'september', 'oktober', 'november', 'december'
@@ -332,10 +339,13 @@ const PdfReader: React.FC = () => {
             console.log(`Text content for file ${file.name}:\n${fileTextContent}`);
 
             extractAdditionalInfo(fileTextContent, month);
+            const progressPercentage = ((i + 1) / files.length) * 100;
+            setProgress(progressPercentage);
         }
 
         setPdfText(`Full Text Content:\n\n${textContent}`);
         setLoading(false);
+        setProgress(100)
     };
 
 
@@ -462,6 +472,11 @@ const PdfReader: React.FC = () => {
             <button className="btn btn-success mt-3" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
                 {loading ? 'Processing...' : 'Start Processing'}
             </button>
+            {loading && (
+                <div className="mt-3">
+                    <ProgressBar now={progress} label={`${progress}%`} />
+                </div>
+            )}
         </>
     );
 };
