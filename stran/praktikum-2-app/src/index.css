@@ -240,8 +240,8 @@ vsaVnosna {
 
 .containerOknoDrag {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  /*justify-content: center;*/
+  /*align-items: center;*/
 }
 
 .container123 {
@@ -291,4 +291,9 @@ vsaVnosna {
 
 .uploads {
   color: white;
+}
+
+.progress-bar-wrapper {
+  padding: 10px;
+  border-radius: 5px;
 }
