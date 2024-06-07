@@ -30,9 +30,14 @@ Aplikacija je namenjena avtomitiziranem ocenjevanju bonitetne ocene za kreditna 
 Informacijska rešitev ocenjuje bonitetno oceno na podlagi, PDF dokumentov o finančih izpiskih in osebnih podatkov, kako/kakšen kredit lahko stranka vzame in kakšno so tveganja so za posojilodajalca. 
 
 ## Tehnologije
+* [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
-* [![TypeScript][Typescript.com][TypeScript-url]
+* [![Vue][Vue.js]][Vue-url]
+* [![Angular][Angular.io]][Angular-url]
+* [![Svelte][Svelte.dev]][Svelte-url]
+* [![Laravel][Laravel.com]][Laravel-url]
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+* [![JQuery][JQuery.com]][JQuery-url]
 
 ## Inštalacije
 
