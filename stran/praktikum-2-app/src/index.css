@@ -297,3 +297,20 @@ vsaVnosna {
   padding: 10px;
   border-radius: 5px;
 }
+
+.izbrisiGumbContainer{
+display: flex;
+justify-content: end;
+}
+
+.izbrisiGumb{
+  font-size: 1.2rem;
+  color: lightgrey;
+  font-weight: 700;
+}
+.izbrisiGumb:hover{
+  color: red;
+  transition-duration: 200ms;
+  cursor: pointer;
+}
+
