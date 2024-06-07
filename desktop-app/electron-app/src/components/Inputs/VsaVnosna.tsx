@@ -8,7 +8,7 @@ import ZaposlitevPodatki from "./ZaposlitevPodatki";
 import { PodatkiContext } from "../../App";
 import VnosnoPolje from "./PdfReader";
 import SisbonPodatki from "./SisbonPodatki";
-import FinancniIzpiski from "./FinancniIzpiski";
+// import FinancniIzpiski from "./FinancniIzpiski";
 import { Podatki } from "../../interface/Podatki";
 import { Promet } from "../../interface/Podatki";
 import ExcelDownload from "../ExcelDownload.tsx";
@@ -63,6 +63,32 @@ const initialPodatki: Podatki = {
     sisbonOmejitevTRR: false,
 };
 
+const objectsAreEqual = (obj1:any, obj2:any) => {
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) {
+        return false;
+    }
+
+    for (let key of keys1) {
+        const val1 = obj1[key];
+        const val2 = obj2[key];
+        const areObjects = isObject(val1) && isObject(val2);
+        if (
+            areObjects && !objectsAreEqual(val1, val2) ||
+            !areObjects && val1 !== val2
+        ) {
+            return false;
+        }
+    }
+    return true;
+};
+
+const isObject = (object:any) => {
+    return object != null && typeof object === 'object';
+};
+
 const VsaVnosna: React.FC = () => {
 
     const {setStran, podatkiState, setPodatkiState} = useContext(PodatkiContext);
@@ -72,11 +98,16 @@ const VsaVnosna: React.FC = () => {
         setPodatkiState(initialPodatki);
     }
 
+    const changedState:boolean = !objectsAreEqual(initialPodatki, podatkiState);
+
     return(
         <div className="vsaVnosna">
-            <div className="izbrisiGumbContainer mb-4">
-                <div className="izbrisiGumb" id="neki" onClick={HandleClick}>Odstranite vnose</div>
-            </div>
+            {changedState && (
+                <div className="izbrisiGumbContainer mb-4">
+                <div className="izbrisiGumb" id="neki" onClick={HandleClick}>X Odstranite vnose</div>
+                </div>
+            )}
+            
             <div className="pravougaonik">
                 <OsebniPodatki />
             </div>
