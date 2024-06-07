@@ -1,3 +1,16 @@
+/**
+ * @file FinancnoPoslovanje.tsx
+ * @brief Komponenta za prikaz in upravljanje finančnih podatkov
+ *
+ * @opis Komponenta FinancnoPoslovanje omogoča uporabnikom vnos in pregled finančnih podatkov v različnih časovnih obdobjih.
+ * Komponenta uporablja kontekst za dostop do stanja aplikacije in omogoča uporabnikom posodabljanje vrednosti v več kategorijah.
+ * Prav tako izračuna povprečne vrednosti za vsako kategorijo in podpira dodajanje novih vrednosti.
+ *
+ * @potrebuje react, PodatkiContext iz "../../App", minimalnaPlaca iz "../../interface/ZneskiMesecnihAnuitet"
+ *
+ * @verzija 1.0.0
+ * @since 1.0.0
+ */
 import { useContext, useEffect } from "react";
 import { PodatkiContext } from "../../App";
 import { minimalnaPlaca } from "../../interface/ZneskiMesecnihAnuitet";

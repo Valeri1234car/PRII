@@ -1,3 +1,20 @@
+/**
+ * @file PdfReader.tsx
+ * @brief Komponenta za nalaganje in procesiranje PDF datotek
+ *
+ * @opis Komponenta PdfReader omogoča uporabnikom nalaganje in procesiranje PDF datotek.
+ * Podpira funkcionalnosti vleke in spuščanja datotek ter izbiro datotek preko vnosnega polja.
+ * Po naložitvi PDF-jev, komponenta iz njih pridobi relevantne podatke z uporabo regularnih izrazov
+ * in optičnega prepoznavanja znakov (OCR). Pridobljeni podatki se nato uporabijo za posodobitev
+ * stanja aplikacije, ki je dostopno drugim komponentam in funkcionalnostim.
+ *
+ * @potrebuje react, pdfjs-dist, tesseract.js, react-bootstrap
+ * @potrebuje App.tsx (za PodatkiContext)
+ * @potrebuje Podatki.ts (za vmesnik Promet)
+ *
+ * @verzija 1.0.0
+ * @since 1.0.0
+ */
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
 import Tesseract from 'tesseract.js';
@@ -21,12 +38,13 @@ const PdfReader: React.FC = () => {
     const [progress, setProgress] = useState(0);
 
 
-
+    //obravnava dogodka, ko datoteke "visijo" (ne vem kak druga rečt) nad območjem za drag and drop
     const handleDragOver = (event: React.DragEvent) => {
         console.log('Drag over');
         event.preventDefault();
     };
 
+    //bbravnava dogodka, ko se datoteke "spuščene" v območje za drag and drop 
     const handleDrop = (event: React.DragEvent, setFileFunction: (files: File[]) => void) => {
         console.log('File dropped');
         event.preventDefault();
@@ -34,15 +52,7 @@ const PdfReader: React.FC = () => {
         setFileFunction((prevFiles) => [...prevFiles, ...newFiles]);
     };
 
-    const handlePersonalInfoDrop = (event: React.DragEvent) => {
-        console.log('File dropped');
-        event.preventDefault();
-        const files = event.dataTransfer.files;
-        if (files.length > 0) {
-            setPersonalInfoFile(files[0]);
-        }
-    };
-
+    //obravnava dogodka, ko se datoteke izberejo preko inputa za dodajanje
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFileFunction: (files: File[]) => void) => {
         console.log('File selected');
         const newFiles = event.target.files;
@@ -51,18 +61,12 @@ const PdfReader: React.FC = () => {
         }
     };
 
-    const handlePersonalInfoFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('Personal Info File selected');
-        const files = event.target.files;
-        if (files && files.length > 0) {
-            setPersonalInfoFile(files[0]);
-        }
-    };
-
+    //odstrani datoteko iz seznama datotek na podlagi indeksa
     const handleRemoveFile = (index: number) => {
         setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
 
+    //obravnava dogodka, ko se klikne gumb za procesiranje datotek
     const handleProcessFiles = async () => {
         if (files.length > 0) {
             processFiles(files);
@@ -71,13 +75,12 @@ const PdfReader: React.FC = () => {
         }
     };
 
+    //pretvori število v obliki niza (npr. "1.234,56") v številsko vrednost
     const convertToNumber = (euroFormattedNumber: string): number => {
         return parseFloat(euroFormattedNumber.replace('.', '').replace(',', '.'));
     };
-    const convertToNumberr = (euroFormattedNumber: string): number => {
-        return parseFloat(euroFormattedNumber);
-    };
 
+    //z regexom pridobimo osebne podatke
     const extractRelevantInfo = (textContent: string) => {
         console.log("Extracting relevant info from text content");
 
@@ -178,6 +181,7 @@ const PdfReader: React.FC = () => {
         return relevantInfo;
     };
 
+    //z regexom pridobimo še podatke iz izpiskov
     const extractAdditionalInfo = (textContent, month) => {
         console.log("Extracted text content for month ", month, ":\n", textContent);
 
@@ -217,12 +221,10 @@ const PdfReader: React.FC = () => {
         }
 
         if (allMatches.length > 0) {
-            // Ako pronađemo bilo koju podudarnost, uzimamo prvu i formatiramo je
             placa = allMatches[0];
             placa = insertCommaBeforeLastTwoDigits(placa);
         }
 
-        // Ispišite sve podudarnosti za dijagnostiku
         console.log("Sve podudarnosti za placa: ", allMatches);
         console.log("to je placa: " + placa);
 
@@ -253,6 +255,8 @@ const PdfReader: React.FC = () => {
 
 
     };
+
+    //pretvorbo niza v številsko vrednost z upoštevanjem decimalnih ločil
     const parseRawNumber = (raw) => {
         if (raw.includes(',')) {
             if (raw.lastIndexOf(',') > raw.lastIndexOf('.')) {
@@ -264,10 +268,12 @@ const PdfReader: React.FC = () => {
         return parseFloat(raw);
     };
 
+    //formatiranje številske vrednosti v niz z decimalnimi mesti
     const formatNumber = (number) => {
         return number.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     };
-
+    
+    //vstavljanje vejice pred zadnjima dvema decimalskima mestoma v nizu
     const insertCommaBeforeLastTwoDigits = (raw) => {
         const len = raw.length;
         const integerPart = raw.substring(0, len - 2);
@@ -275,7 +281,7 @@ const PdfReader: React.FC = () => {
         return integerPart + ',' + decimalPart;
     };
 
-
+    //asinhrona funkcija za procesiranje seznama PDF datotek
     const processFiles = async (files: File[]) => {
         let textContent = '';
         setLoading(true);
@@ -284,13 +290,13 @@ const PdfReader: React.FC = () => {
             'januar', 'februar', 'marec', 'april', 'maj', 'junij',
             'julij', 'avgust', 'september', 'oktober', 'november', 'december'
         ];
-
+    
         // Check if the personal information PDF is provided
         const personalInfoFile = files.find(file => file.name.toLowerCase().includes('vloga'));
         if (personalInfoFile) {
             const fileTextContent = await convertPdfToImagesAndExtractText(personalInfoFile);
             console.log(`Text content for personal information PDF:\n${fileTextContent}`);
-
+    
             const relevantInfo = extractRelevantInfo(fileTextContent);
             const [day, monthNumber, year] = relevantInfo.birthDate.split('.');
             const formattedDate = `${year}-${monthNumber}-${day}`;
@@ -312,43 +318,43 @@ const PdfReader: React.FC = () => {
                 stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
             });
         }
-
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
+    
+        const promises = files.map(async (file, i) => {
             const fileName = file.name.toLowerCase();
             let month = '';
-
-            // Skip the personal information PDF
+    
             if (fileName.includes('vloga')) {
-                continue;
+                return;
             }
-
+    
             for (const monthName of monthNames) {
                 if (fileName.includes(monthName)) {
                     month = monthName;
                     break;
                 }
             }
-
+    
             if (!month) {
                 console.warn(`Could not determine month from file name "${file.name}"`);
-                continue;
+                return;
             }
-
+    
             const fileTextContent = await convertPdfToImagesAndExtractText(file);
             console.log(`Text content for file ${file.name}:\n${fileTextContent}`);
-
+    
             extractAdditionalInfo(fileTextContent, month);
             const progressPercentage = ((i + 1) / files.length) * 100;
             setProgress(progressPercentage);
-        }
-
+        });
+    
+        await Promise.all(promises);
+    
         setPdfText(`Full Text Content:\n\n${textContent}`);
         setLoading(false);
-        setProgress(100)
+        setProgress(100);
     };
 
-
+    //posodobitev stanja podatkov na podlagi podatkov, pridobljenih iz PDF-jev
     const updatePodatkiState = () => {
         const prometeVBremeValues = Object.values(pdfData).map(data => convertToNumber(data.prometeVBreme));
         const prometeVDobroValues = Object.values(pdfData).map(data => convertToNumber(data.prometeVDobro));
@@ -379,14 +385,14 @@ const PdfReader: React.FC = () => {
         });
     };
 
+    //hook, ki se zažene, ko se spremenijo podatki iz PDF-jev in pokliče 
     useEffect(() => {
-        // This effect runs only once when pdfData changes and is not empty.
         if (Object.keys(pdfData).length > 0) {
             updatePodatkiState();
         }
     }, [pdfData]);
 
-
+    //pretvorbo PDF datoteke v slike in izvlečenje besedila
     const convertPdfToImagesAndExtractText = async (file: File) => {
         const reader = new FileReader();
         return new Promise<string>((resolve, reject) => {
@@ -422,6 +428,7 @@ const PdfReader: React.FC = () => {
         });
     };
 
+    //izvleče besedilo iz slikovnih podatkov s pomočjo knjižnice
     const extractTextFromImage = (imgData: string): Promise<string> => {
         return new Promise((resolve, reject) => {
             Tesseract.recognize(
@@ -435,7 +442,7 @@ const PdfReader: React.FC = () => {
             }).catch(reject);
         });
     };
-
+    //komponenta za uporabniški vmesnik
     return (
         <>
             <div className="container">

@@ -1,3 +1,15 @@
+/**
+ * @file OsnovniKriteriji.tsx
+ * @brief Komponenta za preverjanje osnovnih kriterijev uporabnika
+ *
+ * @opis Komponenta OsnovniKriteriji omogoča uporabnikom, da vnesejo osnovne podatke, ki določajo njihovo upravičenost za kredit.
+ * Komponenta uporablja kontekst za dostop do stanja aplikacije in omogoča uporabnikom, da posodabljajo vrednosti z radijskimi gumbi.
+ *
+ * @potrebuje react, useContext iz "react", PodatkiContext iz "../../App"
+ *
+ * @verzija 1.0.0
+ * @since 1.0.0
+ */
 import { useContext } from "react";
 import { PodatkiContext } from "../../App";
 

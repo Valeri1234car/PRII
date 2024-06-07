@@ -1,3 +1,15 @@
+/**
+ * @file PdfBesedilo.tsx
+ * @brief Komponenta za prikaz besedila v formatu PDF
+ *
+ * @opis Komponenta PdfBesedilo omogoča prikaz besedila, ki je shranjeno v kontekstu aplikacije. 
+ * Besedilo se prikaže v formatu PDF s stiliziranim prikazom.
+ *
+ * @potrebuje react, useContext iz "react", PodatkiContext iz "../../App"
+ *
+ * @verzija 1.0.0
+ * @since 1.0.0
+ */
 import React, { useContext } from 'react';
 import { PodatkiContext } from '../../App';
 
