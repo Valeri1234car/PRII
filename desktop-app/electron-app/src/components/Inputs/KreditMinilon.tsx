@@ -1,3 +1,16 @@
+/**
+ * @file KreditMinilon.tsx
+ * @brief Komponenta za prikaz in upravljanje podatkov o kreditih Minilon
+ *
+ * @opis Komponenta KreditMinilon omogoča uporabnikom vnos zaprosenega zneska kredita in roka vračila v mesecih.
+ * Komponenta uporablja kontekst za dostop do stanja aplikacije in izračuna mesečno anuiteto (mesečni obrok) na podlagi predhodno definiranih pogojev kredita.
+ *
+ * @potrebuje react, useContext, useEffect iz "react", PodatkiContext iz "../../App", zneskiMesecnihAnuitet iz "../../interface/ZneskiMesecnihAnuitet"
+ *
+ * @verzija 1.0.0
+ * @since 1.0.0
+ */
+
 import { useContext, useEffect } from "react";
 import { PodatkiContext } from "../../App";
 import { zneskiMesecnihAnuitet } from "../../interface/ZneskiMesecnihAnuitet";

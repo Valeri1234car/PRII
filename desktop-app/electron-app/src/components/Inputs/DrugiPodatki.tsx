@@ -1,3 +1,19 @@
+/**
+ * @file DrugiPodatki.tsx
+ * @brief Komponenta za vnos in upravljanje dodatnih osebnih podatkov
+ *
+ * @opis Komponenta DrugiPodatki omogoča uporabnikom vnos in upravljanje dodatnih osebnih podatkov,
+ * vključno z izobrazbo, (so)lastništvom nepremičnin, številom vzdrževanih družinskih članov,
+ * statusom partnerja, samohranilstvom, zavezanostjo za preživnino, zneskom mesečne preživnine ter
+ * sumom na razne oblike odvisnosti ali sumljive prakse pri najemanju kredita.
+ * Komponenta uporablja kontekst PodatkiContext za pridobivanje in posodabljanje stanja aplikacije.
+ *
+ * @potrebuje react, useContext, PodatkiContext
+ * @potrebuje App.tsx (za PodatkiContext)
+ *
+ * @verzija 1.0.0
+ * @since 1.0.0
+ */
 import { useContext } from "react";
 import { PodatkiContext } from "../../App";
 

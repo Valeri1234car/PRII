@@ -1,3 +1,15 @@
+/**
+ * @file SisbonPodatki.tsx
+ * @brief Komponenta za vnos podatkov SISBON v EUR
+ *
+ * @opis Komponenta SisbonPodatki omogoča uporabnikom vnos in spreminjanje podatkov povezanih s SISBON v evrih.
+ * Uporablja kontekst za dostop do stanja aplikacije in funkcij za spreminjanje stanja.
+ *
+ * @potrebuje react, useContext iz "react", PodatkiContext iz "../../App"
+ *
+ * @verzija 1.0.0
+ * @since 1.0.0
+ */
 import { useContext } from "react";
 import { PodatkiContext } from "../../App";
 const SisbonPodatki = () => {
