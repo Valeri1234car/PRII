@@ -7,7 +7,7 @@
 <p align="center">
   <a href="#opis">Opis</a> •
   <a href="#tehnologije">Tehnologije</a> •
-  <a href="#instalacija">Inštalacija</a> •
+  <a href="#inštalacije">Inštalacija</a> •
   <a href="#pogon">Pogon</a> •
   <a href="#avtorji">Avtorji</a>
 </p>
@@ -29,7 +29,6 @@ Slika same aplikacije pridejo še sem.
 </ul>
 
 ## Inštalacije
-
 1. Namestitev npm paketov.
 ```
 npm install
@@ -39,7 +38,8 @@ npm install
 npm i react-bootstrap
 npm i electron
 npm i xlsx
-npm install pdfjs-dist@3.0.279 tesseract.js   
+npm install pdfjs-dist@3.0.279 tesseract.js
+npm i exceljs file-saver  
 ```
 ## Pogon
 
