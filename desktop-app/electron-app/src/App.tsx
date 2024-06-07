@@ -7,21 +7,17 @@
  * @verzija 1.0.0
  * @since 1.0.0
  */
-import React, { createContext, useEffect, useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import { createContext,  useState } from 'react';
+
 import './App.css';
 import Menu from './components/Menu/Menu';
-import OsebniPodatki from './components/Inputs/OsebniPodatki';
 import { Podatki } from './interface/Podatki';
-import BonitetnaOcena from './components/IzpisVnesenihPodatkov';
 import { Promet } from './interface/Podatki';
 import VsaVnosna from './components/Inputs/VsaVnosna';
 import VnosnoPolje from './components/Inputs/PdfReader';
-import PdfBesedilo from './components/Inputs/PdfBesedilo';
 import IzpisVnesenihPodatkov from './components/IzpisVnesenihPodatkov';
-import { ModulA, LikvidnostNeizvrseniTrajniNalogi, LikvidnostBancniPoboti,LikvidnostStIzvrsbTRR,BonitetaDelodajalca, Izobrazba } from './interface/ModulA';
-import { ModulB, SisbonNeoplacanDelObveznosti,SisbonZapadliDolg,SisbonIzterjava,SisbonIzvrsba } from './interface/ModulB';
+import { ModulA, } from './interface/ModulA';
+import { ModulB,  } from './interface/ModulB';
 import { ModulC } from './interface/ModulC';
 
 export const PodatkiContext = createContext<any>(null);

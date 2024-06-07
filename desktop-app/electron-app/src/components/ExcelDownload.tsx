@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useContext} from "react";
 import { PodatkiContext } from "../App";
-import * as XLSX from 'xlsx';
 import Excel from 'exceljs';
 import { saveAs } from 'file-saver';
 
@@ -10,7 +9,7 @@ const ExcelDownload = () => {
     
 
 
-    const {podatkiState, setPodatkiState} = useContext(PodatkiContext);
+    const {podatkiState} = useContext(PodatkiContext);
     
     const HandleClick = async ():Promise<void> => {
 
@@ -79,6 +78,11 @@ const ExcelDownload = () => {
    
         
             excelPolja.forEach(field => {
+
+            if (!worksheet) {
+                 console.error('Worksheet not found.');
+                return; 
+                }
                 const cell = worksheet.getCell(field.cell);
                 cell.value = field.value;
               });

@@ -10,17 +10,16 @@
  * @verzija 1.0.0
  * @since 1.0.0
  */
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { PodatkiContext } from "../App";
 import BonitetnaOcena from "./BonitetnaOcena";
-import * as XLSX from 'xlsx';
 
 const IzpisVnesenihPodatkov = () => {
     const { podatkiState } = useContext(PodatkiContext);
     const [tableData, setTableData] = useState([]);
 
     const generateExcelData = () => {
-        const data = [
+        const data:any = [
             ["Osebni podakti"],
             ["Ime", podatkiState.ime],
             ["Priimek", podatkiState.priimek],
@@ -91,13 +90,13 @@ const IzpisVnesenihPodatkov = () => {
                 {tableData.length > 0 && (
                     <table className="table table-bordered   mb-4">
                         <tbody>
-                        {tableData.map((row, rowIndex) => (
+                        {/* {tableData.map((row, rowIndex) => (
                             <tr key={rowIndex}>
-                                {row.map((cell, cellIndex) => (
+                                {row.map((cell:any, cellIndex:any) => (
                                     <td key={cellIndex}>{cell}</td>
                                 ))}
                             </tr>
-                        ))}
+                        ))} */}
                         </tbody>
                     </table>
                 )}

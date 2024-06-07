@@ -15,7 +15,7 @@ import { PodatkiContext } from "../../App";
 
 const ZaposlitevPodatki = () => {
 
-    const {podatkiState, setPodatkiState,setStran,HandleChange} = useContext(PodatkiContext);
+    const {podatkiState, HandleChange} = useContext(PodatkiContext);
 
     return(
         <div className="vnosItem">

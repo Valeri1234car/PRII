@@ -13,14 +13,13 @@
 import { useContext, useEffect } from "react";
 import { PodatkiContext } from "../App";
 // import { Izobrazba } from "../interface/ModulA";
-import { ModulA, LikvidnostNeizvrseniTrajniNalogi, LikvidnostBancniPoboti,LikvidnostStIzvrsbTRR,BonitetaDelodajalca, Izobrazba } from '../interface/ModulA';
-import { ModulB, SisbonNeoplacanDelObveznosti,SisbonZapadliDolg,SisbonIzterjava,SisbonIzvrsba } from '../interface/ModulB';
-import { ModulC } from '../interface/ModulC';
+import {  LikvidnostNeizvrseniTrajniNalogi, LikvidnostBancniPoboti,LikvidnostStIzvrsbTRR,BonitetaDelodajalca, Izobrazba } from '../interface/ModulA';
+import {  SisbonNeoplacanDelObveznosti,SisbonZapadliDolg,SisbonIzterjava,SisbonIzvrsba } from '../interface/ModulB';
 
 
 const BonitetnaOcena = () =>{
 
-    const {podatkiState, setPodatkiState, setStran, modulA, setModula, modulB, setModulB, modulC,setModulC} = useContext(PodatkiContext);
+    const {podatkiState,  modulA, setModula, modulB, setModulB, modulC,setModulC} = useContext(PodatkiContext);
 
     
     //----------------------------------bonitetna ocena------
@@ -36,8 +35,8 @@ const BonitetnaOcena = () =>{
         let bonitetaDelodajalcaRez=0
         let zaposlitevPartnerjaRez=podatkiState.partnerZaposlen ? 3 : 0;
         let izobrazbaRez=0
-        let razmerjeObveznostiKreditiDohodki=0
-        let presezekDohodkovNerubljiv= podatkiState.znesekPrejemkovPokojnina.povprecje +podatkiState.znesekDrugihPrejemkov.povprecje - podatkiState.nerubljiviDohodek
+        // let razmerjeObveznostiKreditiDohodki=0
+        // let presezekDohodkovNerubljiv= podatkiState.znesekPrejemkovPokojnina.povprecje +podatkiState.znesekDrugihPrejemkov.povprecje - podatkiState.nerubljiviDohodek
         
 
         LikvidnostNeizvrseniTrajniNalogi.forEach(element => {
