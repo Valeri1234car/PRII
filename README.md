@@ -20,15 +20,15 @@ Informacijska rešitev ocenjuje bonitetno oceno na podlagi, PDF dokumentov o fin
 Slika same aplikacije pridejo še sem.
 
 ## Tehnologije
-<ol>
+<ul>
 <li><img src="https://reactjs.org/favicon.ico" alt="React" width="30" height="30"> React </li>
 <li><img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap" width="30" height="30"> Bootstrap</li>
 <li><img src="https://www.typescriptlang.org/favicon.ico" alt="TypeScript" width="30" height="30"> TypeScript</li>
 <li><img src="https://cdn.jsdelivr.net/npm/simple-icons@7.17.0/icons/html5.svg" alt="HTML" width="30" height="30"> HTML</li>
 <li><img src="https://cdn.jsdelivr.net/npm/simple-icons@7.17.0/icons/css3.svg" alt="CSS" width="30" height="30"> CSS</li>
-</ol>
-## Inštalacije
+</ul>
 
+## Inštalacije
 
 1. Namestitev npm paketov.
 ```
