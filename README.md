@@ -30,7 +30,7 @@ Aplikacija je namenjena avtomitiziranem ocenjevanju bonitetne ocene za kreditna 
 Informacijska rešitev ocenjuje bonitetno oceno na podlagi, PDF dokumentov o finančih izpiskih in osebnih podatkov, kako/kakšen kredit lahko stranka vzame in kakšno so tveganja so za posojilodajalca. 
 
 ## Tehnologije
-<img src="https://reactjs.org/favicon.ico" alt="React" width="25" height="25"> | <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap" width="25" height="25"> | <img src="https://www.typescriptlang.org/favicon.ico" alt="TypeScript" width="25" height="25"> | <img src="https://cdn.jsdelivr.net/npm/simple-icons@7.17.0/icons/html5.svg" alt="HTML" width="25" height="25"> | <img src="https://cdn.jsdelivr.net/npm/simple-icons@7.17.0/icons/css3.svg" alt="CSS" width="25" height="25"> 
+<img src="https://reactjs.org/favicon.ico" alt="React" width="25" height="25">  <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap" width="25" height="25">  <img src="https://www.typescriptlang.org/favicon.ico" alt="TypeScript" width="25" height="25">  <img src="https://cdn.jsdelivr.net/npm/simple-icons@7.17.0/icons/html5.svg" alt="HTML" width="25" height="25">  <img src="https://cdn.jsdelivr.net/npm/simple-icons@7.17.0/icons/css3.svg" alt="CSS" width="25" height="25"> 
 
 ## Inštalacije
 
