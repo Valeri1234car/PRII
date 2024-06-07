@@ -18,12 +18,18 @@ import { ModulC } from './interface/ModulC';
 export const PodatkiContext = createContext<any>(null);
 
 
+
+
 const initialPromet: Promet = {
     t1: 0,
     t2: 0,
     t3: 0,
     povprecje: 0
 };
+
+
+
+
 
 const initialPodatki: Podatki = {
     ime: "",
@@ -91,18 +97,18 @@ const initialModulA:ModulA={
 
 }
 const initialModulB:ModulB={
-    
-        SISBONneodplacanDelObveznostiRez:0,
-        SISBONzapadliDolgRez:0,
-        SISBONizterjavaRez:0,
-        SISBONizvrsbaRez:0,
-        SISBONomejitevUporabeTrrRez:0,
-        SISBONneodplacanDelObveznosti:0,
-        SISBONzapadliDolg:0,
-        SISBONizterjava:0,
-        SISBONizvrsba:0,
-        skupneTocke:0,
-    
+
+    SISBONneodplacanDelObveznostiRez:0,
+    SISBONzapadliDolgRez:0,
+    SISBONizterjavaRez:0,
+    SISBONizvrsbaRez:0,
+    SISBONomejitevUporabeTrrRez:0,
+    SISBONneodplacanDelObveznosti:0,
+    SISBONzapadliDolg:0,
+    SISBONizterjava:0,
+    SISBONizvrsba:0,
+    skupneTocke:0,
+
 }
 
 const initialModulC:ModulC = {
@@ -135,14 +141,22 @@ function App() {
     };
 
 
-    
+    const [data, setData] = useState({
+        mesecniPrometDobro: { t1: 0, t2: 0, t3: 0 },
+        mesecniPrometBreme: { t1: 0, t2: 0, t3: 0 },
+        stanjeTRR: { t1: 0, t2: 0, t3: 0 },
+        znesekPrejemkovPokojnina: { t1: 0, t2: 0, t3: 0 },
+    });
+
+
+
 
     return (
         <>
-            <PodatkiContext.Provider value={{ podatkiState, setPodatkiState, setStran, HandleChange, HandleChangeInput, pdfText, setPdfText, modulA, setModula,modulB, setModulB, modulC, setModulC }}>
+            <PodatkiContext.Provider value={{ podatkiState, setPodatkiState, setStran, HandleChange, HandleChangeInput, pdfText, setPdfText, modulA, setModula,modulB, setModulB, modulC, setModulC,data, setData }}>
                 <Menu />
                 {stran =="Domov" && <div className='oknoDrag'><VnosnoPolje /></div>}
-                
+
                 {/* <div className='pdfBesedilo'><PdfBesedilo /></div> */}
                 <div className="main">
                     {stran === "Domov" && <VsaVnosna />}

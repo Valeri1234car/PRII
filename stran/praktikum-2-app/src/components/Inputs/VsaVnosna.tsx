@@ -75,7 +75,7 @@ const VsaVnosna: React.FC = () => {
     return (
         <div className="vsaVnosna">
             <div className="izbrisiGumbContainer mb-4">
-                <div className="izbrisiGumb" id="neki" onClick={HandleClick}>Remove inputs</div>
+                <div className="izbrisiGumb" id="neki" onClick={HandleClick}>Odstranite vnose</div>
             </div>
             <div className="pravougaonik">
                 <OsebniPodatki />
