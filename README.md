@@ -7,7 +7,7 @@
 <p align="center">
   <a href="#opis">Opis</a> •
   <a href="#tehnologije">Tehnologije</a> •
-  <a href="#instalacija">Inštalacija</a> •
+  <a href="#inštalacije">Inštalacija</a> •
   <a href="#pogon">Pogon</a> •
   <a href="#avtorji">Avtorji</a>
 </p>
