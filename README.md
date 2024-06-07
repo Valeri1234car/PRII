@@ -29,7 +29,6 @@ Slika same aplikacije pridejo še sem.
 </ul>
 
 ## Inštalacije
-
 1. Namestitev npm paketov.
 ```
 npm install
@@ -39,7 +38,8 @@ npm install
 npm i react-bootstrap
 npm i electron
 npm i xlsx
-npm install pdfjs-dist@3.0.279 tesseract.js   
+npm install pdfjs-dist@3.0.279 tesseract.js
+npm i exceljs file-saver  
 ```
 ## Pogon
 
