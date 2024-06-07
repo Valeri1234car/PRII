@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import { PodatkiContext } from "../App";
 import * as XLSX from 'xlsx';
-//import XlsxPopulate from 'xlsx-populate';
-// import * as XLSX from 'xlsx-style'; 
-// import excelFile from './bonitetna-ocena-template.xlsx'
+import Excel from 'exceljs';
+import { saveAs } from 'file-saver';
+
 
 const ExcelDownload = () => {
     
@@ -12,23 +12,19 @@ const ExcelDownload = () => {
 
     const {podatkiState, setPodatkiState} = useContext(PodatkiContext);
     
-    const HandleClick = async () => {
+    const HandleClick = async ():Promise<void> => {
 
+        const response = await fetch('/bonitetna-ocena-template.xlsx');
+        const arrayBuffer = await response.arrayBuffer();
 
-        const boldStyle = {
-            font: { bold: true }
-        };
-        const borderStyle = {
-            border: {
-                top: { style: 'thin', color: { auto: 1 } },
-                bottom: { style: 'thin', color: { auto: 1 } },
-                left: { style: 'thin', color: { auto: 1 } },
-                right: { style: 'thin', color: { auto: 1 } }
-            }
-        };
+        const workbook = new Excel.Workbook();
+        await workbook.xlsx.load(arrayBuffer);
+
+        const worksheet = workbook.getWorksheet("BONITETA");
+
 
         const excelPolja =[
-            {cell:'C6',value: podatkiState.priimek + " " + podatkiState.ime ,style:{...boldStyle}},
+            {cell:'C6',value: podatkiState.priimek + " " + podatkiState.ime },
             {cell:'C7',value: podatkiState.naslov },
             {cell:'C8',value: podatkiState.datumRojstva },
             {cell:'C11',value: podatkiState.drzavljanRS ? "DA" : "NE"},
@@ -79,38 +75,19 @@ const ExcelDownload = () => {
             {cell:'C53',value: podatkiState.sisbonIzterjava},
             {cell:'C54',value: podatkiState.sisbonIzvrsba},
             {cell:'C55',value: podatkiState.sisbonOmejitevTRR ? "DA" : "NE"},
-
-
-
-
-            
-
         ]
    
-        // const workbook = XLSX.utils.book_new()
-            const response = await fetch('/bonitetna-ocena-template.xlsx');
-            const arrayBuffer = await response.arrayBuffer();
-            const workbook = XLSX.read(arrayBuffer, { type: 'buffer', cellStyles: false });
-
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[sheetName];
-
+        
+            excelPolja.forEach(field => {
+                const cell = worksheet.getCell(field.cell);
+                cell.value = field.value;
+              });
             
-
-           
-            excelPolja.forEach(item => {
-                const cell = item.cell;
-                if (!worksheet[cell]) worksheet[cell] = {};
-                worksheet[cell].v = item.value;
-                worksheet[cell].t = typeof item.value === 'string' ? 's' : 'n';
-                worksheet[cell].s = item.style;
-            });
-
-
-
+             
+              const buffer = await workbook.xlsx.writeBuffer();
+              const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
             
-            XLSX.writeFile(workbook,  podatkiState.priimek +'_'+ podatkiState.ime + '_bonitetnaOcena.xlsx', { bookType: 'xlsx', type: 'buffer', cellStyles: true });
-    
+              saveAs(blob, podatkiState.priimek +'_'+ podatkiState.ime +  '_bonitetnaOcena.xlsx');
     }
 
     

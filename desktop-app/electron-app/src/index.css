@@ -301,12 +301,29 @@ vsaVnosna {
 .izbrisiGumbContainer{
   display: flex;
   justify-content: end;
+  width: 95%;
 }
 
-.izbrisiGumb{
-  font-size: 1.2rem;
-  color: lightgrey;
+/* --------tole je dejansko gumb ce kdo mislis da boljs zgleda */
+/* .izbrisiGumb{
+  font-size: 1.1rem;
+  color: black;
   font-weight: 700;
+  padding: 5px;
+  border-radius: 4px;
+  background-color: red;
+
+}
+.izbrisiGumb:hover{
+  background-color: rgb(216, 3, 3);
+  transition-duration: 200ms;
+  cursor: pointer;
+} */
+
+.izbrisiGumb{
+  font-size: 1.1rem;
+  color: lightgrey;
+  font-weight: 650;
 }
 .izbrisiGumb:hover{
   color: red;
