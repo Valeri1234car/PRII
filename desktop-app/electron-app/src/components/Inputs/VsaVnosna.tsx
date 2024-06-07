@@ -13,7 +13,7 @@
  * @verzija 1.0.0
  * @since 1.0.0
  */
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import DrugiPodatki from "./DrugiPodatki";
 import FinancnoPoslovanje from "./FinancnoPoslovanje";
 import KreditMinilon from "./KreditMinilon";
@@ -21,7 +21,7 @@ import OsebniPodatki from "./OsebniPodatki";
 import OsnovniKriteriji from "./OsnovniKriteriji";
 import ZaposlitevPodatki from "./ZaposlitevPodatki";
 import { PodatkiContext } from "../../App";
-import VnosnoPolje from "./PdfReader";
+// import VnosnoPolje from "./PdfReader";
 import SisbonPodatki from "./SisbonPodatki";
 // import FinancniIzpiski from "./FinancniIzpiski";
 import { Podatki } from "../../interface/Podatki";

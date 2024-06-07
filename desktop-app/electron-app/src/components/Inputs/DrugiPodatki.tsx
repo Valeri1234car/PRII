@@ -19,7 +19,7 @@ import { PodatkiContext } from "../../App";
 
 const DrugiPodatki = () => {
 
-    const {podatkiState, setPodatkiState,setStran,HandleChange,HandleChangeInput} = useContext(PodatkiContext);
+    const {podatkiState, HandleChange,HandleChangeInput} = useContext(PodatkiContext);
 
     // const HandleChangeInput = (e:any) => {
     //     const { name, value } = e.target;

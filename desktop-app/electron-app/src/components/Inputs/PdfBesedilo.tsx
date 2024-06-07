@@ -10,7 +10,7 @@
  * @verzija 1.0.0
  * @since 1.0.0
  */
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { PodatkiContext } from '../../App';
 
 const PdfBesedilo = () => {

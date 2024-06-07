@@ -17,7 +17,7 @@ import { zneskiMesecnihAnuitet } from "../../interface/ZneskiMesecnihAnuitet";
 
 const KreditMinilon = () =>{
 
-    const {podatkiState, setPodatkiState,setStran,HandleChange} = useContext(PodatkiContext);
+    const {podatkiState, setPodatkiState,HandleChange} = useContext(PodatkiContext);
 
 
     useEffect(()=>{

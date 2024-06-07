@@ -11,7 +11,7 @@
  * @since 1.0.0
  */
 
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { PodatkiContext } from "../../App";
 
 

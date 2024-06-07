@@ -30,11 +30,9 @@ const PdfReader: React.FC = () => {
     const [files, setFiles] = useState<File[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
-    const personalInfoInputRef = useRef<HTMLInputElement>(null);
     const { setPdfText, setPodatkiState, podatkiState } = useContext(PodatkiContext);
     const [pdfData, setPdfData] = useState<{ [key: string]: any }>({});
-    const { data, setData } = useContext(PodatkiContext);
-    const [personalInfoFile, setPersonalInfoFile] = useState<File | null>(null);
+    const { setData } = useContext(PodatkiContext);
     const [progress, setProgress] = useState(0);
 
 
@@ -45,7 +43,7 @@ const PdfReader: React.FC = () => {
     };
 
     //bbravnava dogodka, ko se datoteke "spuščene" v območje za drag and drop 
-    const handleDrop = (event: React.DragEvent, setFileFunction: (files: File[]) => void) => {
+    const handleDrop = (event: React.DragEvent, setFileFunction: React.Dispatch<React.SetStateAction<File[]>>) => {
         console.log('File dropped');
         event.preventDefault();
         const newFiles = Array.from(event.dataTransfer.files);
@@ -53,11 +51,11 @@ const PdfReader: React.FC = () => {
     };
 
     //obravnava dogodka, ko se datoteke izberejo preko inputa za dodajanje
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFileFunction: (files: File[]) => void) => {
-        console.log('File selected');
-        const newFiles = event.target.files;
-        if (newFiles) {
-            setFileFunction((prevFiles) => [...prevFiles, ...Array.from(newFiles)]);
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFileFunction: React.Dispatch<React.SetStateAction<File[]>>) => {
+    console.log('File selected');
+    const newFiles = event.target.files;
+    if (newFiles) {
+        setFileFunction((prevFiles) => [...prevFiles, ...Array.from(newFiles)]);
         }
     };
 
@@ -182,7 +180,7 @@ const PdfReader: React.FC = () => {
     };
 
     //z regexom pridobimo še podatke iz izpiskov
-    const extractAdditionalInfo = (textContent, month) => {
+    const extractAdditionalInfo = (textContent:any, month:any) => {
         console.log("Extracted text content for month ", month, ":\n", textContent);
 
         const prometeVBreme = textContent.match(/Promet v breme:\s*([\d.,]+)/)?.[1] || '0';
@@ -257,7 +255,7 @@ const PdfReader: React.FC = () => {
     };
 
     //pretvorbo niza v številsko vrednost z upoštevanjem decimalnih ločil
-    const parseRawNumber = (raw) => {
+    const parseRawNumber = (raw:any) => {
         if (raw.includes(',')) {
             if (raw.lastIndexOf(',') > raw.lastIndexOf('.')) {
                 raw = raw.replace(/\./g, '').replace(',', '.');
@@ -269,12 +267,12 @@ const PdfReader: React.FC = () => {
     };
 
     //formatiranje številske vrednosti v niz z decimalnimi mesti
-    const formatNumber = (number) => {
+    const formatNumber = (number:any) => {
         return number.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     };
     
     //vstavljanje vejice pred zadnjima dvema decimalskima mestoma v nizu
-    const insertCommaBeforeLastTwoDigits = (raw) => {
+    const insertCommaBeforeLastTwoDigits = (raw:any) => {
         const len = raw.length;
         const integerPart = raw.substring(0, len - 2);
         const decimalPart = raw.substring(len - 2);
@@ -290,8 +288,6 @@ const PdfReader: React.FC = () => {
             'januar', 'februar', 'marec', 'april', 'maj', 'junij',
             'julij', 'avgust', 'september', 'oktober', 'november', 'december'
         ];
-    
-        // Check if the personal information PDF is provided
         const personalInfoFile = files.find(file => file.name.toLowerCase().includes('vloga'));
         if (personalInfoFile) {
             const fileTextContent = await convertPdfToImagesAndExtractText(personalInfoFile);

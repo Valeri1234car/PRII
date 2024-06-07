@@ -14,7 +14,7 @@ import { useContext } from "react";
 import { PodatkiContext } from "../../App";
 const SisbonPodatki = () => {
 
-    const {podatkiState, setPodatkiState,setStran,HandleChange, HandleChangeInput} = useContext(PodatkiContext);
+    const {podatkiState,HandleChange, HandleChangeInput} = useContext(PodatkiContext);
 
     return (
         <div className="vnosItem">

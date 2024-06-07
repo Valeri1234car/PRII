@@ -11,12 +11,11 @@
  * @verzija 1.0.0
  * @since 1.0.0
  */
-import { useContext, useEffect } from "react";
+import { useContext} from "react";
 import { PodatkiContext } from "../../App";
-import { minimalnaPlaca } from "../../interface/ZneskiMesecnihAnuitet";
 const FinancnoPoslovanje = () =>{
 
-    const {podatkiState, setPodatkiState, setStran, HandleChange} = useContext(PodatkiContext);
+    const {podatkiState, setPodatkiState} = useContext(PodatkiContext);
 
     const HandleChange2 = (e:any) => {
         const { name, value } = e.target;
