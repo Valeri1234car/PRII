@@ -7,7 +7,7 @@ const ZaposlitevPodatki = () => {
 
     return(
         <div className="vnosItem">
-            <h2 className="mb-4 text-primary text-dark">Podatki o zaposlenem</h2>
+            <h2 className="text-primary text-dark">Podatki o zaposlenem</h2>
             <div className="vnosnaPolja">
                 <div className="mb-3">
                     <label htmlFor="delodajalec" className="form-label">Delodajalec:</label>
