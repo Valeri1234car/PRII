@@ -48,7 +48,7 @@ npm install pdfjs-dist@3.0.279 tesseract.js
 ```
 ## Pogon
 
-Po uspešno nameščenih knjižnicah odprite program v razvijalnem okolju (npr. VSC, WebStorm…)
+Po uspešno nameščenih knjižnicah odprite program v razvijalnem okolju (npr. VSC, WebStorm…) <br>
 1.Klonirajte repositorji
 ```sh
 git clone https://github.com/Valeri1234car/PRII.git
@@ -62,15 +62,8 @@ Tule bom dal sliko
 
 Razvijalci projekta:
 Domen Drovenik  
-[@DomPizzie](https://twitter.com/dompizzie)
-
 Lazar Čvorović
-[@DomPizzie](https://twitter.com/dompizzie)
-
 Valeri Kamburov
-[@DomPizzie](https://twitter.com/dompizzie)
-
-
 ## 
 
 
