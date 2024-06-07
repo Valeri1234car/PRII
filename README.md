@@ -1,42 +1,77 @@
-# PRII
-Avtomatizacija postopka odobravanja potrošniških kreditov
-Ta projekt je spletna aplikacija, zgrajena z uporabo React, TypeScript, HTML, CSS in Bootstrap za avtomatizacijo postopka odobravanja potrošniških kreditov v podjetju x.
+# Ocenjevanje bonitetne ocene – potrošniški krediti
 
-Uporabljene tehnologije
+Aplikacija je namenjena avtomitiziranem ocenjevanju bonitetne ocene za kreditna posojila.
 
-React: Knjižnica JavaScript za gradnjo uporabniških vmesnikov
-TypeScript: Nadgradnja JavaScripta, ki dodaja statično tipizacijo
-HTML: Standardni označevalni jezik za izdelavo spletnih strani
-CSS: Slogovna datoteka za opisovanje predstavitve spletnih strani
-Bootstrap: Priljubljen CSS okvir za gradnjo odzivnih in mobilno-first spletnih mest
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#opis">Opis</a>
+    </li>
+    <li>
+      <a href="#tehnologije">Tehnologije</a>
+    </li>
+    <li>
+      <a href="#instalacija">Inštalacija</a>
+    </li>
+    <li>
+      <a href="#pogon">Pogon</a>
+    </li>
+    <li>
+      <a href="#avtorji">Avtorji</a>
+    </li>
 
-Začetek
-Za lokalni zagon projekta sledite tem korakom:
 
-Klonirajte repozitorij: git clone https://github.com/Valeri1234car/PRII.git
-Premaknite se v mapo projekta: cd .\stran\ -> cd .\praktikum-2-app\
-Namestite odvisnosti: npm install
-Zaženite razvojni strežnik: npm run dev
-Odprite brskalnik in obiščite localhost link, ki se Vam prikaži, da vidite aplikacijo.
+  </ol>
+</details>
 
-Struktura projekta
+## Opis
 
-src/components: Vsebuje ponovno uporabljive React komponente
-src/pages: Vsebuje glavne strani aplikacije
-src/services: Vsebuje storitve za interakcijo z API-ji, podatkovnimi bazami ali drugimi zunanjimi storitvami
-src/utils: Vsebuje pomožne funkcije in pomočnike
-src/styles: Vsebuje globalne in komponentno specifične CSS sloge
+Informacijska rešitev ocenjuje bonitetno oceno na podlagi, PDF dokumentov o finančih izpiskih in osebnih podatkov, kako/kakšen kredit lahko stranka vzame in kakšno so tveganja so za posojilodajalca. 
 
-Prispevanje
-Če bi želeli prispevati k temu projektu, sledite tem korakom:
+## Tehnologije
+* [![React][React.js]][React-url]
+* [![TypeScript][Typescript.com][TypeScript-url]
+* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 
-Naredite fork repozitorija
-Ustvarite novo vejo: git checkout -b my-new-feature
-Naredite vaše spremembe in jih commitajte: git commit -am 'Add some feature'
-Pošljite spremembe v vejo: git push origin my-new-feature
-Vložite zahtevo za združitev (pull request)
+## Inštalacije
 
-Licenca
-Ta projekt je licenciran pod MIT License.
-Kontakt
-Za več informacij ali vprašanj, se obrnite na [].
+   ```
+1. Namestitev npm paketov.
+```
+npm install
+```
+1.1	V primeru, da kakšnega importa ne najde so tukaj še ostali.
+```
+npm i react-bootstrap
+npm i electron
+npm i xlsx
+npm install pdfjs-dist@3.0.279 tesseract.js   
+```
+## Pogon 
+Po uspešno nameščenih knjižnicah odprite program v razvijalnem okolju (npr. VSC, WebStorm…)
+1.Klonirajte repositorji
+```sh
+git clone https://github.com/Valeri1234car/PRII.git
+```
+2.Poženite program v direktoriju `PRII\desktop-app\electron-app>` z ukazom
+```
+npm run dev
+```
+Tule bom dal sliko
+## Avtorji
+
+Razvijalci projekta:
+Domen Drovenik  
+[@DomPizzie](https://twitter.com/dompizzie)
+
+Lazar Čvorović
+[@DomPizzie](https://twitter.com/dompizzie)
+
+Valeri Kamburov
+[@DomPizzie](https://twitter.com/dompizzie)
+
+
+## 
+
+
