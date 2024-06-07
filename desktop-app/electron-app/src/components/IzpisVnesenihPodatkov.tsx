@@ -1,3 +1,15 @@
+/**
+ * @file IzpisVnesenihPodatkov.tsx
+ * @brief Komponenta za prikaz vnesenih podatkov in njihov izvoz v Excel datoteko
+ *
+ * @opis Komponenta IzpisVnesenihPodatkov omogoča prikaz vnesenih podatkov v tabeli ter izvoz teh podatkov v Excel datoteko.
+ * Podatki se generirajo na podlagi stanja v PodatkiContext-u.
+ *
+ * @potrebuje react, PodatkiContext iz "../App" in knjižnico XLSX za izvoz v Excel format
+ *
+ * @verzija 1.0.0
+ * @since 1.0.0
+ */
 import React, { useContext, useState } from "react";
 import { PodatkiContext } from "../App";
 import BonitetnaOcena from "./BonitetnaOcena";

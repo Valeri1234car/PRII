@@ -1,3 +1,15 @@
+/**
+ * @file BonitetnaOcena.tsx
+ * @brief Komponenta za izračun in prikaz bonitetne ocene
+ *
+ * @opis Komponenta BonitetnaOcena izračuna in prikaže bonitetno oceno na podlagi različnih modulov, kot so likvidnost, SISBON podatki, itd.
+ * Izračuni so ponderirani in prikazani v tabeli.
+ *
+ * @potrebuje react, PodatkiContext iz "../../App", in različne vmesniške datoteke
+ *
+ * @verzija 1.0.0
+ * @since 1.0.0
+ */
 import { useContext, useEffect } from "react";
 import { PodatkiContext } from "../App";
 // import { Izobrazba } from "../interface/ModulA";
