@@ -1,3 +1,12 @@
+/**
+ * @file App.tsx
+ * @brief Glavna komponenta aplikacije
+ *
+ * @opis Komponenta App je glavna komponenta aplikacije, ki vsebuje osnovno strukturo in usmerja uporabnika glede na izbrano stran.
+ *
+ * @verzija 1.0.0
+ * @since 1.0.0
+ */
 import React, { createContext, useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';

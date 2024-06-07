@@ -1,3 +1,16 @@
+/**
+ * @file OsebniPodatki.tsx
+ * @brief Komponenta za vnos in prikaz osebnih podatkov
+ *
+ * @opis Komponenta OsebniPodatki omogoča uporabnikom vnos osebnih podatkov, kot so ime, priimek, naslov in datum rojstva.
+ * Komponenta uporablja kontekst za dostop do stanja aplikacije in izračuna starost uporabnika na podlagi vnosa datuma rojstva.
+ *
+ * @potrebuje react, useContext, useEffect iz "react", PodatkiContext iz "../../App"
+ *
+ * @verzija 1.0.0
+ * @since 1.0.0
+ */
+
 import React, { useContext, useEffect } from "react";
 import { PodatkiContext } from "../../App";
 

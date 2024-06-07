@@ -1,3 +1,18 @@
+/**
+ * @file VsaVnosna.tsx
+ * @brief Glavna komponenta za vnos vseh podatkov
+ *
+ * @opis Komponenta VsaVnosna omogoča uporabnikom vnos in urejanje vseh podatkov, povezanih z uporabnikom.
+ * Vključuje več manjših komponent, ki omogočajo vnos osebnih podatkov, osnovnih kriterijev, finančnih podatkov,
+ * podatkov o kreditu, zaposlitvi, SISBON podatkov itd.
+ * Prav tako omogoča izbris vseh vnosov z enim klikom.
+ *
+ * @potrebuje react, useContext iz "react", PodatkiContext iz "../../App", DrugiPodatki, FinancnoPoslovanje,
+ * KreditMinilon, OsebniPodatki, OsnovniKriteriji, ZaposlitevPodatki, SisbonPodatki, FinancniIzpiski, ExcelDownload
+ *
+ * @verzija 1.0.0
+ * @since 1.0.0
+ */
 import React, { useContext, useEffect } from "react";
 import DrugiPodatki from "./DrugiPodatki";
 import FinancnoPoslovanje from "./FinancnoPoslovanje";
