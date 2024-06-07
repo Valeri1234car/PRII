@@ -458,7 +458,7 @@ const PdfReader: React.FC = () => {
                                             border: '1px solid #fff'
                                         }}
                                         onClick={() => handleRemoveFile(index)}
-                                    >Remove</button>
+                                    >Odstrani</button>
                                 </div>
                             ))
                         ) : (
@@ -475,9 +475,9 @@ const PdfReader: React.FC = () => {
                             accept="application/pdf"
                             ref={inputRef}
                         />
-                        <button className="btn btn-primary w-100 mt-2" onClick={() => inputRef.current?.click()}>Select Files</button>
+                        <button className="btn btn-primary w-100 mt-2" onClick={() => inputRef.current?.click()}>Izberite Datoteke</button>
                         <button className="btn btn-success w-100 mt-2" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
-                            {loading ? 'Processing...' : 'Start Processing'}
+                            {loading ? 'Spracovanie...' : 'Začat spracovanie'}
                         </button>
                     </div>
                 </div>

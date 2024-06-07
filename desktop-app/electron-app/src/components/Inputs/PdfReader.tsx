@@ -1,71 +1,122 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
 import Tesseract from 'tesseract.js';
 import { PodatkiContext } from '../../App';
+import { Promet } from '../../interface/Podatki';
+import { ProgressBar } from 'react-bootstrap';
+
+
 
 GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.0.279/pdf.worker.min.js`;
 
 const PdfReader: React.FC = () => {
-    const [files, setFiles] = useState<FileList | null>(null);
+    const [files, setFiles] = useState<File[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
+    const personalInfoInputRef = useRef<HTMLInputElement>(null);
     const { setPdfText, setPodatkiState, podatkiState } = useContext(PodatkiContext);
     const [pdfData, setPdfData] = useState<{ [key: string]: any }>({});
+    const { data, setData } = useContext(PodatkiContext);
+    const [personalInfoFile, setPersonalInfoFile] = useState<File | null>(null);
+    const [progress, setProgress] = useState(0);
+
+
 
     const handleDragOver = (event: React.DragEvent) => {
+        console.log('Drag over');
         event.preventDefault();
     };
 
-    const handleDrop = (event: React.DragEvent) => {
+    const handleDrop = (event: React.DragEvent, setFileFunction: (files: File[]) => void) => {
+        console.log('File dropped');
         event.preventDefault();
-        setFiles(event.dataTransfer.files);
+        const newFiles = Array.from(event.dataTransfer.files);
+        setFileFunction((prevFiles) => [...prevFiles, ...newFiles]);
     };
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePersonalInfoDrop = (event: React.DragEvent) => {
+        console.log('File dropped');
+        event.preventDefault();
+        const files = event.dataTransfer.files;
+        if (files.length > 0) {
+            setPersonalInfoFile(files[0]);
+        }
+    };
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFileFunction: (files: File[]) => void) => {
+        console.log('File selected');
+        const newFiles = event.target.files;
+        if (newFiles) {
+            setFileFunction((prevFiles) => [...prevFiles, ...Array.from(newFiles)]);
+        }
+    };
+
+    const handlePersonalInfoFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('Personal Info File selected');
         const files = event.target.files;
-        if (files) {
-            setFiles(files);
+        if (files && files.length > 0) {
+            setPersonalInfoFile(files[0]);
+        }
+    };
+
+    const handleRemoveFile = (index: number) => {
+        setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    };
+
+    const handleProcessFiles = async () => {
+        if (files.length > 0) {
             processFiles(files);
+        } else {
+            alert('Napaka pri branju');
         }
     };
 
     const convertToNumber = (euroFormattedNumber: string): number => {
         return parseFloat(euroFormattedNumber.replace('.', '').replace(',', '.'));
     };
+    const convertToNumberr = (euroFormattedNumber: string): number => {
+        return parseFloat(euroFormattedNumber);
+    };
 
     const extractRelevantInfo = (textContent: string) => {
+        console.log("Extracting relevant info from text content");
+
         const nameRegex = /Ime:\s*(\w+)\s*Priimek:\s*(\w+)/;
         const matchName = textContent.match(nameRegex);
         const name = matchName ? matchName[1] : '';
         const surname = matchName ? matchName[2] : '';
+        console.log("Name:", name, "Surname:", surname);
 
         const naslovRegex = /Kraj:\s*(.+)/i;
         const naslovIme = textContent.match(naslovRegex);
         const naslovNaslov = naslovIme ? naslovIme[1] : '';
-        console.log(naslovNaslov);
+        console.log("Naslov:", naslovNaslov);
 
         const addressRegex = /Ulica in hina 3tevilka:\s*(.+)/i;
         const matchAddress = textContent.match(addressRegex);
         const address = matchAddress ? matchAddress[1] : '';
-        console.log(addressRegex);
-        console.log("address" + matchAddress);
+        console.log("Address:", address);
 
         const birthDateRegex = /Datum rojstva:\s*(\d{2}\.\d{1,2}\.\d{4})/;
         const matchBirthDate = textContent.match(birthDateRegex);
         const birthDate = matchBirthDate ? matchBirthDate[1] : '';
+        console.log("Birth Date:", birthDate);
 
         const sloveniaCitizenRegex = /Slovensko drzavljanstvo:\s*(\w+)/;
         const matchSloveniaCitizen = textContent.match(sloveniaCitizenRegex);
         const sloveniaCitizen = matchSloveniaCitizen ? matchSloveniaCitizen[1].toLowerCase() === 'da' : false;
+        console.log("Slovenia Citizen:", sloveniaCitizen);
 
         const ageRegex = /Starost:(\d+)/;
         const matchAge = textContent.match(ageRegex);
         const age = matchAge ? parseInt(matchAge[1]) : 0;
         const isAdult = age >= 18;
+        console.log("Age:", age, "Is Adult:", isAdult);
 
         const bankruptcyRegex = /Ste bili ali ste zdaj v postopku osebnega stetaja?\s*:\s*(\w+)/i;
         const matchBankruptcy = textContent.match(bankruptcyRegex);
         const isNotInBankruptcy = matchBankruptcy ? matchBankruptcy[1].toLowerCase() === 'ne' : false;
+        console.log("Is Not In Bankruptcy:", isNotInBankruptcy);
 
         const employmentRegex = /Status zaposlitve:\s*(\w+)/i;
         const matchEmployment = textContent.match(employmentRegex);
@@ -88,20 +139,22 @@ const PdfReader: React.FC = () => {
         const loanAmountRegex = /Znesek kredita \(v EUR\):\s*([\d.,]+)\s*EUR/;
         const matchLoanAmount = textContent.match(loanAmountRegex);
         const loanAmount = matchLoanAmount ? convertToNumber(matchLoanAmount[1]) : 0;
+        console.log("Loan Amount:", loanAmount);
 
         const repaymentPeriodRegex = /doba odplatevanja \(v mesecih\):\s*(\d+)\s*mesec/i;
         const matchRepaymentPeriod = textContent.match(repaymentPeriodRegex);
         const repaymentPeriod = matchRepaymentPeriod ? parseInt(matchRepaymentPeriod[1]) : 0;
+        console.log("Repayment Period:", repaymentPeriod);
 
         const stopnjaIzobrazbe1 = /Stopnja izobrazbe:\s*(.+)/i;
         const stopnjaIzobrazbe2 = textContent.match(stopnjaIzobrazbe1);
         const stopnjaIzobrazbe3 = stopnjaIzobrazbe2 ? stopnjaIzobrazbe2[1] : '';
-        console.log("izobrazba" + stopnjaIzobrazbe2);
+        console.log("Stopnja izobrazbe:", stopnjaIzobrazbe3);
 
         const steviloClanov1 = /Stevilo vzdrievanih druzinskih élanov:\s*(.+)/;
         const steviloClanov2 = textContent.match(steviloClanov1);
         const steviloClanov3 = steviloClanov2 ? steviloClanov2[1] : '';
-        console.log("izobrazba" + steviloClanov2);
+        console.log("Stevilo Clanov:", steviloClanov3);
 
         const relevantInfo = {
             name,
@@ -121,65 +174,218 @@ const PdfReader: React.FC = () => {
             steviloClanov3,
         };
 
+        console.log("Relevant Info:", relevantInfo);
         return relevantInfo;
     };
 
-    const extractAdditionalInfo = (textContent: string, month: string) => {
-        const prometeVBreme = textContent.match(/Promet v breme: ([\d.,]+)/)?.[1] || '0';
-        const prometeVDobro = textContent.match(/Promet v dobro: ([\d.,]+)/)?.[1] || '0';
-        const stanje = textContent.match(/Novo stanje na računu \(v EUR\): (-?\d+(?:[.,]\d+)?)/)?.[1] || '0';
+    const extractAdditionalInfo = (textContent, month) => {
+        console.log("Extracted text content for month ", month, ":\n", textContent);
 
-        console.log(stanje);
-        const placa = textContent.match(/PLACA REDNO DNALOG\d+ ([\d.,]+)/)?.[1] || '0';
+        const prometeVBreme = textContent.match(/Promet v breme:\s*([\d.,]+)/)?.[1] || '0';
+        const prometeVDobro = textContent.match(/Promet v dobro:\s*([\d.,]+)/)?.[1] || '0';
 
-        setPdfData((prevData) => ({
-            ...prevData,
-            [month]: {
-                prometeVBreme,
-                prometeVDobro,
-                stanje,
-                placa,
-            },
-        }));
-        console.info(stanje)
+        const stanjeRegex = /Novo stanje na racunu \(v EUR\):\s*(-?\d{1,3}(?:\.\d{3})*(?:,\d+)?)/;
+        const matchStanje = textContent.match(stanjeRegex);
+        let stanje = '0';
+        if (matchStanje) {
+            stanje = matchStanje[1];
+            stanje = formatNumber(parseRawNumber(stanje));
+        }
+        console.log(stanjeRegex);
+        console.log(matchStanje);
+        console.log("to je stanje: " + stanje);
+
+
+        const placaRegexes = [
+            'PLACA\\s+REDNO\\s+DNALOGO\\d+\\s+(-?\\d+\\.\\d+)',
+            /PLACA\s+REDNO\s+DNALOG\d+\s+([\d.,]+)/,
+            /PLACA\s+REDNO\s+DNALOGO\d+\s+([\d.,]+)/,
+            /Placa\s+\d+\s+([\d.,]+)/,
+            /Placa\s+([\d.,]+)/,
+            /PLACA\s+\d+\s+REDNO\s+DNALOG\d+\s+([\d.,]+)/,
+
+        ];
+
+        let placa = '0';
+        let allMatches = [];
+
+        for (const regex of placaRegexes) {
+            const matchPlaca = textContent.match(regex);
+            if (matchPlaca) {
+                allMatches.push(matchPlaca[1]);
+            }
+        }
+
+        if (allMatches.length > 0) {
+            // Ako pronađemo bilo koju podudarnost, uzimamo prvu i formatiramo je
+            placa = allMatches[0];
+            placa = insertCommaBeforeLastTwoDigits(placa);
+        }
+
+        // Ispišite sve podudarnosti za dijagnostiku
+        console.log("Sve podudarnosti za placa: ", allMatches);
+        console.log("to je placa: " + placa);
+
+        setPdfData((prevData) => {
+            const newData = {
+                ...prevData,
+                [month]: {
+                    prometeVBreme,
+                    prometeVDobro,
+                    stanje,
+                    placa,
+                },
+            };
+
+            setData(newData); // Ovde ažurirate podatke u kontekstu
+            console.log(newData)
+
+            // console.log(newData.avgust.prometeVBreme)
+
+            return newData;
+        });
+
+        const neki = convertToNumber(prometeVDobro)-convertToNumber(placa);
+        console.log(placa)
+        console.log(prometeVDobro)
+        console.log(neki)
+
+
+
+    };
+    const parseRawNumber = (raw) => {
+        if (raw.includes(',')) {
+            if (raw.lastIndexOf(',') > raw.lastIndexOf('.')) {
+                raw = raw.replace(/\./g, '').replace(',', '.');
+            } else {
+                raw = raw.replace(/,/g, '');
+            }
+        }
+        return parseFloat(raw);
     };
 
-    const processFiles = async (files: FileList) => {
-        setLoading(true);
+    const formatNumber = (number) => {
+        return number.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
+
+    const insertCommaBeforeLastTwoDigits = (raw) => {
+        const len = raw.length;
+        const integerPart = raw.substring(0, len - 2);
+        const decimalPart = raw.substring(len - 2);
+        return integerPart + ',' + decimalPart;
+    };
+
+
+    const processFiles = async (files: File[]) => {
         let textContent = '';
+        setLoading(true);
+        setProgress(0);
+        const monthNames = [
+            'januar', 'februar', 'marec', 'april', 'maj', 'junij',
+            'julij', 'avgust', 'september', 'oktober', 'november', 'december'
+        ];
+
+        // Check if the personal information PDF is provided
+        const personalInfoFile = files.find(file => file.name.toLowerCase().includes('vloga'));
+        if (personalInfoFile) {
+            const fileTextContent = await convertPdfToImagesAndExtractText(personalInfoFile);
+            console.log(`Text content for personal information PDF:\n${fileTextContent}`);
+
+            const relevantInfo = extractRelevantInfo(fileTextContent);
+            const [day, monthNumber, year] = relevantInfo.birthDate.split('.');
+            const formattedDate = `${year}-${monthNumber}-${day}`;
+            setPodatkiState({
+                ...podatkiState,
+                ime: relevantInfo.name,
+                priimek: relevantInfo.surname,
+                naslov: relevantInfo.address + ", " + relevantInfo.naslovNaslov,
+                naslovNaslov: relevantInfo.naslovNaslov,
+                datumRojstva: formattedDate,
+                drzavljanRS: relevantInfo.sloveniaCitizen,
+                stecajniPostopekNI: relevantInfo.isNotInBankruptcy,
+                zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
+                zaposlen: relevantInfo.isEmployed,
+                upokojenec: relevantInfo.isRetired,
+                zaproseniKredit: relevantInfo.loanAmount,
+                rokVracila: relevantInfo.repaymentPeriod,
+                izobrazba: relevantInfo.stopnjaIzobrazbe3,
+                stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
+            });
+        }
+
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            const month = file.name.split('-')[1].split('.')[0];
-            textContent += await convertPdfToImagesAndExtractText(file);
-            extractAdditionalInfo(textContent, month);
+            const fileName = file.name.toLowerCase();
+            let month = '';
+
+            // Skip the personal information PDF
+            if (fileName.includes('vloga')) {
+                continue;
+            }
+
+            for (const monthName of monthNames) {
+                if (fileName.includes(monthName)) {
+                    month = monthName;
+                    break;
+                }
+            }
+
+            if (!month) {
+                console.warn(`Could not determine month from file name "${file.name}"`);
+                continue;
+            }
+
+            const fileTextContent = await convertPdfToImagesAndExtractText(file);
+            console.log(`Text content for file ${file.name}:\n${fileTextContent}`);
+
+            extractAdditionalInfo(fileTextContent, month);
+            const progressPercentage = ((i + 1) / files.length) * 100;
+            setProgress(progressPercentage);
         }
 
         setPdfText(`Full Text Content:\n\n${textContent}`);
+        setLoading(false);
+        setProgress(100)
+    };
 
-        const relevantInfo = extractRelevantInfo(textContent);
-        const [day, month, year] = relevantInfo.birthDate.split('.');
-        const formattedDate = `${year}-${month}-${day}`;
+
+    const updatePodatkiState = () => {
+        const prometeVBremeValues = Object.values(pdfData).map(data => convertToNumber(data.prometeVBreme));
+        const prometeVDobroValues = Object.values(pdfData).map(data => convertToNumber(data.prometeVDobro));
+        const stanjeTRRValues = Object.values(pdfData).map(data => convertToNumber(data.stanje));
+        const placaValues = Object.values(pdfData).map(data => convertToNumber(data.placa));
+
+        console.log(prometeVBremeValues);
+        console.log(prometeVDobroValues);
+        console.log(stanjeTRRValues);
+        console.log(placaValues);
+        console.log(placaValues);
+        console.log(placaValues);
+
+        console.log(typeof prometeVDobroValues[0])
+
+        const prometDobro:Promet = { t1: prometeVDobroValues[0], t2: prometeVDobroValues[1], t3: prometeVDobroValues[2],povprecje:0 }
+        const prometSlabo:Promet = { t1: prometeVBremeValues[0], t2: prometeVBremeValues[1], t3: prometeVBremeValues[2],povprecje:0 }
+        const trr:Promet = { t1: stanjeTRRValues[0], t2: stanjeTRRValues[1], t3: stanjeTRRValues[2],povprecje:0 }
+        const placa:Promet = { t1: placaValues[0], t2: placaValues[1], t3: placaValues[2],povprecje:0 }
+        console.log(prometDobro);
+
         setPodatkiState({
             ...podatkiState,
-            ime: relevantInfo.name,
-            priimek: relevantInfo.surname,
-            naslov: relevantInfo.address + ", " + relevantInfo.naslovNaslov,
-            naslovNaslov: relevantInfo.naslovNaslov,
-            datumRojstva: formattedDate,
-            drzavljanRS: relevantInfo.sloveniaCitizen,
-            // starost18: relevantInfo.isAdult,
-            stecajniPostopekNI: relevantInfo.isNotInBankruptcy,
-            zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
-            zaposlen: relevantInfo.isEmployed,
-            upokojenec: relevantInfo.isRetired,
-            zaproseniKredit: relevantInfo.loanAmount,
-            rokVracila: relevantInfo.repaymentPeriod,
-            izobrazba: relevantInfo.stopnjaIzobrazbe3,
-            stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
+            mesecniPrometDobro: prometDobro,
+            mesecniPrometBreme: prometSlabo,
+            stanjeTRR: trr,
+            znesekPrejemkovPokojnina: placa
         });
-
-        setLoading(false);
     };
+
+    useEffect(() => {
+        // This effect runs only once when pdfData changes and is not empty.
+        if (Object.keys(pdfData).length > 0) {
+            updatePodatkiState();
+        }
+    }, [pdfData]);
+
 
     const convertPdfToImagesAndExtractText = async (file: File) => {
         const reader = new FileReader();
@@ -230,53 +436,62 @@ const PdfReader: React.FC = () => {
         });
     };
 
-    if (files) return (
-        <div className="uploads">
-            <ul>
-                {Array.from(files).map((file, idx) => <li key={idx}>{file.name}</li>)}
-            </ul>
-            <div className="actions">
-                <button className="btn btn-primary" onClick={() => setFiles(null)}>Cancel</button>
-            </div>
-            {loading && <p>Processing...</p>}
-            <div>
-                <h2>PDF Data:</h2>
-                {Object.entries(pdfData).map(([month, data]) => (
-                    <div key={month}>
-                        <h3>{month}</h3>
-                        <p>Mesecni promet v breme: {data.prometeVBreme}</p>
-                        <p>Mesecni promet v dobro: {data.prometeVDobro}</p>
-                        <p>Stanje na TRR: {data.stanje}</p>
-                        <p>Znesek prejemkov: {data.placa}</p>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-
     return (
         <>
-            <div className="container mt-5">
-                <div
-                    className="border border-primary p-3 text-center border-dashed mx-auto"
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                    style={{ maxWidth: '400px' }}
-                >
-                    <h1 className="mb-4 text-white">Drag and drop</h1>
-                    <h1 className="mb-4 text-white">or</h1>
-                    <input
-                        type="file"
-                        multiple
-                        onChange={handleFileChange}
-                        hidden
-                        accept="application/pdf"
-                        ref={inputRef}
-                    />
-                    <button className="btn btn-primary" onClick={() => inputRef.current?.click()}>Select Files</button>
+            <div className="container">
+                <div className="containerOknoDrag">
+                    <div
+                        className="border border-secondary p-3 border-dashed mx-auto rounded"
+                        onDrop={(event) => handleDrop(event, setFiles)}
+                        onDragOver={handleDragOver}
+                        style={{ maxWidth: '400px' }}
+                    >
+                        {files.length > 0 ? (
+                            files.map((file, index) => (
+                                <div key={index} className="text-white d-flex justify-content-between align-items-center">
+                                    <p>{file.name}</p>
+                                    <button
+                                        className="btn btn-sm"
+                                        style={{
+                                            backgroundColor: '#41424c',
+                                            color: '#fff',
+                                            border: '1px solid #fff'
+                                        }}
+                                        onClick={() => handleRemoveFile(index)}
+                                    >Odstrani</button>
+                                </div>
+                            ))
+                        ) : (
+                            <>
+                                <h1 className="mb-4 text-white text-center">Drag and drop</h1>
+                                <h1 className="mb-4 text-white text-center">or</h1>
+                            </>
+                        )}
+                        <input
+                            type="file"
+                            multiple
+                            onChange={(event) => handleFileChange(event, setFiles)}
+                            hidden
+                            accept="application/pdf"
+                            ref={inputRef}
+                        />
+                        <button className="btn btn-primary w-100 mt-2" onClick={() => inputRef.current?.click()}>Izberite Datoteke</button>
+                        <button className="btn btn-success w-100 mt-2" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
+                            {loading ? 'Spracovanie...' : 'Začat spracovanie'}
+                        </button>
+                    </div>
                 </div>
+                {loading && (
+                    <div className="w-100 d-flex justify-content-center mt-3">
+                        <div className="progress-bar-wrapper" style={{ width: '90%', maxWidth: '600px', padding: '10px', borderRadius: '5px' }}>
+                            <ProgressBar now={progress} label={`${progress}%`} />
+                        </div>
+                    </div>
+                )}
             </div>
         </>
+
+
     );
 };
 
