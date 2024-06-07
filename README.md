@@ -12,7 +12,7 @@ Aplikacija je namenjena avtomitiziranem ocenjevanju bonitetne ocene za kreditna 
       <a href="#tehnologije">Tehnologije</a>
     </li>
     <li>
-      <a href="#instalacija">Inštalacija</a>
+      <a href="#inštalacije">Inštalacija</a>
     </li>
     <li>
       <a href="#pogon">Pogon</a>
@@ -36,7 +36,7 @@ Informacijska rešitev ocenjuje bonitetno oceno na podlagi, PDF dokumentov o fin
 
 ## Inštalacije
 
-   ```
+
 1. Namestitev npm paketov.
 ```
 npm install
@@ -48,7 +48,8 @@ npm i electron
 npm i xlsx
 npm install pdfjs-dist@3.0.279 tesseract.js   
 ```
-## Pogon 
+## Pogon
+
 Po uspešno nameščenih knjižnicah odprite program v razvijalnem okolju (npr. VSC, WebStorm…)
 1.Klonirajte repositorji
 ```sh
