@@ -28,7 +28,7 @@ let win: BrowserWindow | null
 
 function createWindow() {
   win = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'), //MNDA BI TULE MOGLA BIT SPREMEMBA?
+    icon: path.join(process.env.VITE_PUBLIC, 'minilonSamLogo.svg'), //MNDA BI TULE MOGLA BIT SPREMEMBA?
     autoHideMenuBar: true, // This disables the menu bar
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
