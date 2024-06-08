@@ -17,7 +17,8 @@
 
 Informacijska rešitev ocenjuje bonitetno oceno na podlagi, PDF dokumentov o finančih izpiskih in osebnih podatkov. Z analizo teh vhodnih podatkov aplikacija določi primerno vrsto kredita in stopnjo tveganja za potencialne kreditojemalce, kar zagotavlja nemoten in ozaveščen postopek odobravanja kreditov. 
 
-Slika same aplikacije pridejo še sem.
+![alt text](https://github.com/Valeri1234car/PRII/tree/main/desktop-app/electron-app/logo/slika1.png?raw=true)
+![screenshot](slika1.png)
 
 ## Tehnologije
 <ul>
