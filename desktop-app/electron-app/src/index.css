@@ -70,6 +70,8 @@ button:focus-visible {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: system-ui, sans-serif;
+  font-weight: normal;
 }
 
 #root {
@@ -171,7 +173,6 @@ vsaVnosna {
 }
 
 .header-title {
-  font-family: "Pacifico", cursive;
   font-size: 3rem;
   color: white;
 }
@@ -298,7 +299,7 @@ vsaVnosna {
   border-radius: 5px;
 }
 
-.izbrisiGumbContainer{
+.izbrisiGumbContainer {
   display: flex;
   justify-content: end;
   width: 95%;
@@ -320,12 +321,12 @@ vsaVnosna {
   cursor: pointer;
 } */
 
-.izbrisiGumb{
+.izbrisiGumb {
   font-size: 1.1rem;
   color: lightgrey;
   font-weight: 650;
 }
-.izbrisiGumb:hover{
+.izbrisiGumb:hover {
   color: red;
   transition-duration: 200ms;
   cursor: pointer;
