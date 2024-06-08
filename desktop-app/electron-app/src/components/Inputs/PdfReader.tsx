@@ -467,7 +467,7 @@ const PdfReader: React.FC = () => {
                         ) : (
                             <>
                                 <h1 className="mb-4 text-white text-center">Drag and drop</h1>
-                                <h1 className="mb-4 text-white text-center">or</h1>
+                                <h1 className="mb-4 text-white text-center">ali</h1>
                             </>
                         )}
                         <input
@@ -480,7 +480,7 @@ const PdfReader: React.FC = () => {
                         />
                         <button className="btn btn-primary w-100 mt-2" onClick={() => inputRef.current?.click()}>Izberite Datoteke</button>
                         <button className="btn btn-success w-100 mt-2" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
-                            {loading ? 'Spracovanie...' : 'Začat spracovanie'}
+                            {loading ? 'Obdelovanje...' : 'Začnite z obdelavo'}
                         </button>
                     </div>
                 </div>
