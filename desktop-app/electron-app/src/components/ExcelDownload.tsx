@@ -2,7 +2,7 @@ import { useContext} from "react";
 import { PodatkiContext } from "../App";
 import Excel from 'exceljs';
 import { saveAs } from 'file-saver';
-
+import excelFileUrl from '../assets/bonitetna-ocena-template.xlsx';
 
 const ExcelDownload = () => {
     
@@ -13,7 +13,8 @@ const ExcelDownload = () => {
     
     const HandleClick = async ():Promise<void> => {
 
-        const response = await fetch('/bonitetna-ocena-template.xlsx');
+        // const response = await fetch('/bonitetna-ocena-template.xlsx');
+        const response = await fetch(excelFileUrl);
         const arrayBuffer = await response.arrayBuffer();
 
         const workbook = new Excel.Workbook();

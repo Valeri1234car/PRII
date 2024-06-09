@@ -45,7 +45,7 @@ const OsnovniKriteriji = () => {
                     <input type="radio" className="form-check-input" name="stecajniPostopekNI" value="false" checked={podatkiState.stecajniPostopekNI === false} onChange={HandleChangeInput}/>NE
                 </div>
                 <div className="vnosVrstica">
-                    <label htmlFor="zaposlen">Zaposlen:</label>
+                    <label htmlFor="zaposlen">Zaposlen ali upokojenec:</label>
                     <input className="form-check-input"
                            type="radio"
                            name="zaposlenUpokojenec"
