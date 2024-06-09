@@ -14,7 +14,7 @@ import { useContext } from "react";
 import { PodatkiContext } from "../../App";
 
 const OsnovniKriteriji = () => {
-    const { podatkiState, setPodatkiState, HandleChangeInput } = useContext(PodatkiContext);
+    const { podatkiState,  HandleChangeInput } = useContext(PodatkiContext);
 
     // const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     //     const { name, value } = event.target;

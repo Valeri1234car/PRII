@@ -19,7 +19,7 @@ import IzpisVnesenihPodatkov from './components/IzpisVnesenihPodatkov';
 import { ModulA, } from './interface/ModulA';
 import { ModulB,  } from './interface/ModulB';
 import { ModulC } from './interface/ModulC';
-import { zneskiMesecnihAnuitet } from './interface/ZneskiMesecnihAnuitet';
+// import { zneskiMesecnihAnuitet } from './interface/ZneskiMesecnihAnuitet';
 
 export const PodatkiContext = createContext<any>(null);
 

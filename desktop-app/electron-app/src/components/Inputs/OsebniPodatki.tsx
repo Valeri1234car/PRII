@@ -11,12 +11,12 @@
  * @since 1.0.0
  */
 
-import { useContext, useEffect } from "react";
+import { useContext,} from "react";
 import { PodatkiContext } from "../../App";
 
 
 const OsebniPodatki = () => {
-    const { podatkiState, setPodatkiState, HandleChange } = useContext(PodatkiContext);
+    const { podatkiState, HandleChange } = useContext(PodatkiContext);
 
    
 
