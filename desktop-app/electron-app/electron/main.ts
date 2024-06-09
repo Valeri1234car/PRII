@@ -28,25 +28,27 @@ let win: BrowserWindow | null
 
 function createWindow() {
   win = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, 'minilonSamLogo.svg'), //MNDA BI TULE MOGLA BIT SPREMEMBA?
-    autoHideMenuBar: true, // This disables the menu bar
+    icon: path.join(RENDERER_DIST, ''), // Use the correct path to the logo
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
     },
-  })
+  });
+
+  if (VITE_DEV_SERVER_URL) {
+    win.loadURL(VITE_DEV_SERVER_URL);
+    win.webContents.openDevTools(); // Enable DevTools in development
+  } else {
+    win.loadFile(path.join(RENDERER_DIST, 'index.html'));
+    win.webContents.openDevTools(); // Optionally enable DevTools in production for debugging
+  }
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', (new Date).toLocaleString())
-  })
-
-  if (VITE_DEV_SERVER_URL) {
-    win.loadURL(VITE_DEV_SERVER_URL)
-  } else {
-    // win.loadFile('dist/index.html')
-    win.loadFile(path.join(RENDERER_DIST, 'index.html'))
-  }
+    win?.webContents.send('main-process-message', new Date().toLocaleString());
+  });
 }
+
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

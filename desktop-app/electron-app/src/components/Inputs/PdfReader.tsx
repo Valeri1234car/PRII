@@ -24,7 +24,7 @@ import { ProgressBar } from 'react-bootstrap';
 
 
 
-GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/3.0.279/pdf.worker.min.js`;
+GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
 
 const PdfReader: React.FC = () => {
     const [files, setFiles] = useState<File[]>([]);
