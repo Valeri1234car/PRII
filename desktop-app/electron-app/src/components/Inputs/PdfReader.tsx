@@ -36,7 +36,7 @@ const PdfReader: React.FC = () => {
     const [progress, setProgress] = useState(0);
 
 
-    //obravnava dogodka, ko datoteke "visijo" (ne vem kak druga rečt) nad območjem za drag and drop
+    //obravnava dogodka, ko datoteke "visijo" (ne vem kak druga rečt) nad območjem za drag and dropa
     const handleDragOver = (event: React.DragEvent) => {
         console.log('Drag over');
         event.preventDefault();
