@@ -3,7 +3,7 @@ import { PodatkiContext } from "../App";
 import Excel from 'exceljs';
 import { saveAs } from 'file-saver';
 import excelFileUrl from '../assets/bonitetna-ocena-template.xlsx';
-import excelLogo from '../assets/excel-logo.png';
+import excelLogo from '../assets/excelLogo.png';
 
 const ExcelDownload = () => {
     
@@ -100,7 +100,7 @@ const ExcelDownload = () => {
 
     return(
         <div className="downloadExcel">
-            <button className="btn btn-success" onClick={HandleClick}><img className="upload-logo" src={excelLogo}/>Izdelaj bonitetno oceno</button>
+            <button className="btn btn-success" onClick={HandleClick}><img className=" excel-logo" src={excelLogo}/>Izdelaj bonitetno oceno</button>
         </div>
     )
 }
