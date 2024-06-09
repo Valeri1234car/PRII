@@ -7,7 +7,7 @@
  * @verzija 1.0.0
  * @since 1.0.0
  */
-import { createContext,  useState } from 'react';
+import { createContext,  useState, useEffect } from 'react';
 
 import './App.css';
 import Menu from './components/Menu/Menu';
@@ -152,6 +152,29 @@ function App() {
         stanjeTRR: { t1: 0, t2: 0, t3: 0 },
         znesekPrejemkovPokojnina: { t1: 0, t2: 0, t3: 0 },
     });
+
+
+    useEffect(() => {
+        function calculateAge(dateOfBirth: Date) {
+            const today = new Date();
+            const dob = new Date(dateOfBirth);
+            let age = today.getFullYear() - dob.getFullYear();
+            const monthDiff = today.getMonth() - dob.getMonth();
+
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        const age = calculateAge(podatkiState.datumRojstva);
+
+        if (age >= 18) {
+            setPodatkiState({ ...podatkiState, starost: age, starost18: true });
+        } else {
+            setPodatkiState({ ...podatkiState, starost: age, starost18: false });
+        }
+    }, [podatkiState.datumRojstva]);
 
 
 

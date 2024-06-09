@@ -18,27 +18,7 @@ import { PodatkiContext } from "../../App";
 const OsebniPodatki = () => {
     const { podatkiState, setPodatkiState, HandleChange } = useContext(PodatkiContext);
 
-    useEffect(() => {
-        function calculateAge(dateOfBirth: Date) {
-            const today = new Date();
-            const dob = new Date(dateOfBirth);
-            let age = today.getFullYear() - dob.getFullYear();
-            const monthDiff = today.getMonth() - dob.getMonth();
-
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-                age--;
-            }
-            return age;
-        }
-
-        const age = calculateAge(podatkiState.datumRojstva);
-
-        if (age >= 18) {
-            setPodatkiState({ ...podatkiState, starost: age, starost18: true });
-        } else {
-            setPodatkiState({ ...podatkiState, starost: age });
-        }
-    }, [podatkiState.datumRojstva]);
+   
 
     return (
         <div className="vnosItem">

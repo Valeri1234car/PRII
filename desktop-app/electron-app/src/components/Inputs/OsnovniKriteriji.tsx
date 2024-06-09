@@ -16,14 +16,14 @@ import { PodatkiContext } from "../../App";
 const OsnovniKriteriji = () => {
     const { podatkiState, setPodatkiState, HandleChangeInput } = useContext(PodatkiContext);
 
-    const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        const booleanValue = value === 'true';
-        setPodatkiState((prevState: any) => ({
-            ...prevState,
-            [name]: booleanValue
-        }));
-    };
+    // const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { name, value } = event.target;
+    //     const booleanValue = value === 'true';
+    //     setPodatkiState((prevState: any) => ({
+    //         ...prevState,
+    //         [name]: booleanValue
+    //     }));
+    // };
 
     return (
         <div className="vnosItem">
@@ -48,34 +48,17 @@ const OsnovniKriteriji = () => {
                     <label htmlFor="zaposlen">Zaposlen:</label>
                     <input className="form-check-input"
                            type="radio"
-                           name="zaposlen"
+                           name="zaposlenUpokojenec"
                            value="true"
-                           checked={podatkiState.zaposlen === true}
-                           onChange={handleChangeInput}
+                           checked={podatkiState.zaposlenUpokojenec === true}
+                           onChange={HandleChangeInput}
                     />DA
                     <input className="form-check-input"
                            type="radio"
-                           name="zaposlen"
+                           name="zaposlenUpokojenec"
                            value="false"
-                           checked={podatkiState.zaposlen === false}
-                           onChange={handleChangeInput}
-                    />NE
-                </div>
-                <div className="vnosVrstica">
-                    <label htmlFor="upokojenec">Upokojenec:</label>
-                    <input className="form-check-input"
-                           type="radio"
-                           name="upokojenec"
-                           value="true"
-                           checked={podatkiState.upokojenec === true}
-                           onChange={handleChangeInput}
-                    />DA
-                    <input className="form-check-input"
-                           type="radio"
-                           name="upokojenec"
-                           value="false"
-                           checked={podatkiState.upokojenec === false}
-                           onChange={handleChangeInput}
+                           checked={podatkiState.zaposlenUpokojenec === false}
+                           onChange={HandleChangeInput}
                     />NE
                 </div>
             </div>

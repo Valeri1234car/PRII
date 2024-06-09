@@ -295,7 +295,7 @@ const PdfReader: React.FC = () => {
     
             const relevantInfo = extractRelevantInfo(fileTextContent);
             const [day, monthNumber, year] = relevantInfo.birthDate.split('.');
-            const formattedDate = `${year}-${monthNumber}-${day}`;
+            const formattedDate = relevantInfo.birthDate.split('.').reverse().join('-');
             setPodatkiState({
                 ...podatkiState,
                 ime: relevantInfo.name,
