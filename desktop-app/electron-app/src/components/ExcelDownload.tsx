@@ -65,7 +65,7 @@ const ExcelDownload = () => {
             {cell:'C42',value: podatkiState.lastnistnovNepremicnin ? "DA" : "NE"},
             {cell:'C43',value: podatkiState.stVzdrzevanihDruzinskihClanov},
             {cell:'C44',value: podatkiState.partnerZaposlen ? "DA" : "NE"},
-            {cell:'C45',value: podatkiState.samohranilec},
+            {cell:'C45',value: podatkiState.samohranilec ? "DA" : "NE"},
             {cell:'C46',value: podatkiState.zavezanecNaPrezivnin ? "DA" : "NE"},
             {cell:'C47',value: podatkiState.znesekMesecnePrezivnine},
             {cell:'C48',value: podatkiState.sumljivost ? "DA" : "NE"},
