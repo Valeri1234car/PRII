@@ -26,6 +26,7 @@ Informacijska rešitev ocenjuje bonitetno oceno na podlagi, PDF dokumentov o fin
 ---
 
 **[2] Nato napolnimo vnosno polje z željenimi PDF dokumenti in pritisnemo na gumb "Začnite z obdelavo".** <br>
+***Povezava za testne dokumente: https://teams.microsoft.com/l/message/19:8f1cfb9b2cc64560866ab2c0e0407ada@thread.tacv2/1717968291287?tenantId=8ef1464e-28b6-449d-95be-e669ee3d08ac&groupId=15b74a76-ed34-48c2-9175-2a97b19c58d2&parentMessageId=1717968291287&teamName=IPT-PR2-2023-24&channelName=PotrosniskiKrediti&createdTime=1717968291287&ngc=true*** <br>
 ![slika2](https://github.com/Valeri1234car/ReadMeDMTest/assets/152204015/05da3e8f-d25a-4661-9dd2-2b37ed278561) <br>
 
 ---
