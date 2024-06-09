@@ -13,7 +13,7 @@ const ExcelDownload = () => {
     
     const HandleClick = async ():Promise<void> => {
 
-        const response = await fetch('desktop-app/electron-app/public/bonitetna-ocena-template.xlsx');
+        const response = await fetch('/bonitetna-ocena-template.xlsx');
         const arrayBuffer = await response.arrayBuffer();
 
         const workbook = new Excel.Workbook();

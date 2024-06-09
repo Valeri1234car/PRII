@@ -18,5 +18,5 @@ export default defineConfig({
         : {},
     }),
   ],
-  publicDir: 'public', // Ensure this line is present
+  publicDir: 'public', 
 });
