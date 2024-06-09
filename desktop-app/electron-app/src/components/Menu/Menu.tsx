@@ -9,12 +9,14 @@
  * @verzija 1.0.0
  * @since 1.0.0
  */
+
+import logo from '../../assets/logo2.png';
 const Menu = () =>{
 
     return (
         <header className="header-container d-flex justify-content-between align-items-center ">
             <h1 className="header-title">BONITETNA OCENA</h1>
-            <img src="/logo/logo2.PNG" alt="Logo" className="header-logo" />
+            <img src={logo} alt="Minilon" className="header-logo" />
         </header>
     );
 }
