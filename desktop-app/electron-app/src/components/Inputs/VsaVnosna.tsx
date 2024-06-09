@@ -106,7 +106,7 @@ const isObject = (object:any) => {
 
 const VsaVnosna: React.FC = () => {
 
-    const {setStran, podatkiState, setPodatkiState} = useContext(PodatkiContext);
+    const { podatkiState, setPodatkiState} = useContext(PodatkiContext);
 
     const HandleClick = () =>{
 

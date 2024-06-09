@@ -1,5 +1,6 @@
 
 {
+  
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
   "appId": "YourAppID",
   "asar": true,
@@ -26,7 +27,8 @@
         ]
       }
     ],
-    "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
+    "artifactName": "${productName}-Windows-${version}-Setup.${ext}",
+    "icon": "./src/assets/icons/minilonSamLogo.ico"
   },
   "nsis": {
     "oneClick": false,
