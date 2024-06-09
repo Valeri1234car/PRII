@@ -150,9 +150,9 @@ const VsaVnosna: React.FC = () => {
                 <FinancniIzpiski />
             </div> */}
             <div className="buttonContainer">
-                <button className="btn btn-primary" onClick={() => setStran("Izpisi")}>
+                {/* <button className="btn btn-primary" onClick={() => setStran("Izpisi")}>
                     Naprej
-                </button>
+                </button> */}
             </div>
         <ExcelDownload/>
         </div>

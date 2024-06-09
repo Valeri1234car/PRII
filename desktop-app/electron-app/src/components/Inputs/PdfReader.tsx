@@ -21,7 +21,7 @@ import Tesseract from 'tesseract.js';
 import { PodatkiContext } from '../../App';
 import { Promet } from '../../interface/Podatki';
 import { ProgressBar } from 'react-bootstrap';
-
+import upload from '../../assets/upload.png';
 
 
 GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
@@ -466,8 +466,8 @@ const PdfReader: React.FC = () => {
                             ))
                         ) : (
                             <>
-                                <h1 className="mb-4 text-white text-center">Drag and drop</h1>
-                                <h1 className="mb-4 text-white text-center">ali</h1>
+                                <h2 className="mb-4 text-white text-center">Drag and drop</h2>
+                                <h2 className="mb-4 text-white text-center">ali</h2>
                             </>
                         )}
                         <input
@@ -478,7 +478,7 @@ const PdfReader: React.FC = () => {
                             accept="application/pdf"
                             ref={inputRef}
                         />
-                        <button className="btn btn-primary w-100 mt-2" onClick={() => inputRef.current?.click()}>Izberite Datoteke</button>
+                        <button className="btn btn-primary w-100 mt-2" onClick={() => inputRef.current?.click()}><img className='upload-logo' src={upload}/>Izberite Datoteke</button>
                         <button className="btn btn-success w-100 mt-2" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
                             {loading ? 'Obdelovanje...' : 'Začnite z obdelavo'}
                         </button>
