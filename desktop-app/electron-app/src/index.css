@@ -81,7 +81,6 @@ button:focus-visible {
   flex-grow: 1;
   flex-basis: 0;
   background-color: #28282b;
-  min-width: 1024px;
 }
 
 header {
@@ -141,6 +140,7 @@ vsaVnosna {
   flex-direction: column;
   gap: 50rem;
   background: #d3d3d3;
+  padding: 0;
 }
 
 .vnosnoPoljePDF {
@@ -208,7 +208,6 @@ vsaVnosna {
   border-radius: 8px; /* Zaobljene ivice */
   padding: 1rem; /* Unutrašnja margina */
   margin-bottom: 1rem;
-  margin-right: 1rem;
   flex-grow: 1;
   flex-basis: 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Svetlo siva senka ispod */
@@ -250,7 +249,6 @@ vsaVnosna {
 .container123 {
   display: flex;
   flex-direction: row;
-  margin-right: 1rem;
 }
 
 .buttonContainer {
@@ -324,7 +322,7 @@ font-weight: 400;
 } */
 
 .izbrisiGumb {
-  position: absolute;
+  /* position: absolute; */
   font-size: 1.1rem;
   color: lightgrey;
   font-weight: 650;
