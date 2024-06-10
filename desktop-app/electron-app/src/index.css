@@ -358,3 +358,31 @@ font-weight: 400;
   opacity: 0.7;
   transition-duration: 200ms;
 }
+
+
+.cancel-button{
+  height: 1.6rem;
+  width: 1.6rem;
+}
+
+.cancel-button:hover{
+  cursor: pointer;
+  opacity: 0.7;
+  transition-duration: 200ms;
+}
+
+.sandClock-logo{
+  height: 1.3rem;
+  width: 1.3rem;
+  margin-left: 0.5rem;
+  
+}
+
+
+.obdelovanjeContainer{
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
