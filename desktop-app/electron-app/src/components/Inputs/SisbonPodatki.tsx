@@ -26,11 +26,11 @@ const SisbonPodatki = () => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="sisbonZapadliDolg" className="form-label">SISBON - ZAPADLI DOLG:</label>
-                    <input type="text" className="form-control" name="sisbonZapadliDolg" value={podatkiState.sisbonZapadliDolg} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }} />
+                    <input type="text" className="form-control" name="sisbonZapadliDolg" value={podatkiState.sisbonZapadliDolg}  onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }} />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="sisbonIzterjava" className="form-label">SISBON - IZTERJAVA:</label>
-                    <input type="text" className="form-control" name="sisbonIzterjava" value={podatkiState.sisbonIzterjava} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }} />
+                    <input type="text" className="form-control" name="sisbonIzterjava" value={podatkiState.sisbonIzterjava}  onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }} />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="sisbonIzvrsba" className="form-label">SISBON - IZVRŠBA:</label>
