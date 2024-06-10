@@ -50,7 +50,7 @@ const DrugiPodatki = () => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="stVzdrzevanihDruzinskihClanov" className="form-label">Število vzdrževanih družinskih članov:</label>
-                    <input type="number" className="form-control" name="stVzdrzevanihDruzinskihClanov" value={podatkiState.stVzdrzevanihDruzinskihClanov} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }} />
+                    <input type="number" className="form-control" name="stVzdrzevanihDruzinskihClanov" value={podatkiState.stVzdrzevanihDruzinskihClanov} min={0} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }} />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Ali je partner zaposlen?:</label>
@@ -87,7 +87,7 @@ const DrugiPodatki = () => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="znesekMesecnePrezivnine" className="form-label">Znesek mesečne preživnine:</label>
-                    <input type="number" className="form-control" name="znesekMesecnePrezivnine" value={podatkiState.znesekMesecnePrezivnine} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }} />
+                    <input type="number" className="form-control" name="znesekMesecnePrezivnine" value={podatkiState.znesekMesecnePrezivnine} min={0} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }} />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Sum na razne oblike odvisnosti, sumljive prakse pri najemanju kredita:</label>
