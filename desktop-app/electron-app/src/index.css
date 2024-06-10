@@ -67,11 +67,12 @@ button:focus-visible {
   }
 } */
 * {
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   padding: 0;
   margin: 0;
   font-family: system-ui, sans-serif;
   font-weight: normal;
+  
 }
 
 #root {
@@ -80,6 +81,7 @@ button:focus-visible {
   flex-grow: 1;
   flex-basis: 0;
   background-color: #28282b;
+  min-width: 1024px;
 }
 
 header {
@@ -302,18 +304,18 @@ vsaVnosna {
 .izbrisiGumbContainer {
   display: flex;
   justify-content: end;
-  width: 95%;
+  width: 99%;
 }
 
 /* --------tole je dejansko gumb ce kdo mislis da boljs zgleda */
 /* .izbrisiGumb{
   font-size: 1.1rem;
-  color: black;
+  color: white;
   font-weight: 700;
   padding: 5px;
   border-radius: 4px;
   background-color: red;
-
+font-weight: 400;
 }
 .izbrisiGumb:hover{
   background-color: rgb(216, 3, 3);
@@ -322,6 +324,7 @@ vsaVnosna {
 } */
 
 .izbrisiGumb {
+  position: absolute;
   font-size: 1.1rem;
   color: lightgrey;
   font-weight: 650;
@@ -348,4 +351,14 @@ vsaVnosna {
   height: 1.2rem;
   margin-right: 0.5rem;
   color: white;
+}
+
+.delete-logo{
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.delete-logo:hover{
+  opacity: 0.7;
+  transition-duration: 200ms;
 }

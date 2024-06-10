@@ -27,6 +27,7 @@ import SisbonPodatki from "./SisbonPodatki";
 import { Podatki } from "../../interface/Podatki";
 import { Promet } from "../../interface/Podatki";
 import ExcelDownload from "../ExcelDownload.tsx";
+import deleteLogo from '../../assets/delete.png';
 
 const initialPromet: Promet = {
     t1: 0,
@@ -119,7 +120,7 @@ const VsaVnosna: React.FC = () => {
         <div className="vsaVnosna">
             {changedState && (
                 <div className="izbrisiGumbContainer mb-4">
-                <div className="izbrisiGumb" id="neki" onClick={HandleClick}>X Odstranite vnose</div>
+                <div className="izbrisiGumb" id="neki" onClick={HandleClick}><img className="delete-logo" src={deleteLogo} alt="Izbriši vnose" /></div>
                 </div>
             )}
             

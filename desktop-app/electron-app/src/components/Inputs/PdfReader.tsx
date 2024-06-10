@@ -26,6 +26,8 @@ import upload from '../../assets/upload.png';
 
 GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
 
+const arrayProgress:string[] =[]
+
 const PdfReader: React.FC = () => {
     const [files, setFiles] = useState<File[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -34,6 +36,13 @@ const PdfReader: React.FC = () => {
     const [pdfData, setPdfData] = useState<{ [key: string]: any }>({});
     const { setData } = useContext(PodatkiContext);
     const [progress, setProgress] = useState(0);
+    const[neki,setNeki] = useState(arrayProgress)
+
+    useEffect(()=>{
+        setProgress(
+            (neki.length / files.length) * 100
+        )
+    },[neki])
 
 
     //obravnava dogodka, ko datoteke "visijo" (ne vem kak druga rečt) nad območjem za drag and dropa
@@ -176,6 +185,7 @@ const PdfReader: React.FC = () => {
         };
 
         console.log("Relevant Info:", relevantInfo);
+        setNeki([...neki, ""])
         return relevantInfo;
     };
 
@@ -279,6 +289,8 @@ const PdfReader: React.FC = () => {
         return integerPart + ',' + decimalPart;
     };
 
+    
+
     //asinhrona funkcija za procesiranje seznama PDF datotek
     const processFiles = async (files: File[]) => {
         let textContent = '';
@@ -318,6 +330,8 @@ const PdfReader: React.FC = () => {
         const promises = files.map(async (file, i) => {
             const fileName = file.name.toLowerCase();
             let month = '';
+            
+            
     
             if (fileName.includes('vloga')) {
                 return;
@@ -339,14 +353,17 @@ const PdfReader: React.FC = () => {
             console.log(`Text content for file ${file.name}:\n${fileTextContent}`);
     
             extractAdditionalInfo(fileTextContent, month);
-            const progressPercentage = ((i + 1) / files.length) * 100;
-            setProgress(progressPercentage);
+            setNeki(prev =>[...prev, "neki"])
+            // const progressPercentage = (neki.length / files.length) * 100;
+            // setProgress(progressPercentage);
+            console.log(neki.length)
         });
     
         await Promise.all(promises);
     
         setPdfText(`Full Text Content:\n\n${textContent}`);
         setLoading(false);
+        setNeki([])
         setProgress(100);
     };
 
