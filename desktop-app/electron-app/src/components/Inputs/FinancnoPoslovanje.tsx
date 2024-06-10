@@ -88,7 +88,7 @@ const FinancnoPoslovanje = () =>{
 
     return(
         <div className="vnosItem">
-            <h2 className="mb-4 text-info text-dark">Podaci o finansijskom poslovanju u EUR</h2>
+            <h2 className="mb-4 text-info text-dark">Podatki o finančnem stanju v EUR</h2>
             <div className="vnosnaPolja">
                 <table className="table table-bordered">
                     <thead>
