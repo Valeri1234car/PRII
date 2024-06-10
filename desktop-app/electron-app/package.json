@@ -42,6 +42,7 @@
   "build": {
   "appId": "com.example.bonitetnaOcena",
   "productName": "BonitetnaOcena",
+  "icon":"./src/assets/icons/minilonSamLogo",
   "files": [
     "dist/",
     "dist-electron/"

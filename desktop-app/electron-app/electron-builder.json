@@ -28,7 +28,7 @@
       }
     ],
     "artifactName": "${productName}-Windows-${version}-Setup.${ext}",
-    "icon": "./src/assets/icons/minilonSamLogo.ico"
+    "icon": "./src/assets/icons/minilonSamLogo"
   },
   "nsis": {
     "oneClick": false,
