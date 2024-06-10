@@ -1,0 +1,20 @@
+Ocenjevanej bonitetne ocene - potrošniški krediti
+
+Iz PDF datotek avtomatsko vnese v excel file.
+
+Leto izdelave: 2024
+
+Domen Drovenik
+Lazar Čvorović
+Valeri Kamburov
+
+...
+Koda: https://github.com/Valeri1234car/PRII
+
+Kategorizacija: celovita informacijska rešitev, namizna aplikacija,
+
+Oznake: React, TypeScript, Bootstrap, GitHub
+
+Opis projekta v nekaj odstavkih / vrsticah (cca 150 besed)
+
+Glavna zahteva projekta je bila olajšati in pospešiti delovne procese v podjetju. Naša aplikacija omogoča avtomatizirano branje podatkov iz PDF dokumentov in njihov neposreden prenos v Excelovo datoteko.
