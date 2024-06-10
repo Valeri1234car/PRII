@@ -22,7 +22,7 @@ Informacijska rešitev ocenjuje bonitetno oceno na podlagi, PDF dokumentov o fin
 ---
 **[1] Ob zagonu aplikacije se pojavi vnosno polje za PDF dokumente.**
 ![slika1](https://github.com/Valeri1234car/ReadMeDMTest/assets/152204015/7bb67fec-c60f-4638-89ac-103abda85466) <br>
-<img src="./desktop-app/electron-app/logo/slika1.png" alt="React" width="600" height="600">
+<img src="./desktop-app/electron-app/logo/slika1.png" alt="React" width="600" height="400">
 
 ---
 
