@@ -22,6 +22,9 @@ import { PodatkiContext } from '../../App';
 import { Promet } from '../../interface/Podatki';
 import { ProgressBar } from 'react-bootstrap';
 import upload from '../../assets/upload.png';
+import sandClock from '../../assets/sand-clock.png';
+// import cancelButton from '../../assets/cancel.png';
+// import closeButton from '../../assets/close.png';
 
 
 GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
@@ -37,6 +40,7 @@ const PdfReader: React.FC = () => {
     const { setData } = useContext(PodatkiContext);
     const [progress, setProgress] = useState(0);
     const[neki,setNeki] = useState(arrayProgress)
+    // const [isCancelled, setIsCancelled] = useState(false);
 
     useEffect(()=>{
         setProgress(
@@ -76,6 +80,7 @@ const PdfReader: React.FC = () => {
     //obravnava dogodka, ko se klikne gumb za procesiranje datotek
     const handleProcessFiles = async () => {
         if (files.length > 0) {
+            // setIsCancelled(false);
             processFiles(files);
         } else {
             alert('Napaka pri branju');
@@ -495,10 +500,25 @@ const PdfReader: React.FC = () => {
                             accept="application/pdf"
                             ref={inputRef}
                         />
+                        {files.length>0 && <button className="btn btn-sm w-100 mt-2"style={{
+                                            backgroundColor: '#41424c',
+                                            color: '#fff',
+                                            border: '1px solid #fff',
+                                            fontSize: '1rem'
+                                        }} onClick={() => setFiles([])}>Odstrani vse datoteke</button>
+                    }
                         <button className="btn btn-primary w-100 mt-2" onClick={() => inputRef.current?.click()}><img className='upload-logo' src={upload}/>Izberite Datoteke</button>
-                        <button className="btn btn-success w-100 mt-2" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
-                            {loading ? 'Obdelovanje...' : 'Začnite z obdelavo'}
+                        {/* <button className="btn btn-success w-100 mt-2" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
+                            {loading ? 'Obdelovanje...' : 'Začnite z obdelavo'} 
+                        </button> */}
+                        {!loading && <button className="btn btn-success w-100 mt-2" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
+                             Začnite z obdelavo
+                        </button>}
+                        {loading && <div className='obdelovanjeContainer mt-2'><button className="btn btn-success w-100 " onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
+                        Obdelovanje...<img className='sandClock-logo' src={sandClock}/>
                         </button>
+                        {/* <img className='cancel-button' mt-2 src={cancelButton} alt="" /> */}
+                        </div>}
                     </div>
                 </div>
                 {loading && (
