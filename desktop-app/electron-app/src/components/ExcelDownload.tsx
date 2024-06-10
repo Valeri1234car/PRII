@@ -29,9 +29,9 @@ const ExcelDownload = () => {
             {cell:'C7',value: podatkiState.naslov },
             {cell:'C8',value: podatkiState.datumRojstva },
             {cell:'C11',value: podatkiState.drzavljanRS ? "DA" : "NE"},
-            {cell:'C11',value: podatkiState.starost18 ? "DA" : "NE"},
-            {cell:'C11',value: podatkiState.stecajniPostopekNI ? "DA" : "NE"},
-            {cell:'C11',value: podatkiState.zaposlenUpokojenec ? "DA" : "NE"},
+            {cell:'C12',value: podatkiState.starost18 ? "DA" : "NE"},
+            {cell:'C13',value: podatkiState.stecajniPostopekNI ? "DA" : "NE"},
+            {cell:'C14',value: podatkiState.zaposlenUpokojenec ? "DA" : "NE"},
             {cell:'C17',value: podatkiState.zaproseniKredit},
             {cell:'C18',value: podatkiState.rokVracila},
             {cell:'C22',value: podatkiState.delodajalec},
@@ -77,6 +77,8 @@ const ExcelDownload = () => {
             {cell:'C54',value: podatkiState.sisbonIzvrsba},
             {cell:'C55',value: podatkiState.sisbonOmejitevTRR ? "DA" : "NE"},
         ]
+
+        console.log(podatkiState.stecajniPostopekNI)
    
         
             excelPolja.forEach(field => {

@@ -28,6 +28,7 @@ let win: BrowserWindow | null
 
 function createWindow() {
   win = new BrowserWindow({
+    minWidth: 1010,
     icon: path.join(RENDERER_DIST, ''), // Use the correct path to the logo
     autoHideMenuBar: true,
     webPreferences: {

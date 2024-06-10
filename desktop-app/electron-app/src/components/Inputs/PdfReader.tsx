@@ -327,7 +327,7 @@ const PdfReader: React.FC = () => {
             });
         }
     
-        const promises = files.map(async (file, i) => {
+        const promises = files.map(async (file) => {
             const fileName = file.name.toLowerCase();
             let month = '';
             

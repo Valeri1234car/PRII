@@ -40,11 +40,11 @@ const KreditMinilon = () =>{
             <div className="vnosnaPolja">
                 <div className="mb-3">
                     <label htmlFor="zaproseniKredit" className="form-label">Zaproseni znesek kredita u EUR:</label>
-                    <input type="number" className="form-control" name="zaproseniKredit" value={podatkiState.zaproseniKredit} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }}/>
+                    <input type="number" className="form-control" name="zaproseniKredit" value={podatkiState.zaproseniKredit} min={0} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }}/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="rokVracila" className="form-label">Rok vračila kredita v mesecih:</label>
-                    <input type="number" className="form-control" name="rokVracila" value={podatkiState.rokVracila} onChange={HandleChange} style={{ borderColor: 'black', color: 'black' }}/>
+                    <input type="number" className="form-control" name="rokVracila" value={podatkiState.rokVracila} onChange={HandleChange}min={0} style={{ borderColor: 'black', color: 'black' }}/>
                 </div>
                 {/* <div className="mb-3">
                     <p>Mesečna anuiteta: {podatkiState.mesecnaAmuniteta}</p>
