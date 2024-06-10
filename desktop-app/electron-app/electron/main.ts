@@ -38,9 +38,9 @@ function createWindow() {
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
-    //win.webContents.openDevTools(); // Enable DevTools in development
+    // win.webContents.openDevTools(); // Enable DevTools in development
   } else {
-    //win.loadFile(path.join(RENDERER_DIST, 'index.html'));
+    win.loadFile(path.join(RENDERER_DIST, 'index.html'));
     //win.webContents.openDevTools(); // Optionally enable DevTools in production for debugging
   }
 
