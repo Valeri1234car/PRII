@@ -72,7 +72,6 @@ button:focus-visible {
   margin: 0;
   font-family: system-ui, sans-serif;
   font-weight: normal;
-  
 }
 
 #root {
@@ -81,7 +80,6 @@ button:focus-visible {
   flex-grow: 1;
   flex-basis: 0;
   background-color: #28282b;
-  min-width: 1024px;
 }
 
 header {
@@ -339,26 +337,25 @@ font-weight: 400;
   text-align: center;
 }
 
-
-.upload-logo{
+.upload-logo {
   width: 1rem;
   height: 1rem;
   margin-right: 0.5rem;
 }
 
-.excel-logo{
+.excel-logo {
   width: 1.2rem;
   height: 1.2rem;
   margin-right: 0.5rem;
   color: white;
 }
 
-.delete-logo{
+.delete-logo {
   width: 2.5rem;
   height: 2.5rem;
 }
 
-.delete-logo:hover{
+.delete-logo:hover {
   opacity: 0.7;
   transition-duration: 200ms;
 }
