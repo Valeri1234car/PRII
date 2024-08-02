@@ -32,6 +32,7 @@ GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
 const arrayProgress:string[] =[]
 
 const PdfReader: React.FC = () => {
+    const [banka,setBanka] = useState("None")
     const [files, setFiles] = useState<File[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -461,6 +462,10 @@ const PdfReader: React.FC = () => {
         });
     };
     //komponenta za uporabniški vmesnik
+
+
+
+
     return (
         <>
             <div className="container">
@@ -508,6 +513,24 @@ const PdfReader: React.FC = () => {
                                         }} onClick={() => setFiles([])}>Odstrani vse datoteke</button>
                     }
                         <button className="btn btn-primary w-100 mt-2" onClick={() => inputRef.current?.click()}><img className='upload-logo' src={upload}/>Izberite Datoteke</button>
+                        
+                        <div className="izberiBankoCon"><label className='bankaLa' htmlFor="Banke">Izberi banko: </label>
+                        <select className='btn btn-primary   bankeSelect' name="Banke" id=""  value={banka} defaultValue={"None"} onChange={e =>setBanka(e.target.value)}>
+                            <option value="None">None</option>
+                            <option value="DelavskaHranilnica">Delavska hranilnica</option>
+                            <option value="skbbanka">SKBbanka</option>
+                            <option value="GorenjskaBanka">Gorenjska banka</option>
+                            <option value="BKSbank">BKS bank</option>
+                            <option value="DezelnaBankaSlovenija">Deželna Banka Slovenije</option>
+                            <option value="Sparkasse">Sparkasse</option>
+                            <option value="NLB">NLB</option>
+                            <option value="IntesaSanpaoloBank">Intesa Sanpaolo Bank</option>
+                            <option value="AddikoBank">Addiko Bank</option>
+                            <option value="novaKBM">novaKBM</option>
+                            <option value="LON">LON?</option>
+                        </select>
+                        </div>
+                        {/* <p>Izbrana banka: {banka}</p> */}
                         {/* <button className="btn btn-success w-100 mt-2" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
                             {loading ? 'Obdelovanje...' : 'Začnite z obdelavo'} 
                         </button> */}
