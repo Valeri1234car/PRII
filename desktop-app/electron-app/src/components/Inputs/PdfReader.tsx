@@ -1,61 +1,32 @@
-/**
- * @file PdfReader.tsx
- * @brief Komponenta za nalaganje in procesiranje PDF datotek
- *
- * @opis Komponenta PdfReader omogoča uporabnikom nalaganje in procesiranje PDF datotek.
- * Podpira funkcionalnosti vleke in spuščanja datotek ter izbiro datotek preko vnosnega polja.
- * Po naložitvi PDF-jev, komponenta iz njih pridobi relevantne podatke z uporabo regularnih izrazov
- * in optičnega prepoznavanja znakov (OCR). Pridobljeni podatki se nato uporabijo za posodobitev
- * stanja aplikacije, ki je dostopno drugim komponentam in funkcionalnostim.
- *
- * @potrebuje react, pdfjs-dist, tesseract.js, react-bootstrap
- * @potrebuje App.tsx (za PodatkiContext)
- * @potrebuje Podatki.ts (za vmesnik Promet)
- *
- * @verzija 1.0.0
- * @since 1.0.0
- */
 import React, { useState, useRef, useContext, useEffect } from 'react';
-import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
-import Tesseract from 'tesseract.js';
 import { PodatkiContext } from '../../App';
 import { Promet } from '../../interface/Podatki';
 import { ProgressBar } from 'react-bootstrap';
 import upload from '../../assets/upload.png';
 import sandClock from '../../assets/sand-clock.png';
-// import cancelButton from '../../assets/cancel.png';
-// import closeButton from '../../assets/close.png';
 
-
-GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
-
-const arrayProgress:string[] =[]
+const arrayProgress:string[] = []
 
 const PdfReader: React.FC = () => {
     const [files, setFiles] = useState<File[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [pastedText, setPastedText] = useState<string>('');
     const inputRef = useRef<HTMLInputElement>(null);
     const { setPdfText, setPodatkiState, podatkiState } = useContext(PodatkiContext);
     const [pdfData, setPdfData] = useState<{ [key: string]: any }>({});
     const { setData } = useContext(PodatkiContext);
     const [progress, setProgress] = useState(0);
-    const[neki,setNeki] = useState(arrayProgress)
-    // const [isCancelled, setIsCancelled] = useState(false);
+    const [neki, setNeki] = useState(arrayProgress);
 
-    useEffect(()=>{
-        setProgress(
-            (neki.length / files.length) * 100
-        )
-    },[neki])
+    useEffect(() => {
+        setProgress((neki.length / (files.length + (pastedText ? 1 : 0))) * 100);
+    }, [neki, files.length, pastedText]);
 
-
-    //obravnava dogodka, ko datoteke "visijo" (ne vem kak druga rečt) nad območjem za drag and dropa
     const handleDragOver = (event: React.DragEvent) => {
         console.log('Drag over');
         event.preventDefault();
     };
 
-    //bbravnava dogodka, ko se datoteke "spuščene" v območje za drag and drop 
     const handleDrop = (event: React.DragEvent, setFileFunction: React.Dispatch<React.SetStateAction<File[]>>) => {
         console.log('File dropped');
         event.preventDefault();
@@ -63,404 +34,311 @@ const PdfReader: React.FC = () => {
         setFileFunction((prevFiles) => [...prevFiles, ...newFiles]);
     };
 
-    //obravnava dogodka, ko se datoteke izberejo preko inputa za dodajanje
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, setFileFunction: React.Dispatch<React.SetStateAction<File[]>>) => {
-    console.log('File selected');
-    const newFiles = event.target.files;
-    if (newFiles) {
-        setFileFunction((prevFiles) => [...prevFiles, ...Array.from(newFiles)]);
+        console.log('File selected');
+        const newFiles = event.target.files;
+        if (newFiles) {
+            setFileFunction((prevFiles) => [...prevFiles, ...Array.from(newFiles)]);
         }
     };
 
-    //odstrani datoteko iz seznama datotek na podlagi indeksa
     const handleRemoveFile = (index: number) => {
         setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
 
-    //obravnava dogodka, ko se klikne gumb za procesiranje datotek
     const handleProcessFiles = async () => {
-        if (files.length > 0) {
-            // setIsCancelled(false);
+        if (files.length > 0 || pastedText) {
             processFiles(files);
         } else {
             alert('Napaka pri branju');
         }
     };
 
-    //pretvori število v obliki niza (npr. "1.234,56") v številsko vrednost
-    const convertToNumber = (euroFormattedNumber: string): number => {
-        return parseFloat(euroFormattedNumber.replace('.', '').replace(',', '.'));
-    };
-
-    //z regexom pridobimo osebne podatke
     const extractRelevantInfo = (textContent: string) => {
-        console.log("Extracting relevant info from text content");
-
-        const nameRegex = /Ime:\s*(\w+)\s*Priimek:\s*(\w+)/;
-        const matchName = textContent.match(nameRegex);
-        const name = matchName ? matchName[1] : '';
-        const surname = matchName ? matchName[2] : '';
-        console.log("Name:", name, "Surname:", surname);
-
-        const naslovRegex = /Kraj:\s*(.+)/i;
-        const naslovIme = textContent.match(naslovRegex);
-        const naslovNaslov = naslovIme ? naslovIme[1] : '';
-        console.log("Naslov:", naslovNaslov);
-
-        const addressRegex = /Ulica in hina 3tevilka:\s*(.+)/i;
-        const matchAddress = textContent.match(addressRegex);
-        const address = matchAddress ? matchAddress[1] : '';
-        console.log("Address:", address);
-
-        const birthDateRegex = /Datum rojstva:\s*(\d{2}\.\d{1,2}\.\d{4})/;
-        const matchBirthDate = textContent.match(birthDateRegex);
-        const birthDate = matchBirthDate ? matchBirthDate[1] : '';
-        console.log("Birth Date:", birthDate);
-
-        const sloveniaCitizenRegex = /Slovensko drzavljanstvo:\s*(\w+)/;
-        const matchSloveniaCitizen = textContent.match(sloveniaCitizenRegex);
-        const sloveniaCitizen = matchSloveniaCitizen ? matchSloveniaCitizen[1].toLowerCase() === 'da' : false;
-        console.log("Slovenia Citizen:", sloveniaCitizen);
-
-        const ageRegex = /Starost:(\d+)/;
-        const matchAge = textContent.match(ageRegex);
-        const age = matchAge ? parseInt(matchAge[1]) : 0;
+        console.log("ekstahirani podatki al neki idk");
+    
+        const extractValue = (key: string): string => {
+            const regex = new RegExp(`${key}:\\s*(.+?)(?=\\n|$)`, 'i');
+            const match = textContent.match(regex);
+            return match ? match[1].trim() : '';
+        };
+    
+        const name = extractValue('Ime');
+        const surname = extractValue('Priimek');
+        const gender = extractValue('Spol');
+        const emso = extractValue('EMŠO');
+        const taxNumber = extractValue('Davčna številka');
+        const birthDate = extractValue('Datum rojstva');
+        const birthPlace = extractValue('Kraj rojstva');
+        const birthCountry = extractValue('Država rojstva');
+        const sloveniaCitizen = extractValue('Slovensko državljanstvo').toUpperCase();
+        const otherCitizen = extractValue('Drugo državljanstvo (navedi katero)');
+        const docType = extractValue('Vrsta osebnega dokumenta');
+        const docNumber = extractValue('Št. osebnega dokumenta');
+        const docIssuer = extractValue('Izdajatelj dokumenta');
+        const issueDate = extractValue('Datum izdaje');
+        const validUntil = extractValue('Velja do');
+        const transactionAccount = extractValue('Transakcijski račun');
+        const bankName = extractValue('Odprt pri banki');
+        const isPoliticallyExposed = extractValue('Ali ste politično izpostavljena oseba?').toUpperCase();
+        const street = extractValue('Ulica in hišna številka');
+        const postalCode = extractValue('Poštna številka');
+        const city = extractValue('Kraj');
+        const temporaryStreet = extractValue('Ulica in hišna številka');
+        const temporaryPostalCode = extractValue('Poštna številka');
+        const temporaryCity = extractValue('Kraj');
+        const mobilePhone = extractValue('Mobilni telefon');
+        const homePhone = extractValue('Domači telefon');
+        const email = extractValue('E-pošta');
+        const residence = extractValue('Bivališče');
+        const maritalStatus = extractValue('Zakonski stan');
+        const householdMembers = extractValue('Število oseb v gospodinjstvu');
+        const employedOrRetiredMembers = extractValue('Število zaposlenih ali upokojenih oseb v gospodinjstvu');
+        const dependents = extractValue('Število vzdrževanih družinskih članov');
+        const livingExpenses = extractValue('Življenski stroški*');
+        const employmentStatus = extractValue('Status zaposlitve');
+        const employmentDuration = extractValue('Zaposlitev za');
+        const educationLevel = extractValue('Stopnja izobrazbe');
+        const employerName = extractValue('Naziv');
+        const employerAddress = extractValue('Naslov');
+        const employerCountry = extractValue('Država');
+        const jobTitle = extractValue('Delovno mesto');
+        const workExperience = extractValue('Skupna delovna doba v letih');
+        const netIncome = extractValue('Znesek neto plače/pokojnine (v EUR)');
+        const bonuses = extractValue('Znesek dodatkov (kilometrina, stimulacija, delovna uspešnost ....; v EUR)');
+        const holidayPay = extractValue('Znesek regresa (v EUR)');
+        const christmasBonus = extractValue('Znesek božičnice (v EUR)');
+        const otherIncome = extractValue('Drugi prihodki');
+        const hasLoan = extractValue('Imate bančni kredit/posojilo?').toUpperCase();
+        const loanObligations = extractValue('Mesečne obveznosti iz naslova kreditov/posojil (v EUR)');
+        const hasOverdraft = extractValue('Imate odobren limit na bančnem računu?').toUpperCase();
+        const hasCreditCard = extractValue('Imate kreditno kartico?').toUpperCase();
+        const hasLeasing = extractValue('Imate sklenjeno leasing pogodbo?').toUpperCase();
+        const hasExecution = extractValue('Ste v zadnjem letu imeli izvršbo ali blokiran bančni račun?').toUpperCase();
+        const inBankruptcy = extractValue('Ste bili ali ste zdaj v postopku osebnega stečaja?').toUpperCase();
+        const latePayments = extractValue('Ste v zadnji dveh letih zamujali pri izpolnjevanju kreditnih obveznosti?').toUpperCase();
+        const loanAmount = extractValue('Znesek kredita');
+        const repaymentPeriod = extractValue('doba odplačevanja');
+        const consentStatement = extractValue('Privolitvena izjava za obdelavo osebnih podatkov');
+        const finalStatement = extractValue('Končna izjava');
+    
+        const age = calculateAge(birthDate);
         const isAdult = age >= 18;
-        console.log("Age:", age, "Is Adult:", isAdult);
-
-        const bankruptcyRegex = /Ste bili ali ste zdaj v postopku osebnega stetaja?\s*:\s*(\w+)/i;
-        const matchBankruptcy = textContent.match(bankruptcyRegex);
-        const isNotInBankruptcy = matchBankruptcy ? matchBankruptcy[1].toLowerCase() === 'ne' : false;
-        console.log("Is Not In Bankruptcy:", isNotInBankruptcy);
-
-        const employmentRegex = /Status zaposlitve:\s*(\w+)/i;
-        const matchEmployment = textContent.match(employmentRegex);
-        let isEmployedOrRetired = false;
-        let isEmployed = false;
-        let isRetired = false;
-
-        if (matchEmployment) {
-            const employmentStatus = matchEmployment[1].toLowerCase();
-            console.log('Employment Status:', employmentStatus);
-            if (employmentStatus === 'zaposlen') {
-                isEmployed = true;
-                isEmployedOrRetired = true;
-            } else {
-                isRetired = true;
-                isEmployedOrRetired = true;
-            }
-        }
-
-        const loanAmountRegex = /Znesek kredita \(v EUR\):\s*([\d.,]+)\s*EUR/;
-        const matchLoanAmount = textContent.match(loanAmountRegex);
-        const loanAmount = matchLoanAmount ? convertToNumber(matchLoanAmount[1]) : 0;
-        console.log("Loan Amount:", loanAmount);
-
-        const repaymentPeriodRegex = /doba odplatevanja \(v mesecih\):\s*(\d+)\s*mesec/i;
-        const matchRepaymentPeriod = textContent.match(repaymentPeriodRegex);
-        const repaymentPeriod = matchRepaymentPeriod ? parseInt(matchRepaymentPeriod[1]) : 0;
-        console.log("Repayment Period:", repaymentPeriod);
-
-        const stopnjaIzobrazbe1 = /Stopnja izobrazbe:\s*(.+)/i;
-        const stopnjaIzobrazbe2 = textContent.match(stopnjaIzobrazbe1);
-        const stopnjaIzobrazbe3 = stopnjaIzobrazbe2 ? stopnjaIzobrazbe2[1] : '';
-        console.log("Stopnja izobrazbe:", stopnjaIzobrazbe3);
-
-        const steviloClanov1 = /Stevilo vzdrievanih druzinskih élanov:\s*(.+)/;
-        const steviloClanov2 = textContent.match(steviloClanov1);
-        const steviloClanov3 = steviloClanov2 ? steviloClanov2[1] : '';
-        console.log("Stevilo Clanov:", steviloClanov3);
-
+        const isEmployed = jobTitle.trim().length > 0;
+        const isRetired = employmentStatus.toLowerCase().includes('upokojen');
+        const isEmployedOrRetired = isEmployed || isRetired;
+    
         const relevantInfo = {
             name,
             surname,
-            address,
-            naslovNaslov,
+            gender,
+            emso,
+            taxNumber,
             birthDate,
+            birthPlace,
+            birthCountry,
             sloveniaCitizen,
+            otherCitizen,
+            docType,
+            docNumber,
+            docIssuer,
+            issueDate,
+            validUntil,
+            transactionAccount,
+            bankName,
+            isPoliticallyExposed,
+            address: `${street}, ${postalCode} ${city}`.trim(),
+            temporaryAddress: `${temporaryStreet}, ${temporaryPostalCode} ${temporaryCity}`.trim(),
+            mobilePhone,
+            homePhone,
+            email,
+            residence,
+            maritalStatus,
+            householdMembers,
+            employedOrRetiredMembers,
+            dependents,
+            livingExpenses,
+            employmentStatus,
+            employmentDuration,
+            educationLevel,
+            employerName,
+            employerAddress,
+            employerCountry,
+            jobTitle,
+            workExperience,
+            netIncome: parseFloat(netIncome.replace(/[^\d,\.]/g, '').replace(',', '.')),
+            bonuses: parseFloat(bonuses.replace(/[^\d,\.]/g, '').replace(',', '.')),
+            holidayPay: parseFloat(holidayPay.replace(/[^\d,\.]/g, '').replace(',', '.')),
+            christmasBonus: parseFloat(christmasBonus.replace(/[^\d,\.]/g, '').replace(',', '.')),
+            otherIncome,
+            hasLoan,
+            loanObligations: parseFloat(loanObligations.replace(/[^\d,\.]/g, '').replace(',', '.')),
+            hasOverdraft,
+            hasCreditCard,
+            hasLeasing,
+            hasExecution,
+            inBankruptcy,
+            latePayments,
+            loanAmount: parseFloat(loanAmount.replace(/[^\d,\.]/g, '').replace(',', '.')),
+            repaymentPeriod: parseInt(repaymentPeriod.match(/\d+/)?.[0] || '0'),
+            consentStatement,
+            finalStatement,
+            age,
             isAdult,
-            isNotInBankruptcy,
             isEmployedOrRetired,
             isEmployed,
             isRetired,
-            loanAmount,
-            repaymentPeriod,
-            stopnjaIzobrazbe3,
-            steviloClanov3,
         };
-
-        console.log("Relevant Info:", relevantInfo);
-        setNeki([...neki, ""])
+    
+        console.log("rketsahirana data:", relevantInfo);
+        setNeki([...neki, ""]);
         return relevantInfo;
     };
-
-    //z regexom pridobimo še podatke iz izpiskov
-    const extractAdditionalInfo = (textContent:any, month:any) => {
-        console.log("Extracted text content for month ", month, ":\n", textContent);
-
-        const prometeVBreme = textContent.match(/Promet v breme:\s*([\d.,]+)/)?.[1] || '0';
-        const prometeVDobro = textContent.match(/Promet v dobro:\s*([\d.,]+)/)?.[1] || '0';
-
-        const stanjeRegex = /Novo stanje na racunu \(v EUR\):\s*(-?\d{1,3}(?:\.\d{3})*(?:,\d+)?)/;
-        const matchStanje = textContent.match(stanjeRegex);
-        let stanje = '0';
-        if (matchStanje) {
-            stanje = matchStanje[1];
-            stanje = formatNumber(parseRawNumber(stanje));
+    
+    //TO JE CHAT GPT NAREDU! kalkulacijo za starost
+    const calculateAge = (birthDateString: string): number => {
+        // Clean up the input date string
+        const cleanDateString = birthDateString.replace(/\s/g, '');
+        console.log('Cleaned Date String:', cleanDateString);
+    
+        // Split the date string into parts
+        const parts = cleanDateString.split(/[.,\/]/).map(Number);
+        console.log('Date Parts:', parts);
+    
+        // Ensure we have exactly 3 parts (day, month, year)
+        if (parts.length !== 3 || parts.some(isNaN)) {
+            console.error('Invalid date format:', birthDateString);
+            return 0;
         }
-        console.log(stanjeRegex);
-        console.log(matchStanje);
-        console.log("to je stanje: " + stanje);
-
-
-        const placaRegexes = [
-            'PLACA\\s+REDNO\\s+DNALOGO\\d+\\s+(-?\\d+\\.\\d+)',
-            /PLACA\s+REDNO\s+DNALOG\d+\s+([\d.,]+)/,
-            /PLACA\s+REDNO\s+DNALOGO\d+\s+([\d.,]+)/,
-            /Placa\s+\d+\s+([\d.,]+)/,
-            /Placa\s+([\d.,]+)/,
-            /PLACA\s+\d+\s+REDNO\s+DNALOG\d+\s+([\d.,]+)/,
-
-        ];
-
-        let placa = '0';
-        let allMatches = [];
-
-        for (const regex of placaRegexes) {
-            const matchPlaca = textContent.match(regex);
-            if (matchPlaca) {
-                allMatches.push(matchPlaca[1]);
-            }
+    
+        // Extract day, month, and year
+        let [day, month, year] = parts;
+    
+        // Adjust for 2-digit year
+        if (year < 100) {
+            year += (year < 50 ? 2000 : 1900);
         }
-
-        if (allMatches.length > 0) {
-            placa = allMatches[0];
-            placa = insertCommaBeforeLastTwoDigits(placa);
+    
+        // Check if the year, month, and day are valid
+        const birthDate = new Date(year, month - 1, day);
+        if (birthDate.getFullYear() !== year || birthDate.getMonth() !== (month - 1) || birthDate.getDate() !== day) {
+            console.error('Invalid date components:', { day, month, year });
+            return 0;
         }
-
-        console.log("Sve podudarnosti za placa: ", allMatches);
-        console.log("to je placa: " + placa);
-
-        setPdfData((prevData) => {
-            const newData = {
-                ...prevData,
-                [month]: {
-                    prometeVBreme,
-                    prometeVDobro,
-                    stanje,
-                    placa,
-                },
-            };
-
-            setData(newData); // Ovde ažurirate podatke u kontekstu
-            console.log(newData)
-
-            // console.log(newData.avgust.prometeVBreme)
-
-            return newData;
-        });
-
-        const neki = convertToNumber(prometeVDobro)-convertToNumber(placa);
-        console.log(placa)
-        console.log(prometeVDobro)
-        console.log(neki)
-
-
-
-    };
-
-    //pretvorbo niza v številsko vrednost z upoštevanjem decimalnih ločil
-    const parseRawNumber = (raw:any) => {
-        if (raw.includes(',')) {
-            if (raw.lastIndexOf(',') > raw.lastIndexOf('.')) {
-                raw = raw.replace(/\./g, '').replace(',', '.');
-            } else {
-                raw = raw.replace(/,/g, '');
-            }
+    
+        // Calculate age
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
         }
-        return parseFloat(raw);
-    };
-
-    //formatiranje številske vrednosti v niz z decimalnimi mesti
-    const formatNumber = (number:any) => {
-        return number.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    
+        // Ensure age is reasonable
+        if (isNaN(age) || age < 0 || age > 120) {
+            console.error('Calculated age is invalid:', age, 'for birth date:', birthDateString);
+            return 0;
+        }
+    
+        return age;
     };
     
-    //vstavljanje vejice pred zadnjima dvema decimalskima mestoma v nizu
-    const insertCommaBeforeLastTwoDigits = (raw:any) => {
-        const len = raw.length;
-        const integerPart = raw.substring(0, len - 2);
-        const decimalPart = raw.substring(len - 2);
-        return integerPart + ',' + decimalPart;
-    };
 
-    
-
-    //asinhrona funkcija za procesiranje seznama PDF datotek
     const processFiles = async (files: File[]) => {
-        let textContent = '';
         setLoading(true);
         setProgress(0);
-        const monthNames = [
-            'januar', 'februar', 'marec', 'april', 'maj', 'junij',
-            'julij', 'avgust', 'september', 'oktober', 'november', 'december'
-        ];
-        const personalInfoFile = files.find(file => file.name.toLowerCase().includes('vloga'));
-        if (personalInfoFile) {
-            const fileTextContent = await convertPdfToImagesAndExtractText(personalInfoFile);
-            console.log(`Text content for personal information PDF:\n${fileTextContent}`);
-    
-            const relevantInfo = extractRelevantInfo(fileTextContent);
-            // const [day, monthNumber, year] = relevantInfo.birthDate.split('.');
-            const formattedDate = relevantInfo.birthDate.split('.').reverse().join('-');
-            setPodatkiState({
-                ...podatkiState,
-                ime: relevantInfo.name,
-                priimek: relevantInfo.surname,
-                naslov: relevantInfo.address + ", " + relevantInfo.naslovNaslov,
-                naslovNaslov: relevantInfo.naslovNaslov,
-                datumRojstva: formattedDate,
-                drzavljanRS: relevantInfo.sloveniaCitizen,
-                stecajniPostopekNI: relevantInfo.isNotInBankruptcy,
-                zaposlenUpokojenec: relevantInfo.isEmployedOrRetired,
-                zaposlen: relevantInfo.isEmployed,
-                upokojenec: relevantInfo.isRetired,
-                zaproseniKredit: relevantInfo.loanAmount,
-                rokVracila: relevantInfo.repaymentPeriod,
-                izobrazba: relevantInfo.stopnjaIzobrazbe3,
-                stVzdrzevanihDruzinskihClanov: relevantInfo.steviloClanov3,
-            });
-        }
-    
-        const promises = files.map(async (file) => {
-            const fileName = file.name.toLowerCase();
-            let month = '';
-            
-            
-    
-            if (fileName.includes('vloga')) {
-                return;
-            }
-    
-            for (const monthName of monthNames) {
-                if (fileName.includes(monthName)) {
-                    month = monthName;
-                    break;
+        setNeki([]);
+
+        // Process files
+        for (const file of files) {
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const text = e.target?.result;
+                if (typeof text === 'string') {
+                    console.log(`Text content for file ${file.name}:\n${text}`);
+                    const relevantInfo = extractRelevantInfo(text);
+                    updatePodatkiState(relevantInfo);
+                    setNeki(prev => [...prev, "neki"]);
                 }
-            }
-    
-            if (!month) {
-                console.warn(`Could not determine month from file name "${file.name}"`);
-                return;
-            }
-    
-            const fileTextContent = await convertPdfToImagesAndExtractText(file);
-            console.log(`Text content for file ${file.name}:\n${fileTextContent}`);
-    
-            extractAdditionalInfo(fileTextContent, month);
-            setNeki(prev =>[...prev, "neki"])
-            // const progressPercentage = (neki.length / files.length) * 100;
-            // setProgress(progressPercentage);
-            console.log(neki.length)
-        });
-    
-        await Promise.all(promises);
-    
-        setPdfText(`Full Text Content:\n\n${textContent}`);
+            };
+            reader.readAsText(file);
+        }
+
+        // Process pasted text
+        if (pastedText) {
+            console.log("Processing pasted text:");
+            const relevantInfo = extractRelevantInfo(pastedText);
+            updatePodatkiState(relevantInfo);
+            setNeki(prev => [...prev, "neki"]);
+        }
+
         setLoading(false);
-        setNeki([])
         setProgress(100);
     };
 
-    //posodobitev stanja podatkov na podlagi podatkov, pridobljenih iz PDF-jev
-    const updatePodatkiState = () => {
-        const prometeVBremeValues = Object.values(pdfData).map(data => convertToNumber(data.prometeVBreme));
-        const prometeVDobroValues = Object.values(pdfData).map(data => convertToNumber(data.prometeVDobro));
-        const stanjeTRRValues = Object.values(pdfData).map(data => convertToNumber(data.stanje));
-        const placaValues = Object.values(pdfData).map(data => convertToNumber(data.placa));
-
-        console.log(prometeVBremeValues);
-        console.log(prometeVDobroValues);
-        console.log(stanjeTRRValues);
-        console.log(placaValues);
-        console.log(placaValues);
-        console.log(placaValues);
-
-        console.log(typeof prometeVDobroValues[0])
-
-        const prometDobro:Promet = { t1: prometeVDobroValues[0], t2: prometeVDobroValues[1], t3: prometeVDobroValues[2],povprecje:0 }
-        const prometSlabo:Promet = { t1: prometeVBremeValues[0], t2: prometeVBremeValues[1], t3: prometeVBremeValues[2],povprecje:0 }
-        const trr:Promet = { t1: stanjeTRRValues[0], t2: stanjeTRRValues[1], t3: stanjeTRRValues[2],povprecje:0 }
-        const placa:Promet = { t1: placaValues[0], t2: placaValues[1], t3: placaValues[2],povprecje:0 }
-        console.log(prometDobro);
-
+    const updatePodatkiState = (relevantInfo: any) => {
         setPodatkiState({
             ...podatkiState,
-            mesecniPrometDobro: prometDobro,
-            mesecniPrometBreme: prometSlabo,
-            stanjeTRR: trr,
-            znesekPrejemkovPokojnina: placa
+            ime: relevantInfo.name,
+            priimek: relevantInfo.surname,
+            spol: relevantInfo.gender,
+            emso: relevantInfo.emso,
+            davcnaStevilka: relevantInfo.taxNumber,
+            datumRojstva: relevantInfo.birthDate,
+            krajRojstva: relevantInfo.birthPlace,
+            drzavaRojstva: relevantInfo.birthCountry,
+            drzavljanRS: relevantInfo.sloveniaCitizen,
+            drugoDrzavljanstvo: relevantInfo.otherCitizen,
+            vrstaOsebnegaDokumenta: relevantInfo.docType,
+            stevilkaOsebnegaDokumenta: relevantInfo.docNumber,
+            izdajateljDokumenta: relevantInfo.docIssuer,
+            datumIzdaje: relevantInfo.issueDate,
+            veljavnostDokumenta: relevantInfo.validUntil,
+            transakcijskiRacun: relevantInfo.transactionAccount,
+            banka: relevantInfo.bankName,
+            politicnoIzpostavljen: relevantInfo.isPoliticallyExposed,
+            naslov: relevantInfo.address,
+            stalniNaslov: relevantInfo.address,
+            zacasniNaslov: relevantInfo.temporaryAddress,
+            mobilniTelefon: relevantInfo.mobilePhone,
+            domaciTelefon: relevantInfo.homePhone,
+            email: relevantInfo.email,
+            bivanje: relevantInfo.residence,
+            zakonskiStan: relevantInfo.maritalStatus,
+            stevilkaOseb: relevantInfo.householdMembers,
+            zaposlenUpokojenec: relevantInfo.employedOrRetiredMembers,
+            steviloVzdrzevanih: relevantInfo.dependents,
+            zivljenskiStroski: relevantInfo.livingExpenses,
+            statusZaposlitve: relevantInfo.employmentStatus,
+            dolzinaZaposlitve: relevantInfo.employmentDuration,
+            stopnjaIzobrazbe: relevantInfo.educationLevel,
+            delodajalec: relevantInfo.employerName,
+            delodajalecNaslov: relevantInfo.employerAddress,
+            delodajalecDrzava: relevantInfo.employerCountry,
+            delovnoMesto: relevantInfo.jobTitle,
+            delovnaDoba: relevantInfo.workExperience,
+            netoPlaca: relevantInfo.netIncome,
+            dodatki: relevantInfo.bonuses,
+            regres: relevantInfo.holidayPay,
+            bozicnica: relevantInfo.christmasBonus,
+            drugiPrihodki: relevantInfo.otherIncome,
+            bancniKredit: relevantInfo.hasLoan,
+            mesecneObveznosti: relevantInfo.loanObligations,
+            limitNaBanki: relevantInfo.hasOverdraft,
+            kreditnaKartica: relevantInfo.hasCreditCard,
+            leasing: relevantInfo.hasLeasing,
+            izvrzba: relevantInfo.hasExecution,
+            osebniStecaj: relevantInfo.inBankruptcy,
+            zamudeKredit: relevantInfo.latePayments,
+            zaproseniKredit: relevantInfo.loanAmount,
+            rokVracila: relevantInfo.repaymentPeriod,
+            privolitvenaIzjava: relevantInfo.consentStatement,
+            koncnaIzjava: relevantInfo.finalStatement,
         });
+        console.log("Updated PodatkiState:", podatkiState);
     };
 
-    //hook, ki se zažene, ko se spremenijo podatki iz PDF-jev in pokliče 
-    useEffect(() => {
-        if (Object.keys(pdfData).length > 0) {
-            updatePodatkiState();
-        }
-    }, [pdfData]);
-
-    //pretvorbo PDF datoteke v slike in izvlečenje besedila
-    const convertPdfToImagesAndExtractText = async (file: File) => {
-        const reader = new FileReader();
-        return new Promise<string>((resolve, reject) => {
-            reader.onload = async () => {
-                if (reader.result) {
-                    const typedArray = new Uint8Array(reader.result as ArrayBuffer);
-                    const pdf = await getDocument(typedArray).promise;
-                    let textContent = '';
-                    for (let i = 1; i <= pdf.numPages; i++) {
-                        const page = await pdf.getPage(i);
-                        const viewport = page.getViewport({ scale: 2.0 });
-                        const canvas = document.createElement('canvas');
-                        const context = canvas.getContext('2d');
-                        canvas.height = viewport.height;
-                        canvas.width = viewport.width;
-
-                        const renderContext = {
-                            canvasContext: context!,
-                            viewport: viewport,
-                        };
-
-                        await page.render(renderContext).promise;
-                        const imgData = canvas.toDataURL('image/png');
-                        const text = await extractTextFromImage(imgData);
-                        textContent += text + '\n';
-                    }
-                    resolve(textContent);
-                } else {
-                    reject('Failed to read the file');
-                }
-            };
-            reader.readAsArrayBuffer(file);
-        });
-    };
-
-    //izvleče besedilo iz slikovnih podatkov s pomočjo knjižnice
-    const extractTextFromImage = (imgData: string): Promise<string> => {
-        return new Promise((resolve, reject) => {
-            Tesseract.recognize(
-                imgData,
-                'eng',
-                {
-                    logger: (m) => console.log(m),
-                }
-            ).then(({ data: { text } }) => {
-                resolve(text);
-            }).catch(reject);
-        });
-    };
-    //komponenta za uporabniški vmesnik
     return (
         <>
             <div className="container">
@@ -497,28 +375,54 @@ const PdfReader: React.FC = () => {
                             multiple
                             onChange={(event) => handleFileChange(event, setFiles)}
                             hidden
-                            accept="application/pdf"
+                            accept="text/plain"
                             ref={inputRef}
                         />
-                        {files.length>0 && <button className="btn btn-sm w-100 mt-2"style={{
-                                            backgroundColor: '#41424c',
-                                            color: '#fff',
-                                            border: '1px solid #fff',
-                                            fontSize: '1rem'
-                                        }} onClick={() => setFiles([])}>Odstrani vse datoteke</button>
-                    }
-                        <button className="btn btn-primary w-100 mt-2" onClick={() => inputRef.current?.click()}><img className='upload-logo' src={upload}/>Izberite Datoteke</button>
-                        {/* <button className="btn btn-success w-100 mt-2" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
-                            {loading ? 'Obdelovanje...' : 'Začnite z obdelavo'} 
-                        </button> */}
-                        {!loading && <button className="btn btn-success w-100 mt-2" onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
-                             Začnite z obdelavo
-                        </button>}
-                        {loading && <div className='obdelovanjeContainer mt-2'><button className="btn btn-success w-100 " onClick={handleProcessFiles} disabled={files.length === 0 || loading}>
-                        Obdelovanje...<img className='sandClock-logo' src={sandClock}/>
+                        {files.length > 0 && (
+                            <button 
+                                className="btn btn-sm w-100 mt-2"
+                                style={{
+                                    backgroundColor: '#41424c',
+                                    color: '#fff',
+                                    border: '1px solid #fff',
+                                    fontSize: '1rem'
+                                }} 
+                                onClick={() => setFiles([])}
+                            >
+                                Odstrani vse datoteke
+                            </button>
+                        )}
+                        <button className="btn btn-primary w-100 mt-2" onClick={() => inputRef.current?.click()}>
+                            <img className='upload-logo' src={upload} alt="Upload"/>
+                            Izberite Datoteke
                         </button>
-                        {/* <img className='cancel-button' mt-2 src={cancelButton} alt="" /> */}
-                        </div>}
+                        <textarea
+                            className="form-control mt-2"
+                            placeholder="Prilepite besedilo tukaj..."
+                            rows={5}
+                            value={pastedText}
+                            onChange={(e) => setPastedText(e.target.value)}
+                        />
+                        {!loading && (
+                            <button 
+                                className="btn btn-success w-100 mt-2" 
+                                onClick={handleProcessFiles} 
+                                disabled={(files.length === 0 && !pastedText) || loading}
+                            >
+                                Začnite z obdelavo
+                            </button>
+                        )}
+                        {loading && (
+                            <div className='obdelovanjeContainer mt-2'>
+                                <button 
+                                    className="btn btn-success w-100" 
+                                    onClick={handleProcessFiles} 
+                                    disabled={(files.length === 0 && !pastedText) || loading}
+                                >
+                                    Obdelovanje...<img className='sandClock-logo' src={sandClock} alt="Processing"/>
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
                 {loading && (
@@ -530,9 +434,8 @@ const PdfReader: React.FC = () => {
                 )}
             </div>
         </>
-
-
     );
 };
 
 export default PdfReader;
+
