@@ -70,7 +70,6 @@ npm install
 ```
 npm i react-bootstrap
 npm i electron
-npm i xlsx
 npm install pdfjs-dist@3.0.279 tesseract.js
 npm i exceljs file-saver  
 ```

@@ -8,6 +8,7 @@ import sandClock from '../../assets/sand-clock.png';
 const arrayProgress:string[] = []
 
 const PdfReader: React.FC = () => {
+    const [banka,setBanka] = useState("None")
     const [files, setFiles] = useState<File[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [pastedText, setPastedText] = useState<string>('');
@@ -393,9 +394,34 @@ const PdfReader: React.FC = () => {
                             </button>
                         )}
                         <button className="btn btn-primary w-100 mt-2" onClick={() => inputRef.current?.click()}>
-                            <img className='upload-logo' src={upload} alt="Upload"/>
-                            Izberite Datoteke
+                            <img className='upload-logo' src={upload} alt="Upload" />Izberite Datoteke
                         </button>
+                        
+                        <div className="izberiBankoCon">
+                            <label className='bankaLa' htmlFor="Banke">Izberi banko: </label>
+                            <select 
+                                className='btn btn-primary bankeSelect' 
+                                name="Banke" 
+                                id=""  
+                                value={banka} 
+                                defaultValue={"None"} 
+                                onChange={e => setBanka(e.target.value)}
+                            >
+                                <option value="None">None</option>
+                                <option value="DelavskaHranilnica">Delavska hranilnica</option>
+                                <option value="skbbanka">SKBbanka</option>
+                                <option value="GorenjskaBanka">Gorenjska banka</option>
+                                <option value="BKSbank">BKS bank</option>
+                                <option value="DezelnaBankaSlovenija">Deželna Banka Slovenije</option>
+                                <option value="Sparkasse">Sparkasse</option>
+                                <option value="NLB">NLB</option>
+                                <option value="IntesaSanpaoloBank">Intesa Sanpaolo Bank</option>
+                                <option value="AddikoBank">Addiko Bank</option>
+                                <option value="novaKBM">novaKBM</option>
+                                <option value="LON">LON?</option>
+                            </select>
+                        </div>
+                        
                         <textarea
                             className="form-control mt-2"
                             placeholder="Prilepite besedilo tukaj..."
@@ -403,28 +429,22 @@ const PdfReader: React.FC = () => {
                             value={pastedText}
                             onChange={(e) => setPastedText(e.target.value)}
                         />
-                        {!loading && (
-                            <button 
-                                className="btn btn-success w-100 mt-2" 
-                                onClick={handleProcessFiles} 
-                                disabled={(files.length === 0 && !pastedText) || loading}
-                            >
-                                Začnite z obdelavo
-                            </button>
-                        )}
-                        {loading && (
-                            <div className='obdelovanjeContainer mt-2'>
-                                <button 
-                                    className="btn btn-success w-100" 
-                                    onClick={handleProcessFiles} 
-                                    disabled={(files.length === 0 && !pastedText) || loading}
-                                >
-                                    Obdelovanje...<img className='sandClock-logo' src={sandClock} alt="Processing"/>
-                                </button>
-                            </div>
-                        )}
+    
+                        <button 
+                            className="btn btn-success w-100 mt-2" 
+                            onClick={handleProcessFiles} 
+                            disabled={files.length === 0 && pastedText.trim() === ''}
+                        >
+                            {loading ? (
+                                <>Obdelovanje...<img className='sandClock-logo' src={sandClock} alt="Processing"/></>
+                            ) : (
+                                'Začnite z obdelavo'
+                            )}
+                        </button>
+                        
                     </div>
                 </div>
+                
                 {loading && (
                     <div className="w-100 d-flex justify-content-center mt-3">
                         <div className="progress-bar-wrapper" style={{ width: '90%', maxWidth: '600px', padding: '10px', borderRadius: '5px' }}>
@@ -435,6 +455,11 @@ const PdfReader: React.FC = () => {
             </div>
         </>
     );
+    
+    
+    
+    
+    
 };
 
 export default PdfReader;
